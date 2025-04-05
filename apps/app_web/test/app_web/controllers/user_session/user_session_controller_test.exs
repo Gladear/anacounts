@@ -36,7 +36,7 @@ defmodule AppWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["_anacounts_web_user_remember_me"]
+      assert conn |> get_resp_cookies() |> Map.get("_anacounts_web_user_remember_me")
       assert redirected_to(conn) == ~p"/"
     end
 
