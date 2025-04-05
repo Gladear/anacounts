@@ -22,7 +22,10 @@ defmodule Anacounts.Umbrella.MixProject do
         # (instead of the default _build/ location)
         # for the CI to be able to cache it between builds
         plt_local_path: "priv/plts/project.plt",
-        plt_core_path: "priv/plts/core.plt"
+        plt_core_path: "priv/plts/core.plt",
+        # Add some apps to the list of apps included in the PLT.
+        # - `:ex_unit` is required to type-check modules that `use ExUnit.CaseTemplate`
+        plt_add_apps: [:ex_unit]
       ]
     ]
   end
