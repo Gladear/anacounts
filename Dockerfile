@@ -34,10 +34,6 @@ COPY mix.lock .
 RUN mix deps.get
 RUN mix deps.compile
 RUN mix assets.deploy
-# Sentry requires the source code to be packaged with the release
-# to report the source code of the line that caused an issue.
-# https://hexdocs.pm/sentry/Sentry.html#module-reporting-source-code
-RUN mix sentry.package_source_code
 RUN mix release
 
 # ---- Application Stage ----

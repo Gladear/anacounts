@@ -63,10 +63,6 @@ defmodule AppWeb.MixProject do
       {:floki, ">= 0.36.0", only: :test},
       {:jason, "~> 1.4"},
 
-      # Error reporting
-      {:sentry, "~> 10.0"},
-      {:finch, "~> 0.18"},
-
       # Telemetry
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
