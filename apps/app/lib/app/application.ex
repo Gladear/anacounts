@@ -7,8 +7,6 @@ defmodule App.Application do
 
   @impl Application
   def start(_type, _args) do
-    Logger.add_handlers(:app)
-
     children = [
       # Start the Ecto repository
       App.Repo,

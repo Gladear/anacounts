@@ -17,32 +17,5 @@ config :swoosh, :api_client, Swoosh.ApiClient.Finch
 # Do not print debug messages in production
 config :logger, level: :info
 
-# ## Error reporting
-#
-# Configure errors to be reported to Sentry in prod environment.
-# According to the Sentry documentation, the `:dsn` is "safe to keep public because they
-# only allow submission of new events and related event data; they do not allow read
-# access to any information".
-
-config :sentry,
-  dsn: "https://001afba5be1f4c968de015c2fc051cd9@o1240316.ingest.sentry.io/6392357",
-  environment_name: :prod
-
-# Configure the Sentry logger handler.
-#
-# This, along with a call to `Logger.add_handlers/1`, will make error logs
-# be sent to Sentry, whether they are exceptions or plain messages
-# (see the `:capture_log_messages` option to configure this behaviour).
-
-config :app, :logger, [
-  {:handler, :sentry_handler, Sentry.LoggerHandler,
-   %{
-     config: %{
-       metadata: :all,
-       capture_log_messages: true
-     }
-   }}
-]
-
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.

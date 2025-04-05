@@ -96,17 +96,3 @@ if config_env() == :prod do
     secret: ses_secret_key,
     identity: ses_identity
 end
-
-# ## Monitoring
-
-## Sentry
-#
-# Configure the Sentry SDK. Requires to call `plug Sentry.PlugContext`
-# in the Endpoint.
-#
-# See the documentation of `:sentry` for more information.
-
-config :sentry,
-  client: Sentry.FinchClient,
-  enable_source_code_context: true,
-  root_source_code_path: File.cwd!()
