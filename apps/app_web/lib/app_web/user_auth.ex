@@ -103,8 +103,9 @@ defmodule AppWeb.UserAuth do
       {token, conn}
     else
       conn = fetch_cookies(conn, signed: [@remember_me_cookie])
+      cookies = get_cookies(conn)
 
-      if token = conn.cookies[@remember_me_cookie] do
+      if token = cookies[@remember_me_cookie] do
         {token, put_token_in_session(conn, token)}
       else
         {nil, conn}

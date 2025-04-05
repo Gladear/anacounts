@@ -40,9 +40,13 @@ defmodule AppWeb.UserAuthTest do
 
     test "writes a cookie if remember_me is configured", %{conn: conn, user: user} do
       conn = conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
-      assert get_session(conn, :user_token) == conn.cookies[@remember_me_cookie]
 
-      assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
+      assert get_session(conn, :user_token) ==
+               conn |> get_cookies() |> Map.get(@remember_me_cookie)
+
+      assert %{value: signed_token, max_age: max_age} =
+               conn |> get_resp_cookies() |> Map.get(@remember_me_cookie)
+
       assert signed_token != get_session(conn, :user_token)
       assert max_age == 5_184_000
     end
@@ -60,8 +64,8 @@ defmodule AppWeb.UserAuthTest do
         |> UserAuth.log_out_user()
 
       refute get_session(conn, :user_token)
-      refute conn.cookies[@remember_me_cookie]
-      assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
+      refute conn |> get_cookies() |> Map.get(@remember_me_cookie)
+      assert %{max_age: 0} = conn |> get_resp_cookies() |> Map.get(@remember_me_cookie)
       assert redirected_to(conn) == ~p"/"
       refute Accounts.get_user_by_session_token(user_token)
     end
@@ -80,7 +84,7 @@ defmodule AppWeb.UserAuthTest do
     test "works even if user is already logged out", %{conn: conn} do
       conn = conn |> fetch_cookies() |> UserAuth.log_out_user()
       refute get_session(conn, :user_token)
-      assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
+      assert %{max_age: 0} = conn |> get_resp_cookies() |> Map.get(@remember_me_cookie)
       assert redirected_to(conn) == ~p"/"
     end
   end
@@ -96,8 +100,10 @@ defmodule AppWeb.UserAuthTest do
       logged_in_conn =
         conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
 
-      user_token = logged_in_conn.cookies[@remember_me_cookie]
-      %{value: signed_token} = logged_in_conn.resp_cookies[@remember_me_cookie]
+      user_token = logged_in_conn |> get_cookies() |> Map.get(@remember_me_cookie)
+
+      %{value: signed_token} =
+        logged_in_conn |> get_resp_cookies() |> Map.get(@remember_me_cookie)
 
       conn =
         conn
