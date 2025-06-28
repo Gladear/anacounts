@@ -42,7 +42,7 @@ defmodule App.Balance.BalanceConfigsFixtures do
         end,
         []
       )
-      |> Repo.transaction()
+      |> Repo.transact()
 
     balance_config
   end
