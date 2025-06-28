@@ -151,7 +151,7 @@ defmodule App.Books do
 
         Members.change_book_member_nickname(member, attrs)
       end)
-      |> Repo.transaction()
+      |> Repo.transact()
 
     case result do
       {:ok, %{book: book}} -> {:ok, book}

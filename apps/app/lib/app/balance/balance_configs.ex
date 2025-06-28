@@ -62,7 +62,7 @@ defmodule App.Balance.BalanceConfigs do
         if former_balance_config, do: try_to_delete_balance_config(former_balance_config)
         {:ok, nil}
       end)
-      |> Repo.transaction()
+      |> Repo.transact()
 
     case result do
       {:ok, %{balance_config: balance_config}} -> {:ok, balance_config}

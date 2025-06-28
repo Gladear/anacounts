@@ -173,7 +173,7 @@ defmodule App.Transfers do
         end,
         []
       )
-      |> Repo.transaction()
+      |> Repo.transact()
 
     case result do
       {:ok, %{money_transfer: money_transfer}} -> {:ok, money_transfer}
