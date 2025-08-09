@@ -22,8 +22,9 @@ defmodule AppWeb.BookConfigurationLiveTest do
 
       href_attribute =
         html
-        |> Floki.parse_document!()
-        |> Floki.attribute(".card-grid a:nth-child(1)", "href")
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query(".card-grid a:nth-child(1)")
+        |> LazyHTML.attribute("href")
 
       assert href_attribute == [~p"/books/#{book}/configuration/name"]
     end
@@ -63,8 +64,9 @@ defmodule AppWeb.BookConfigurationLiveTest do
 
       confirm_attribute =
         html
-        |> Floki.parse_document!()
-        |> Floki.attribute(".card-grid a:nth-child(3)", "data-confirm")
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query(".card-grid a:nth-child(3)")
+        |> LazyHTML.attribute("data-confirm")
 
       assert confirm_attribute ==
                ["Are you sure you want to delete this book? This operation is irreversible."]

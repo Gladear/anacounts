@@ -150,9 +150,9 @@ defmodule AppWeb.BookLiveTest do
 
       member_card_text =
         html
-        |> Floki.parse_document!()
-        |> Floki.find("[href='/books/#{book.id}/members']")
-        |> Floki.text()
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query("[href='/books/#{book.id}/members']")
+        |> LazyHTML.text()
 
       assert member_card_text =~ "3"
       assert member_card_text =~ "2 unlinked"

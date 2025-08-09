@@ -35,7 +35,7 @@ defmodule AppWeb.BookReimbursementCreationLiveTest do
         ~p"/books/#{book}/reimbursements/new?from=#{member1.id}&to=#{member2.id}&amount=%E2%82%AC100.00"
       )
 
-    doc = Floki.parse_document!(html)
+    doc = LazyHTML.from_fragment(html)
 
     assert input_value(doc, "#reimbursement_label") ==
              "Reimbursement from Member 1 to Member 2"
@@ -51,14 +51,16 @@ defmodule AppWeb.BookReimbursementCreationLiveTest do
 
   defp input_value(document, selector) do
     document
-    |> Floki.attribute(selector, "value")
+    |> LazyHTML.query(selector)
+    |> LazyHTML.attribute("value")
     |> hd()
   end
 
   defp select_value(document, selector) do
     document
-    |> Floki.find(selector)
-    |> Floki.attribute("[selected]", "value")
+    |> LazyHTML.query(selector)
+    |> LazyHTML.query("[selected]")
+    |> LazyHTML.attribute("value")
     |> hd()
   end
 

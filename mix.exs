@@ -11,6 +11,7 @@ defmodule App.MixProject do
       aliases: aliases(),
       deps: deps(),
       listeners: [Phoenix.CodeReloader],
+      compilers: [:phoenix_live_view] ++ Mix.compilers(),
       gettext: [
         write_reference_comments: false,
         sort_by_msgid: :case_sensitive
@@ -95,7 +96,7 @@ defmodule App.MixProject do
       {:ex_cldr_plugs, "~> 1.3"},
 
       # Tools
-      {:floki, ">= 0.36.0", only: :test},
+      {:lazy_html, ">= 0.0.0", only: :test},
       {:jason, "~> 1.4"},
 
       # Code analysis
