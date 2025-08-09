@@ -42,14 +42,14 @@ defmodule AppWeb.BookMemberRevenuesTransfersLiveTest do
 
       inputs =
         html
-        |> Floki.parse_document!()
-        |> Floki.find("input")
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query("input")
 
-      assert [transfer2_hidden, transfer2_checkbox, transfer1_checkbox] = inputs
+      assert [transfer2_hidden, transfer2_checkbox, transfer1_checkbox] = Enum.to_list(inputs)
 
-      assert Floki.attribute(transfer1_checkbox, "value") == ["#{peer1.id}"]
-      assert Floki.attribute(transfer2_hidden, "value") == ["#{peer2.id}"]
-      assert Floki.attribute(transfer2_checkbox, "checked") == ["checked"]
+      assert LazyHTML.attribute(transfer1_checkbox, "value") == ["#{peer1.id}"]
+      assert LazyHTML.attribute(transfer2_hidden, "value") == ["#{peer2.id}"]
+      assert LazyHTML.attribute(transfer2_checkbox, "checked") == [""]
     end
 
     test "updates the peers of the selected transfers", %{

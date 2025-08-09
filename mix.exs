@@ -96,7 +96,6 @@ defmodule App.MixProject do
       {:ex_cldr_plugs, "~> 1.3"},
 
       # Tools
-      {:floki, ">= 0.36.0", only: :test},
       {:lazy_html, ">= 0.0.0", only: :test},
       {:jason, "~> 1.4"},
 

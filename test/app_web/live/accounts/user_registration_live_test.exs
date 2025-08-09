@@ -77,7 +77,7 @@ defmodule AppWeb.UserRegistrationLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|a:fl-contains("Log in here.")|)
+        |> element("a", "Log in here.")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 

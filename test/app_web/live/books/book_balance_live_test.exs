@@ -29,9 +29,9 @@ defmodule AppWeb.BookBalanceLiveTest do
 
     card_text =
       html
-      |> Floki.parse_document!()
-      |> Floki.find(".card-grid .card:nth-child(1)")
-      |> Floki.text()
+      |> LazyHTML.from_fragment()
+      |> LazyHTML.query(".card-grid .card:nth-child(1)")
+      |> LazyHTML.text()
 
     assert card_text =~ "Balance"
     assert card_text =~ "€50.00"
@@ -42,9 +42,9 @@ defmodule AppWeb.BookBalanceLiveTest do
 
     card_text =
       html
-      |> Floki.parse_document!()
-      |> Floki.find(".card-grid a:nth-child(2)")
-      |> Floki.text()
+      |> LazyHTML.from_fragment()
+      |> LazyHTML.query(".card-grid a:nth-child(2)")
+      |> LazyHTML.text()
 
     assert card_text =~ "Manual reimbursement"
   end
@@ -67,16 +67,17 @@ defmodule AppWeb.BookBalanceLiveTest do
     # Ensure there's only one tile
     [tile_link] =
       html
-      |> Floki.parse_document!()
-      |> Floki.get_by_id("transactions")
-      |> Floki.children()
+      |> LazyHTML.from_fragment()
+      |> LazyHTML.query_by_id("transactions")
+      |> LazyHTML.child_nodes()
+      |> Enum.to_list()
 
     expected_href =
       ~p"/books/#{book}/reimbursements/new?from=#{other_member.id}&to=#{member.id}&amount=%E2%82%AC50.00"
 
-    assert Floki.attribute(tile_link, "href") == [expected_href]
+    assert LazyHTML.attribute(tile_link, "href") == [expected_href]
 
-    tile_text = Floki.text(tile_link)
+    tile_text = LazyHTML.text(tile_link)
     assert tile_text =~ "You"
     assert tile_text =~ "owes"
     assert tile_text =~ "Me"
@@ -105,14 +106,15 @@ defmodule AppWeb.BookBalanceLiveTest do
     # Ensure there's only one tile
     [tile_link] =
       html
-      |> Floki.parse_document!()
-      |> Floki.get_by_id("transaction-errors")
-      |> Floki.find("a")
+      |> LazyHTML.from_fragment()
+      |> LazyHTML.query_by_id("transaction-errors")
+      |> LazyHTML.query("a")
+      |> Enum.to_list()
 
     expected_href = ~p"/books/#{book}/members/#{other_member.id}"
-    assert Floki.attribute(tile_link, "href") == [expected_href]
+    assert LazyHTML.attribute(tile_link, "href") == [expected_href]
 
-    tile_text = Floki.text(tile_link)
+    tile_text = LazyHTML.text(tile_link)
     assert tile_text =~ "You"
     assert tile_text =~ "did not set their revenues."
     assert tile_text =~ "Fix it"

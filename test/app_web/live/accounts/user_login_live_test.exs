@@ -63,7 +63,7 @@ defmodule AppWeb.UserLoginLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|a:fl-contains("Create an account")|)
+        |> element("a", "Create an account")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
@@ -77,7 +77,7 @@ defmodule AppWeb.UserLoginLiveTest do
 
       {:ok, _forgot_password_live, forgot_password_html} =
         lv
-        |> element(~s|a:fl-contains("Forgot your password?")|)
+        |> element("a", "Forgot your password?")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/reset_password")
 

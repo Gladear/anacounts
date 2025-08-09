@@ -26,9 +26,9 @@ defmodule AppWeb.BookProfileLiveTest do
 
       balance_text =
         html
-        |> Floki.parse_document!()
-        |> Floki.find("[href='/books/#{book.id}/balance']")
-        |> Floki.text()
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query("[href='/books/#{book.id}/balance']")
+        |> LazyHTML.text()
 
       assert balance_text =~ "Balance"
       assert balance_text =~ "€0.00"

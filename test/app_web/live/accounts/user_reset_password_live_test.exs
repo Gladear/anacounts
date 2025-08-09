@@ -95,7 +95,7 @@ defmodule AppWeb.UserResetPasswordLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Go back to sign in page.")|)
+        |> element("main a", "Go back to sign in page.")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log_in")
 
