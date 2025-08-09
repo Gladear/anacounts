@@ -28,7 +28,7 @@ config :app, App.Vault,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :app_web, AppWeb.Endpoint,
+config :app, AppWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "GHLDzAtB0iRfyK+gf+IQv69IFSZXgXQoYGyektl5fk90x/dxOW2WZ2OhH3XYvpK3",
   server: false

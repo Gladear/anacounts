@@ -53,7 +53,7 @@ if config_env() == :prod do
     System.get_env("HOST") ||
       raise "environment variable HOST is missing."
 
-  config :app_web, AppWeb.Endpoint,
+  config :app, AppWeb.Endpoint,
     url: [host: host, port: 80],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -67,7 +67,7 @@ if config_env() == :prod do
   #
   # Configure for OTP releases, instruct Phoenix to start the endpoint
 
-  config :app_web, AppWeb.Endpoint, server: true
+  config :app, AppWeb.Endpoint, server: true
 
   # ## Configuring the mailer
   #
