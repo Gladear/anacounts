@@ -59,8 +59,7 @@ defmodule AppWeb do
 
   def live_view do
     quote do
-      use Phoenix.LiveView,
-        layout: {AppWeb.Layouts, :app}
+      use Phoenix.LiveView
 
       on_mount AppWeb.Locale
 
