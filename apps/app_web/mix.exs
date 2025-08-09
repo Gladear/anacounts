@@ -70,9 +70,6 @@ defmodule AppWeb.MixProject do
       # Code analysis
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
 
-      # Dev tools
-      {:phoenix_storybook, "~> 0.8.0", runtime: Mix.env() == :dev},
-
       # Umbrella
       {:app, in_umbrella: true}
     ]
