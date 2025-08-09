@@ -63,8 +63,6 @@ defmodule AppWeb.Router do
       live "/users/settings/email/confirm/:token", UserSettingsEmailLive
       live "/users/settings/avatar", UserSettingsAvatarLive
       live "/users/settings/password", UserSettingsPasswordLive
-
-      live "/users/settings/balance", BalanceConfigLive
     end
 
     live_session :user_confirmation,
