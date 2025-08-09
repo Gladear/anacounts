@@ -1,5 +1,5 @@
 defmodule AppWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :app_web
+  use Phoenix.Endpoint, otp_app: :app
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -19,7 +19,7 @@ defmodule AppWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :app_web,
+    from: :app,
     gzip: true,
     only: AppWeb.static_paths()
 
@@ -29,7 +29,7 @@ defmodule AppWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :app_web
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :app
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

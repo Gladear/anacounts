@@ -20,5 +20,5 @@ defmodule AppWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext.Backend, otp_app: :app_web
+  use Gettext.Backend, otp_app: :app
 end

@@ -1,9 +1,9 @@
-defmodule App.ReleaseTasks do
+defmodule App.Release do
   @moduledoc """
-  Tasks to be done before launching a new release.
+  Used for executing DB release tasks when run in production without Mix
+  installed.
   """
-
-  require Logger
+  @app :app
 
   @doc """
   Run Ecto's ddl migrations. These are migrations that modify the database schema,
@@ -18,30 +18,41 @@ defmodule App.ReleaseTasks do
   [GitHub repo](https://github.com/fly-apps/safe-ecto-migrations).
   """
   def migrate do
-    Logger.info("***** RUNNING MIGRATIONS *****")
-    {:ok, _} = Application.ensure_all_started(:app)
+    load_app()
 
-    path = Application.app_dir(:app, "priv/repo/migrations")
+    for repo <- repos() do
+      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
+    end
+  end
 
-    Ecto.Migrator.run(App.Repo, path, :up, all: true)
-    Logger.info("***** FINISHED MIGRATIONS *****")
+  def rollback(repo, version) do
+    load_app()
+    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
 
   @doc """
   Run Ecto's data migrations. The migrations will permenantly alter the data in
-  the database. They can take times and should be able to be cancelled and restarted
-  without causing any problems.
+  the database. They can take time, and should be able to be cancelled and restarted
+  without causing any problem.
 
   A guide to correctly writing data migrations was published by Fly, and can be found
   [on their blog](https://fly.io/phoenix-files/backfilling-data/).
   """
   def migrate_data do
-    Logger.info("***** RUNNING DATA MIGRATIONS *****")
-    {:ok, _} = Application.ensure_all_started(:app)
+    load_app()
 
     path = Application.app_dir(:app, "priv/repo/data_migrations")
 
-    Ecto.Migrator.run(App.Repo, path, :up, all: true)
-    Logger.info("***** FINISHED DATA MIGRATIONS *****")
+    for repo <- repos() do
+      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, path, :up, all: true))
+    end
+  end
+
+  defp repos do
+    Application.fetch_env!(@app, :ecto_repos)
+  end
+
+  defp load_app do
+    Application.load(@app)
   end
 end

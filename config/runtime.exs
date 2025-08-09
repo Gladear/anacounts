@@ -6,6 +6,20 @@ import Config
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
+
+# ## Using releases
+#
+# If you use `mix release`, you need to explicitly enable the server
+# by passing the PHX_SERVER=true when you start it:
+#
+#     PHX_SERVER=true bin/tmp_phx start
+#
+# Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
+# script that automatically sets the env var above.
+if System.get_env("PHX_SERVER") do
+  config :app, AppWeb.Endpoint, server: true
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -53,7 +67,7 @@ if config_env() == :prod do
     System.get_env("HOST") ||
       raise "environment variable HOST is missing."
 
-  config :app_web, AppWeb.Endpoint,
+  config :app, AppWeb.Endpoint,
     url: [host: host, port: 80],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -62,12 +76,6 @@ if config_env() == :prod do
       port: String.to_integer(System.get_env("PORT") || "4000")
     ],
     secret_key_base: secret_key_base
-
-  # ## Using releases
-  #
-  # Configure for OTP releases, instruct Phoenix to start the endpoint
-
-  config :app_web, AppWeb.Endpoint, server: true
 
   # ## Configuring the mailer
   #
