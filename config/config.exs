@@ -41,7 +41,7 @@ config :esbuild,
   version: "0.21.4",
   default: [
     args:
-      ~w(js/app.js js/storybook.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../apps/app_web/assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
@@ -54,14 +54,6 @@ config :tailwind,
       --config=tailwind.config.js
       --input=css/app.css
       --output=../priv/static/assets/app.css
-    ),
-    cd: Path.expand("../apps/app_web/assets", __DIR__)
-  ],
-  storybook: [
-    args: ~w(
-      --config=tailwind.config.js
-      --input=css/storybook.css
-      --output=../priv/static/assets/storybook.css
     ),
     cd: Path.expand("../apps/app_web/assets", __DIR__)
   ]
@@ -80,11 +72,6 @@ config :phoenix, :json_library, Jason
 
 config :gettext, :default_locale, "en"
 config :ex_cldr, default_backend: AppWeb.Cldr, default_locale: "en"
-
-# ## Storybook
-#
-# The Storybook is disabled by default, only enabled in `:dev` environment.
-config :phoenix_storybook, enabled: false
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

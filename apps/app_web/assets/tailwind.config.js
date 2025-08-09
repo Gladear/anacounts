@@ -9,8 +9,6 @@ module.exports = {
     "./js/**/*.js",
     "../lib/*_web.ex",
     "../lib/*_web/**/*.*ex",
-    // Storybook stories
-    "../storybook/**/*.story.exs",
   ],
   theme: {
     borderRadius: {
@@ -91,7 +89,4 @@ module.exports = {
   corePlugins: {
     container: false,
   },
-
-  // Instruction required for `:phoenix_storybook`
-  important: ".app-web",
 };
