@@ -97,10 +97,6 @@ defmodule App.MixProject do
       {:floki, ">= 0.36.0", only: :test},
       {:jason, "~> 1.4"},
 
-      # Telemetry
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
-
       # Code analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}

@@ -16,8 +16,6 @@ defmodule App.Application do
       {Phoenix.PubSub, name: App.PubSub},
       # Start Finch
       {Finch, name: Swoosh.Finch},
-      # Start the Telemetry supervisor
-      AppWeb.Telemetry,
       # Start the Endpoint (http/https)
       AppWeb.Endpoint
     ]
