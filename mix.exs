@@ -10,6 +10,7 @@ defmodule App.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      listeners: [Phoenix.CodeReloader],
       gettext: [
         write_reference_comments: false,
         sort_by_msgid: :case_sensitive
@@ -75,7 +76,7 @@ defmodule App.MixProject do
       {:finch, "~> 0.18"},
 
       # Phoenix and server tooling
-      {:phoenix, "~> 1.7"},
+      {:phoenix, "~> 1.8"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 4.0"},
       {:phoenix_live_reload, "~> 1.4", only: :dev},

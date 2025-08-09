@@ -18,7 +18,7 @@ defmodule AppWeb.BookInvitationController do
   plug :ensure_user_is_not_member_of_book
   plug :get_member when action in [:edit, :update]
 
-  plug :put_layout, html: :auth
+  plug :put_layout, html: {AppWeb.Layouts, :auth}
   plug :set_page_title
 
   def show(conn, _opts) do
