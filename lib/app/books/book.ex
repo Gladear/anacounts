@@ -9,12 +9,12 @@ defmodule App.Books.Book do
 
   @type id :: integer()
   @type t :: %__MODULE__{
-          id: id() | nil,
-          name: String.t() | nil,
+          id: id(),
+          name: String.t(),
           closed_at: NaiveDateTime.t() | nil,
           deleted_at: NaiveDateTime.t() | nil,
-          inserted_at: NaiveDateTime.t() | nil,
-          updated_at: NaiveDateTime.t() | nil
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
         }
 
   schema "books" do

@@ -111,32 +111,4 @@ defmodule App.Balance.BalanceConfigsTest do
       assert Repo.reload(balance_config)
     end
   end
-
-  describe "change_balance_config_revenues/2" do
-    setup do
-      %{balance_config: balance_config_fixture()}
-    end
-
-    test "returns a changeset", %{balance_config: balance_config} do
-      assert %Ecto.Changeset{} =
-               changeset =
-               BalanceConfigs.change_balance_config_revenues(balance_config, %{
-                 revenues: 2345
-               })
-
-      assert changeset.valid?
-      assert changeset.changes == %{revenues: 2345}
-    end
-
-    test "cannot change the owner", %{balance_config: balance_config} do
-      assert %Ecto.Changeset{} =
-               changeset =
-               BalanceConfigs.change_balance_config_revenues(balance_config, %{
-                 owner_id: user_fixture().id
-               })
-
-      assert changeset.valid?
-      assert changeset.changes == %{}
-    end
-  end
 end

@@ -81,7 +81,7 @@ defmodule AppWeb.BookMemberNicknameLive do
   def mount(params, _session, socket) do
     form =
       %BookMember{}
-      |> Members.change_book_member_nickname()
+      |> BookMember.nickname_changeset(%{})
       |> to_form()
 
     socket =
@@ -108,7 +108,7 @@ defmodule AppWeb.BookMemberNicknameLive do
   def handle_event("validate", %{"book_member" => book_member_params}, socket) do
     form =
       %BookMember{}
-      |> Members.change_book_member_nickname(book_member_params)
+      |> BookMember.nickname_changeset(book_member_params)
       |> Map.put(:action, :validate)
       |> to_form()
 

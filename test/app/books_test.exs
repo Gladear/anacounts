@@ -263,16 +263,6 @@ defmodule App.BooksTest do
     end
   end
 
-  describe "change_book_name/2" do
-    setup do
-      %{book: book_fixture()}
-    end
-
-    test "returns a book changeset", %{book: book} do
-      assert %Ecto.Changeset{} = Books.change_book_name(book)
-    end
-  end
-
   ## Deletion
 
   describe "delete_book!/2" do

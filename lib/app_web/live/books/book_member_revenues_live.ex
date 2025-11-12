@@ -127,7 +127,7 @@ defmodule AppWeb.BookMemberRevenuesLive do
   def mount(params, _session, socket) do
     form =
       %BalanceConfig{}
-      |> BalanceConfigs.change_balance_config_revenues()
+      |> BalanceConfig.revenues_changeset(%{})
       |> to_form()
 
     socket =
@@ -173,7 +173,7 @@ defmodule AppWeb.BookMemberRevenuesLive do
   def handle_event("validate", %{"balance_config" => balance_config_params}, socket) do
     form =
       %BalanceConfig{}
-      |> BalanceConfigs.change_balance_config_revenues(balance_config_params)
+      |> BalanceConfig.revenues_changeset(balance_config_params)
       |> Map.put(:action, :validate)
       |> to_form()
 

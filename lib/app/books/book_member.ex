@@ -14,20 +14,20 @@ defmodule App.Books.BookMember do
   @type id :: integer()
 
   @type t :: %__MODULE__{
-          id: id() | nil,
-          book_id: Book.id() | nil,
-          book: Book.t() | Ecto.Association.NotLoaded.t(),
-          role: :creator | :member | nil,
-          user_id: User.id() | Ecto.Association.NotLoaded.t() | nil,
-          user: User.t() | Ecto.Association.NotLoaded.t() | nil,
+          id: id(),
+          book_id: Book.id(),
+          book: Book.t(),
+          role: :creator | :member,
+          user_id: User.id() | nil,
+          user: User.t() | nil,
           deleted_at: NaiveDateTime.t() | nil,
-          nickname: String.t() | nil,
-          email: String.t() | nil,
+          nickname: String.t(),
+          email: String.t(),
           balance_config_id: BalanceConfig.id() | nil,
           balance: Money.t() | nil,
           balance_errors: [String.t()],
-          inserted_at: NaiveDateTime.t() | nil,
-          updated_at: NaiveDateTime.t() | nil
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
         }
 
   schema "book_members" do
@@ -57,7 +57,6 @@ defmodule App.Books.BookMember do
 
   ## Changesets
 
-  @spec nickname_changeset(t(), map()) :: Ecto.Changeset.t()
   def nickname_changeset(struct, attrs) do
     struct
     |> cast(attrs, [:nickname])

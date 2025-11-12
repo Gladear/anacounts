@@ -50,7 +50,7 @@ defmodule AppWeb.BookConfigurationNameLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    form = %Book{} |> Books.change_book_name() |> to_form()
+    form = %Book{} |> Book.name_changeset(%{}) |> to_form()
 
     socket =
       assign(socket,
@@ -65,7 +65,7 @@ defmodule AppWeb.BookConfigurationNameLive do
   def handle_event("validate", %{"book" => book_params}, socket) do
     form =
       %Book{}
-      |> Books.change_book_name(book_params)
+      |> Book.name_changeset(book_params)
       |> Map.put(:action, :validate)
       |> to_form()
 
