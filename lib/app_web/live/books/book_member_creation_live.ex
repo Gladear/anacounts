@@ -72,7 +72,7 @@ defmodule AppWeb.BookMemberCreationLive do
         page_title: gettext("Create manually"),
         form:
           %BookMember{}
-          |> Members.change_book_member_nickname()
+          |> BookMember.nickname_changeset(%{})
           |> to_form()
       )
 
@@ -83,7 +83,7 @@ defmodule AppWeb.BookMemberCreationLive do
   def handle_event("validate", %{"book_member" => book_member_params}, socket) do
     form =
       %BookMember{}
-      |> Members.change_book_member_nickname(book_member_params)
+      |> BookMember.nickname_changeset(book_member_params)
       |> Map.put(:action, :validate)
       |> to_form()
 

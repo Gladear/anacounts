@@ -96,14 +96,6 @@ defmodule App.Books.Members do
     |> Repo.update()
   end
 
-  @doc """
-  Return an `%Ecto.Changeset{}` for tracking changes to a book member nickname.
-  """
-  @spec change_book_member_nickname(BookMember.t(), map()) :: Ecto.Changeset.t(BookMember.t())
-  def change_book_member_nickname(book_member, attrs \\ %{}) do
-    BookMember.nickname_changeset(book_member, attrs)
-  end
-
   ## User invitations
 
   @doc """

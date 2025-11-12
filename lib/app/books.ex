@@ -9,7 +9,6 @@ defmodule App.Books do
   alias App.Books.Book
   alias App.Books.BookMember
   alias App.Books.InvitationToken
-  alias App.Books.Members
   alias App.Repo
 
   ## Database getters
@@ -149,7 +148,7 @@ defmodule App.Books do
           user_id: creator.id
         }
 
-        Members.change_book_member_nickname(member, attrs)
+        BookMember.nickname_changeset(member, attrs)
       end)
       |> Repo.transact()
 

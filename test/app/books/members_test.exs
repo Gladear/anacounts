@@ -115,32 +115,6 @@ defmodule App.Books.MembersTest do
     end
   end
 
-  describe "change_book_member_nickname/2" do
-    setup do
-      book = book_fixture()
-      book_member = book_member_fixture(book)
-
-      %{book: book, book_member: book_member}
-    end
-
-    test "returns a changeset for the given book member", %{book_member: book_member} do
-      assert changeset = Members.change_book_member_nickname(book_member)
-      assert changeset.valid?
-      assert changeset.params == %{}
-    end
-
-    test "validates the user attributes", %{book_member: book_member} do
-      assert changeset = Members.change_book_member_nickname(book_member, %{nickname: ""})
-      assert errors_on(changeset) == %{nickname: ["can't be blank"]}
-    end
-
-    test "cannot set the user_id", %{book_member: book_member} do
-      assert changeset = Members.change_book_member_nickname(book_member, %{user_id: 1})
-      assert changeset.valid?
-      refute Ecto.Changeset.changed?(changeset, :user_id)
-    end
-  end
-
   describe "create_book_member_for_user/3" do
     setup do
       %{book: book_fixture(), user: user_fixture()}
