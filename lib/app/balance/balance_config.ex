@@ -81,12 +81,12 @@ defmodule App.Balance.BalanceConfig do
   @type id :: integer()
 
   @type t :: %__MODULE__{
-          id: id() | nil,
-          owner: User.t() | Ecto.Association.NotLoaded.t() | nil,
-          owner_id: User.id() | nil,
-          revenues: non_neg_integer() | nil,
-          inserted_at: NaiveDateTime.t() | nil,
-          updated_at: NaiveDateTime.t() | nil
+          id: id(),
+          owner: User.t(),
+          owner_id: User.id(),
+          revenues: non_neg_integer(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
         }
 
   @derive {Inspect, only: [:id, :owner, :owner_id]}

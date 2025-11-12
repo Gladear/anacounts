@@ -95,12 +95,4 @@ defmodule App.Balance.BalanceConfigs do
 
     :ok
   end
-
-  @doc """
-  Return an `%Ecto.Changeset{}` for tracking changes to a balance config revenues.
-  """
-  @spec change_balance_config_revenues(BalanceConfig.t(), map()) :: Ecto.Changeset.t()
-  def change_balance_config_revenues(balance_config, attrs \\ %{}) do
-    BalanceConfig.revenues_changeset(balance_config, attrs)
-  end
 end

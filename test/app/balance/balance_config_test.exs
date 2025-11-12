@@ -11,6 +11,19 @@ defmodule App.Balance.BalanceConfigTest do
   end
 
   describe "revenues_changeset/2" do
+    test "returns a changeset" do
+      balance_config = balance_config_fixture()
+
+      assert %Ecto.Changeset{} =
+               changeset =
+               BalanceConfig.revenues_changeset(balance_config, %{
+                 revenues: 2345
+               })
+
+      assert changeset.valid?
+      assert changeset.changes == %{revenues: 2345}
+    end
+
     test "allows valid `:revenues`", %{user: user} do
       changeset =
         BalanceConfig.revenues_changeset(
@@ -30,6 +43,19 @@ defmodule App.Balance.BalanceConfigTest do
 
       refute changeset.valid?
       assert errors_on(changeset) == %{revenues: ["must be greater than or equal to 0"]}
+    end
+
+    test "cannot change the owner" do
+      balance_config = balance_config_fixture()
+
+      assert %Ecto.Changeset{} =
+               changeset =
+               BalanceConfig.revenues_changeset(balance_config, %{
+                 owner_id: user_fixture().id
+               })
+
+      assert changeset.valid?
+      assert changeset.changes == %{}
     end
   end
 end
