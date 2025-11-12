@@ -171,14 +171,6 @@ defmodule App.Books do
     |> Repo.update()
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking book changes.
-  """
-  @spec change_book_name(Book.t(), map()) :: Ecto.Changeset.t()
-  def change_book_name(%Book{} = book, attrs \\ %{}) do
-    Book.name_changeset(book, attrs)
-  end
-
   ## Deletion
 
   @doc """

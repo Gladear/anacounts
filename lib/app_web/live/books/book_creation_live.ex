@@ -72,7 +72,7 @@ defmodule AppWeb.BookCreationLive do
 
   @impl Phoenix.LiveView
   def handle_event("validate", %{"book" => book_params}, socket) do
-    book_changeset = Books.change_book_name(%Book{}, book_params)
+    book_changeset = Book.name_changeset(%Book{}, book_params)
     member_changeset = BookMember.nickname_changeset(%BookMember{}, book_params)
 
     changeset = merge_changesets(book_changeset, member_changeset)
