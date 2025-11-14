@@ -10,7 +10,6 @@ defmodule AppWeb.BookMemberLive do
 
   alias App.Accounts
   alias App.Balance
-  alias App.Books.Members
 
   on_mount {AppWeb.BookAccess, :ensure_book!}
   on_mount {AppWeb.BookAccess, :ensure_book_member!}
@@ -74,13 +73,7 @@ defmodule AppWeb.BookMemberLive do
     else
       %{book: book, book_member: book_member} = socket.assigns
 
-      # FIXME expensive, cache members balance
-      book_member =
-        book
-        |> Members.list_members_of_book()
-        |> Balance.fill_members_balance()
-        |> Enum.find(&(&1.id == book_member.id))
-
+      book_member = Balance.fill_member_balance(book_member, book)
       user = book_member.user_id && Accounts.get_user!(book_member.user_id)
 
       socket =

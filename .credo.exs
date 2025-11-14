@@ -89,7 +89,8 @@
              # and can be done at the discretion of the developer.
              only: ~r/^App(Web)?\./
            ]},
-          {Credo.Check.Design.DuplicatedCode, []},
+          {Credo.Check.Design.DuplicatedCode,
+           files: %{excluded: ["test/app/**/*", "test/app_web/**/*"]}},
 
           #
           ## Readability Checks

@@ -8,7 +8,6 @@ defmodule AppWeb.BookLive do
   alias App.Balance
   alias App.Balance.BalanceConfigs
   alias App.Books.BookMember
-  alias App.Books.Members
   alias App.Repo
   alias App.Transfers.MoneyTransfer
 
@@ -85,12 +84,7 @@ defmodule AppWeb.BookLive do
   def mount(_params, _session, socket) do
     %{book: book, current_member: current_member} = socket.assigns
 
-    # FIXME expensive, cache members balance
-    current_member =
-      book
-      |> Members.list_members_of_book()
-      |> Balance.fill_members_balance()
-      |> Enum.find(&(&1.id == current_member.id))
+    current_member = Balance.fill_member_balance(current_member, book)
 
     socket =
       socket

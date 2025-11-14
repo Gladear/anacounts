@@ -5,7 +5,6 @@ defmodule AppWeb.BookProfileLive do
   import AppWeb.BooksComponents, only: [balance_card_link: 1]
 
   alias App.Balance
-  alias App.Books.Members
 
   on_mount {AppWeb.BookAccess, :ensure_book!}
 
@@ -55,12 +54,7 @@ defmodule AppWeb.BookProfileLive do
   def mount(_params, _session, socket) do
     %{book: book, current_member: current_member} = socket.assigns
 
-    # FIXME expensive, cache members balance
-    current_member =
-      book
-      |> Members.list_members_of_book()
-      |> Balance.fill_members_balance()
-      |> Enum.find(&(&1.id == current_member.id))
+    current_member = Balance.fill_member_balance(current_member, book)
 
     socket =
       socket

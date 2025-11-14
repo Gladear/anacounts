@@ -8,9 +8,24 @@ defmodule App.Balance do
   alias App.Repo
 
   alias App.Balance.BalanceError
+  alias App.Books.Book
   alias App.Books.BookMember
+  alias App.Books.Members
   alias App.Transfers
   alias App.Transfers.Peer
+
+  @doc """
+  Compute the `:balance` field of one book member.
+  """
+  @spec fill_member_balance(BookMember.t(), Book.t()) :: BookMember.t()
+  def fill_member_balance(member, book) do
+    # FIXME expensive, find a better way to compte one member balance
+
+    book
+    |> Members.list_members_of_book()
+    |> fill_members_balance()
+    |> Enum.find(&(&1.id == member.id))
+  end
 
   @doc """
   Compute the `:balance` field of book members.
