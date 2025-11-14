@@ -17,6 +17,9 @@ defmodule App.MixProject do
         sort_by_msgid: :case_sensitive
       ],
       dialyzer: [
+        # Temporarily fixes ongoing issue with Elixir MapSet:
+        # https://github.com/elixir-lang/elixir/issues/14837
+        flags: [:no_opaque],
         list_unused_filters: true,
         # Put the project-level PLT in the priv/ directory
         # (instead of the default _build/ location)
