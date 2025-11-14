@@ -94,7 +94,7 @@ defmodule App.MixProject do
       {:heroicons, "~> 0.5.5"},
 
       # Internationalization
-      {:gettext, "~> 0.24"},
+      {:gettext, "~> 1.0"},
       {:ex_cldr, "~> 2.37"},
       {:ex_cldr_plugs, "~> 1.3"},
 
