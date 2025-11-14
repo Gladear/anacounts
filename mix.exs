@@ -17,6 +17,9 @@ defmodule App.MixProject do
         sort_by_msgid: :case_sensitive
       ],
       dialyzer: [
+        # Temporarily fixes ongoing issue with Elixir MapSet:
+        # https://github.com/elixir-lang/elixir/issues/14837
+        flags: [:no_opaque],
         list_unused_filters: true,
         # Put the project-level PLT in the priv/ directory
         # (instead of the default _build/ location)
@@ -91,7 +94,7 @@ defmodule App.MixProject do
       {:heroicons, "~> 0.5.5"},
 
       # Internationalization
-      {:gettext, "~> 0.24"},
+      {:gettext, "~> 1.0"},
       {:ex_cldr, "~> 2.37"},
       {:ex_cldr_plugs, "~> 1.3"},
 
