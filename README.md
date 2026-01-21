@@ -8,26 +8,9 @@ more fair.
 
 ## Hosting
 
-The application is currently available at
-[app.anacounts.com](https://app.anacounts.com/).
-
-It is currently hosted using [Fly.io](https://fly.io/).
-
-## Deployment
-
-When contributing to **this repository**, the changes are applied immediately
-when merged to master. The app is on rolling release, which I find the most
-simple way of handling release for now.
-
-You should be able to roll **your own replica** fairly easily. The application
-was made in order to be as easy to replicate and as configurable as possible.
-It does not enforce you to use the same host as I do. You will most likely need
-some changes in the config files though, so you should consider forking the
-repository.
-
-The infrastructure is handled partly manually on Fly, and partly via Terraform.
-The configuration files can be found in the `terraform` directory, as well as
-[a guide](terraform/DEPLOYMENT.md) to roll your version of Anacounts.
+There is no single instance of the application, you are encouraged to deploy
+your own. The operation should fairly straightforward: build the Docker image,
+push to it your favorite registry, and run it.
 
 ## Contributing
 
