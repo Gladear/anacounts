@@ -2,8 +2,8 @@ variable "app_name" {
   description = "The name of the app"
 }
 
-variable "app_domain" {
-  description = "The domain where the app is hosted"
+variable "email_domain" {
+  description = "The domain used for sending emails"
 }
 
 variable "aws_region" {
