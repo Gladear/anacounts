@@ -6,7 +6,7 @@ on:
 # Prevent concurrent runs on the same branch. In case of conflict,
 # the oldest run will be cancelled.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-push-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
