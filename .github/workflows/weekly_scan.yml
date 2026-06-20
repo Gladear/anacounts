@@ -20,4 +20,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run security scan
-        uses: ./.github/workflows/composite/scan-code
+        uses: ./.github/actions/scan-code

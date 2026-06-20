@@ -25,9 +25,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup test environment
-        uses: ./.github/workflows/composite/test-setup
+        uses: ./.github/actions/test-setup
       - name: Run code validation
-        uses: ./.github/workflows/composite/test-code
+        uses: ./.github/actions/test-code
 
   test:
     name: Build and test
@@ -52,9 +52,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup test environment
-        uses: ./.github/workflows/composite/test-setup
+        uses: ./.github/actions/test-setup
       - name: Run unit tests
-        uses: ./.github/workflows/composite/test-unit
+        uses: ./.github/actions/test-unit
 
   dockerfile:
     name: Validate Dockerfile
@@ -63,4 +63,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Dockerfile
-        uses: ./.github/workflows/composite/test-dockerfile
+        uses: ./.github/actions/test-dockerfile
