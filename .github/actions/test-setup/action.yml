@@ -6,7 +6,7 @@ runs:
   steps:
     - name: Set up Elixir
       id: elixir-install
-      uses: erlef/setup-beam@e5f1a7b722c71dbb274218a629609e1b53e25595
+      uses: erlef/setup-beam@fc68ffb90438ef2936bbb3251622353b3dcb2f93 # v1.24.0
       with:
         version-file: .tool-versions
         version-type: strict
