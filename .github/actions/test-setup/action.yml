@@ -13,7 +13,7 @@ runs:
 
     - name: Restore dependencies & _build cache
       id: build_cache
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         key: |
           build-${{ runner.os }}-${{ steps.elixir-install.outputs.otp-version }}-${{ steps.elixir-install.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
@@ -35,7 +35,7 @@ runs:
 
     - name: Save dependencies & _build cache
       id: build_cache_save
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       if: steps.build_cache.outputs.cache-hit != 'true'
       with:
         key: |
@@ -48,7 +48,7 @@ runs:
     # https://github.com/jeremyjh/dialyxir/blob/0091928de1ec01e30f82c50856f2dfe0a8f918ce/docs/github_actions.md
     - name: Restore PLT cache
       id: plt_cache
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       with:
         key: |
           plt-${{ runner.os }}-${{ steps.elixir-install.outputs.otp-version }}-${{ steps.elixir-install.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
@@ -67,7 +67,7 @@ runs:
     # so we separate the cache restore and save steps in case running dialyzer fails.
     - name: Save PLT cache
       id: plt_cache_save
-      uses: actions/cache/save@v3
+      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
       if: steps.plt_cache.outputs.cache-hit != 'true'
       with:
         key: |
