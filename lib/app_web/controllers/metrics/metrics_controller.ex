@@ -8,4 +8,8 @@ defmodule AppWeb.MetricsController do
   def health_check(conn, _opts) do
     text(conn, "OK")
   end
+
+  def version(conn, _opts) do
+    text(conn, App.Version.version())
+  end
 end

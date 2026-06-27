@@ -124,6 +124,7 @@ defmodule AppWeb.Router do
 
   scope "/", AppWeb do
     get "/metrics/health_check", MetricsController, :health_check
+    get "/metrics/version", MetricsController, :version
   end
 
   # Other scopes may use custom stacks.
