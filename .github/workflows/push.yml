@@ -39,6 +39,8 @@ jobs:
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           push: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           # By default, the context is the git context. Set it to the current
           # directory to include make sure `.git` directory is available.
           context: .
