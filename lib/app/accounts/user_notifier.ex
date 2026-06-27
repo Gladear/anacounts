@@ -2,8 +2,7 @@ defmodule App.Accounts.UserNotifier do
   @moduledoc """
   Send emails for accounts related operations.
 
-  Can send confirmation instructions, password reset instructions,
-  email update instructions.
+  Can send password reset instructions, email update instructions.
   """
 
   import Swoosh.Email
@@ -22,26 +21,6 @@ defmodule App.Accounts.UserNotifier do
     with {:ok, _metadata} <- Mailer.deliver(email) do
       {:ok, email}
     end
-  end
-
-  @doc """
-  Deliver instructions to confirm account.
-  """
-  def deliver_confirmation_instructions(user, url) do
-    deliver(user.email, "Confirmation instructions", """
-
-    ==============================
-
-    Hi #{user.email},
-
-    You can confirm your account by visiting the URL below:
-
-    #{url}
-
-    If you didn't create an account with us, please ignore this.
-
-    ==============================
-    """)
   end
 
   @doc """

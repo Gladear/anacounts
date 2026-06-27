@@ -13,7 +13,6 @@ defmodule App.Accounts.User do
           email: String.t(),
           password: String.t(),
           hashed_password: String.t(),
-          confirmed_at: NaiveDateTime.t(),
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
@@ -24,7 +23,6 @@ defmodule App.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
-    field :confirmed_at, :naive_datetime
 
     timestamps()
   end
@@ -134,14 +132,6 @@ defmodule App.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password(opts)
-  end
-
-  @doc """
-  Confirms the account by setting `confirmed_at`.
-  """
-  def confirm_changeset(user) do
-    now = NaiveDateTime.utc_now(:second)
-    change(user, confirmed_at: now)
   end
 
   @doc """

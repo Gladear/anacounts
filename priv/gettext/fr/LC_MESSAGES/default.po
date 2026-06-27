@@ -116,14 +116,6 @@ msgid "Confirm new password"
 msgstr "Confirmer le nouveau mot de passe"
 
 #, elixir-autogen, elixir-format
-msgid "Confirm your account"
-msgstr "Confirmer mon compte"
-
-#, elixir-autogen, elixir-format
-msgid "Confirmation instructions were sent when you created your account. If you did not receive them, check out your spam, or send the instructions again."
-msgstr "Des instructions de confirmations ont été envoyés à la création de votre compte. Si vous ne les avez pas reçu, vérifiez vos spams, ou envoyez les à nouveau."
-
-#, elixir-autogen, elixir-format
 msgid "Continue"
 msgstr "Continuer"
 
@@ -254,10 +246,6 @@ msgstr "Comment équilibrer ?"
 #, elixir-autogen, elixir-format
 msgid "If you want to update revenues accross multiple books, you will have go to these books and update the revenues there too."
 msgstr "Si vous souhaitez mettre à jour ces revenues dans plusieurs livrets, il vous faudra vous rendre sur les pages dédiés des livrets concernés."
-
-#, elixir-autogen, elixir-format
-msgid "If your email has not been confirmed yet, you will receive an email with instructions shortly."
-msgstr "Si votre adresse email n'a pas encore été confirmée, vous allez recevoir un email contenant les instructions."
 
 #, elixir-autogen, elixir-format
 msgid "If your email is in our system, you will receive instructions to reset your password shortly."
@@ -489,10 +477,6 @@ msgid "Save"
 msgstr "Enregistrer"
 
 #, elixir-autogen, elixir-format
-msgid "Send confirmation instructions for your account"
-msgstr "Envoyer les instructions de confirmation"
-
-#, elixir-autogen, elixir-format
 msgid "Send instructions"
 msgstr "Envoyer les instructions"
 
@@ -551,10 +535,6 @@ msgstr "La différence principale avec les membres invités est que vous pouvez 
 #, elixir-autogen, elixir-format
 msgid "There is no transfer in the book for now. You can finish the operation safely!"
 msgstr "Il n'y a pas de transfert dans le livret pour le moment. Vous pouvez terminer l'opération !"
-
-#, elixir-autogen, elixir-format
-msgid "This confirmation link is invalid or it has expired."
-msgstr "Le lien de confirmation est invalide ou a expiré."
 
 #, elixir-autogen, elixir-format
 msgid "This email will be your identifier"
@@ -669,20 +649,12 @@ msgid "You will join as the following member"
 msgstr "Vous allez rejoindre le livret en temps que le membre suivant"
 
 #, elixir-autogen, elixir-format
-msgid "Your account was confirmed."
-msgstr "Votre compte est maintenant confirmé."
-
-#, elixir-autogen, elixir-format
 msgid "Your avatar"
 msgstr "Votre avatar"
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"
 msgstr "Votre mot de passe est actuel est requis pour faire ce changement"
-
-#, elixir-autogen, elixir-format
-msgid "Your email address was not confirmed"
-msgstr "Votre adresse email n'a pas été confirmée"
 
 #, elixir-autogen, elixir-format
 msgid "Your password must be at least 12 characters long"

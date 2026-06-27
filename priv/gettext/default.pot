@@ -115,14 +115,6 @@ msgid "Confirm new password"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Confirm your account"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Confirmation instructions were sent when you created your account. If you did not receive them, check out your spam, or send the instructions again."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Continue"
 msgstr ""
 
@@ -252,10 +244,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "If you want to update revenues accross multiple books, you will have go to these books and update the revenues there too."
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "If your email has not been confirmed yet, you will receive an email with instructions shortly."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -488,10 +476,6 @@ msgid "Save"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Send confirmation instructions for your account"
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Send instructions"
 msgstr ""
 
@@ -549,10 +533,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "There is no transfer in the book for now. You can finish the operation safely!"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "This confirmation link is invalid or it has expired."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -668,19 +648,11 @@ msgid "You will join as the following member"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Your account was confirmed."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Your avatar"
 msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Your email address was not confirmed"
 msgstr ""
 
 #, elixir-autogen, elixir-format
