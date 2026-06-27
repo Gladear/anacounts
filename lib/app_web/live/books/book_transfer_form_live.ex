@@ -459,7 +459,7 @@ defmodule AppWeb.BookTransferFormLive do
   end
 
   defp parse_money_or_nil(""), do: nil
-  defp parse_money_or_nil(amount), do: Money.new!(:EUR, amount)
+  defp parse_money_or_nil(amount), do: App.Money.parse(amount)
 
   defp to_money_transfer_form(changeset, members) do
     members_by_id = Map.new(members, &{&1.id, &1})

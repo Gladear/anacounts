@@ -20,7 +20,7 @@ defmodule App.BalanceTest do
 
       money_transfer =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 10),
+          amount: Decimal.new(10),
           tenant_id: member1.id
         )
 
@@ -28,8 +28,8 @@ defmodule App.BalanceTest do
       _peer = peer_fixture(money_transfer, member_id: member2.id)
 
       [member1, member2] = Balance.fill_members_balance([member1, member2])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 5))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, -5))
+      assert Decimal.equal?(member1.balance, 5)
+      assert Decimal.equal?(member2.balance, -5)
     end
 
     test "balances multiple transfers correctly #1", %{book: book} do
@@ -40,7 +40,7 @@ defmodule App.BalanceTest do
 
       transfer1 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 400),
+          amount: Decimal.new(400),
           tenant_id: member1.id
         )
 
@@ -51,7 +51,7 @@ defmodule App.BalanceTest do
 
       transfer2 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 400),
+          amount: Decimal.new(400),
           tenant_id: member2.id
         )
 
@@ -63,10 +63,10 @@ defmodule App.BalanceTest do
       [member1, member2, member3, member4] =
         Balance.fill_members_balance([member1, member2, member3, member4])
 
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 200))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, 200))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, -200))
-      assert Money.equal?(member4.balance, Money.new!(:EUR, -200))
+      assert Decimal.equal?(member1.balance, 200)
+      assert Decimal.equal?(member2.balance, 200)
+      assert Decimal.equal?(member3.balance, -200)
+      assert Decimal.equal?(member4.balance, -200)
     end
 
     test "balances multiple transfers correctly #2", %{book: book} do
@@ -76,7 +76,7 @@ defmodule App.BalanceTest do
 
       transfer1 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 300),
+          amount: Decimal.new(300),
           tenant_id: member1.id
         )
 
@@ -86,7 +86,7 @@ defmodule App.BalanceTest do
 
       transfer2 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 300),
+          amount: Decimal.new(300),
           tenant_id: member2.id
         )
 
@@ -95,9 +95,9 @@ defmodule App.BalanceTest do
       _peer = peer_fixture(transfer2, member_id: member3.id)
 
       [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 100))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, 100))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, -200))
+      assert Decimal.equal?(member1.balance, 100)
+      assert Decimal.equal?(member2.balance, 100)
+      assert Decimal.equal?(member3.balance, -200)
     end
 
     test "takes peer weight into account", %{book: book} do
@@ -108,7 +108,7 @@ defmodule App.BalanceTest do
       transfer =
         money_transfer_fixture(book,
           tenant_id: member1.id,
-          amount: Money.new!(:EUR, 6)
+          amount: Decimal.new(6)
         )
 
       _peer = peer_fixture(transfer, member_id: member1.id, weight: 3)
@@ -116,9 +116,9 @@ defmodule App.BalanceTest do
       _peer = peer_fixture(transfer, member_id: member3.id)
 
       [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 3))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, -2))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, -1))
+      assert Decimal.equal?(member1.balance, 3)
+      assert Decimal.equal?(member2.balance, -2)
+      assert Decimal.equal?(member3.balance, -1)
     end
 
     test "balances correctly when using high weight", %{book: book} do
@@ -126,16 +126,16 @@ defmodule App.BalanceTest do
       member2 = book_member_fixture(book)
       member3 = book_member_fixture(book)
 
-      transfer = money_transfer_fixture(book, tenant_id: member1.id, amount: Money.new!(:EUR, 10))
+      transfer = money_transfer_fixture(book, tenant_id: member1.id, amount: Decimal.new(10))
 
       _peer1 = peer_fixture(transfer, member_id: member1.id, weight: Decimal.new(10))
       _peer2 = peer_fixture(transfer, member_id: member2.id, weight: Decimal.new(10))
       _peer3 = peer_fixture(transfer, member_id: member3.id, weight: Decimal.new(10))
 
       [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, "6.67"))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, "-3.33"))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, "-3.34"))
+      assert Decimal.equal?(member1.balance, "6.67")
+      assert Decimal.equal?(member2.balance, "-3.33")
+      assert Decimal.equal?(member3.balance, "-3.34")
     end
 
     test "correctly divide non round amounts", %{book: book} do
@@ -145,15 +145,15 @@ defmodule App.BalanceTest do
       transfer =
         money_transfer_fixture(book,
           tenant_id: member1.id,
-          amount: Money.new!(:EUR, "0.03")
+          amount: Decimal.new("0.03")
         )
 
       _peer = peer_fixture(transfer, member_id: member1.id)
       _peer = peer_fixture(transfer, member_id: member2.id)
 
       assert Balance.fill_members_balance([member1, member2]) == [
-               %{member1 | balance: Money.new!(:EUR, "0.02")},
-               %{member2 | balance: Money.new!(:EUR, "-0.02")}
+               %{member1 | balance: Decimal.new("0.01")},
+               %{member2 | balance: Decimal.new("-0.01")}
              ]
     end
 
@@ -168,7 +168,7 @@ defmodule App.BalanceTest do
         money_transfer_fixture(book,
           tenant_id: member1.id,
           balance_means: :weight_by_revenues,
-          amount: Money.new!(:EUR, 30)
+          amount: Decimal.new(30)
         )
 
       _peer = peer_fixture(transfer, member_id: member1.id, balance_config_id: balance_config1.id)
@@ -176,8 +176,8 @@ defmodule App.BalanceTest do
 
       [member1, member2] = Balance.fill_members_balance([member1, member2])
 
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 20))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, -20))
+      assert Decimal.equal?(member1.balance, Decimal.new(20))
+      assert Decimal.equal?(member2.balance, Decimal.new(-20))
     end
 
     test "weight transfer amount using peers income #2", %{book: book} do
@@ -197,7 +197,7 @@ defmodule App.BalanceTest do
         money_transfer_fixture(book,
           tenant_id: member1.id,
           balance_means: :weight_by_revenues,
-          amount: Money.new!(:EUR, 9)
+          amount: Decimal.new(9)
         )
 
       _peer = peer_fixture(transfer, member_id: member1.id, balance_config_id: balance_config1.id)
@@ -208,10 +208,10 @@ defmodule App.BalanceTest do
       [member1, member2, member3, member4] =
         Balance.fill_members_balance([member1, member2, member3, member4])
 
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 7))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, -2))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, -2))
-      assert Money.equal?(member4.balance, Money.new!(:EUR, -3))
+      assert Decimal.equal?(member1.balance, 7)
+      assert Decimal.equal?(member2.balance, -2)
+      assert Decimal.equal?(member3.balance, -2)
+      assert Decimal.equal?(member4.balance, -3)
     end
 
     test "weighting by incomes takes user-defined weight into account", %{book: book} do
@@ -228,7 +228,7 @@ defmodule App.BalanceTest do
         money_transfer_fixture(book,
           tenant_id: member1.id,
           balance_means: :weight_by_revenues,
-          amount: Money.new!(:EUR, 100)
+          amount: Decimal.new(100)
         )
 
       _peer =
@@ -253,9 +253,9 @@ defmodule App.BalanceTest do
         )
 
       [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, "92.86"))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, "-28.57"))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, "-64.29"))
+      assert Decimal.equal?(member1.balance, "92.86")
+      assert Decimal.equal?(member2.balance, "-28.57")
+      assert Decimal.equal?(member3.balance, "-64.29")
     end
 
     test "fails if a user config appropriate fields aren't set", %{book: book} do
@@ -272,7 +272,7 @@ defmodule App.BalanceTest do
         money_transfer_fixture(book,
           tenant_id: member1.id,
           balance_means: :weight_by_revenues,
-          amount: Money.new!(:EUR, 30)
+          amount: Decimal.new(30)
         )
 
       _peer =
@@ -285,7 +285,7 @@ defmodule App.BalanceTest do
         money_transfer_fixture(book,
           tenant_id: member1.id,
           balance_means: :weight_by_revenues,
-          amount: Money.new!(:EUR, 40)
+          amount: Decimal.new(40)
         )
 
       _peer =
@@ -317,7 +317,7 @@ defmodule App.BalanceTest do
                }
              ]
 
-      assert Money.equal?(member3.balance, Money.new!(:EUR, -20))
+      assert Decimal.equal?(member3.balance, -20)
     end
 
     test "does not crash if the book is correctly balanced", %{book: book} do
@@ -327,7 +327,7 @@ defmodule App.BalanceTest do
 
       transfer1 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 300),
+          amount: Decimal.new(300),
           tenant_id: member1.id
         )
 
@@ -337,7 +337,7 @@ defmodule App.BalanceTest do
 
       reimbursement1 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 100),
+          amount: Decimal.new(100),
           type: :reimbursement,
           tenant_id: member1.id
         )
@@ -346,7 +346,7 @@ defmodule App.BalanceTest do
 
       reimbursement2 =
         money_transfer_fixture(book,
-          amount: Money.new!(:EUR, 100),
+          amount: Decimal.new(100),
           type: :reimbursement,
           tenant_id: member1.id
         )
@@ -354,9 +354,9 @@ defmodule App.BalanceTest do
       _reimbursement_peer = peer_fixture(reimbursement2, member_id: member3.id)
 
       [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
-      assert Money.equal?(member1.balance, Money.new!(:EUR, 0))
-      assert Money.equal?(member2.balance, Money.new!(:EUR, 0))
-      assert Money.equal?(member3.balance, Money.new!(:EUR, 0))
+      assert Decimal.equal?(member1.balance, 0)
+      assert Decimal.equal?(member2.balance, 0)
+      assert Decimal.equal?(member3.balance, 0)
     end
   end
 
@@ -366,9 +366,9 @@ defmodule App.BalanceTest do
     end
 
     test "creates transactions to balance members money #1", %{book: book} do
-      member1 = book_member_fixture(book, balance: Money.new!(:EUR, 10))
-      member2 = book_member_fixture(book, balance: Money.new!(:EUR, -10))
-      member3 = book_member_fixture(book, balance: Money.new!(:EUR, 0))
+      member1 = book_member_fixture(book, balance: Decimal.new(10))
+      member2 = book_member_fixture(book, balance: Decimal.new(-10))
+      member3 = book_member_fixture(book, balance: Decimal.new(0))
 
       assert {:ok, transactions} = Balance.transactions([member1, member2, member3])
 
@@ -377,17 +377,17 @@ defmodule App.BalanceTest do
                  id: "#{member2.id}-#{member1.id}",
                  from: member2,
                  to: member1,
-                 amount: Money.new!(:EUR, 10)
+                 amount: Decimal.new(10)
                }
              ])
     end
 
     test "creates transactions to balance members money #2", %{book: book} do
-      member1 = book_member_fixture(book, balance: Money.new!(:EUR, 120))
-      member2 = book_member_fixture(book, balance: Money.new!(:EUR, 33))
-      member3 = book_member_fixture(book, balance: Money.new!(:EUR, -12))
-      member4 = book_member_fixture(book, balance: Money.new!(:EUR, -121))
-      member5 = book_member_fixture(book, balance: Money.new!(:EUR, -20))
+      member1 = book_member_fixture(book, balance: Decimal.new(120))
+      member2 = book_member_fixture(book, balance: Decimal.new(33))
+      member3 = book_member_fixture(book, balance: Decimal.new(-12))
+      member4 = book_member_fixture(book, balance: Decimal.new(-121))
+      member5 = book_member_fixture(book, balance: Decimal.new(-20))
 
       assert {:ok, transactions} =
                Balance.transactions([member1, member2, member3, member4, member5])
@@ -397,25 +397,25 @@ defmodule App.BalanceTest do
                  id: "#{member5.id}-#{member2.id}",
                  from: member5,
                  to: member2,
-                 amount: Money.new!(:EUR, 20)
+                 amount: Decimal.new(20)
                },
                %{
                  id: "#{member4.id}-#{member2.id}",
                  from: member4,
                  to: member2,
-                 amount: Money.new!(:EUR, 13)
+                 amount: Decimal.new(13)
                },
                %{
                  id: "#{member4.id}-#{member1.id}",
                  from: member4,
                  to: member1,
-                 amount: Money.new!(:EUR, 108)
+                 amount: Decimal.new(108)
                },
                %{
                  id: "#{member3.id}-#{member1.id}",
                  from: member3,
                  to: member1,
-                 amount: Money.new!(:EUR, 12)
+                 amount: Decimal.new(12)
                }
              ])
     end
@@ -425,11 +425,11 @@ defmodule App.BalanceTest do
     end
 
     test "returns :error when the balance of a member is corrupted", %{book: book} do
-      member1 = book_member_fixture(book, balance: Money.new!(:EUR, 10))
+      member1 = book_member_fixture(book, balance: Decimal.new(10))
 
       member2 =
         book_member_fixture(book,
-          balance: Money.new!(:EUR, 10),
+          balance: Decimal.new(10),
           balance_errors: ["could not compute balance"]
         )
 

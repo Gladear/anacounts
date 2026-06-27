@@ -8,5 +8,5 @@ defmodule AppWeb.Cldr do
   """
   use Cldr,
     gettext: AppWeb.Gettext,
-    providers: [Cldr.Number, Money]
+    providers: [Cldr.Number]
 end

@@ -239,8 +239,8 @@ defmodule App.Transfers do
   @doc """
   Retrieves the amount of money a money transfer costs or provides.
   """
-  @spec amount(MoneyTransfer.t()) :: Money.t()
+  @spec amount(MoneyTransfer.t()) :: Decimal.t()
   def amount(money_transfer)
   def amount(%MoneyTransfer{type: :payment} = money_transfer), do: money_transfer.amount
-  def amount(%MoneyTransfer{} = money_transfer), do: Money.negate!(money_transfer.amount)
+  def amount(%MoneyTransfer{} = money_transfer), do: Decimal.negate(money_transfer.amount)
 end

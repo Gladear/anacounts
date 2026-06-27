@@ -24,7 +24,7 @@ defmodule App.Books.BookMember do
           nickname: String.t(),
           email: String.t(),
           balance_config_id: BalanceConfig.id() | nil,
-          balance: Money.t() | nil,
+          balance: Decimal.t() | nil,
           balance_errors: [String.t()],
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
@@ -49,7 +49,7 @@ defmodule App.Books.BookMember do
     field :balance_config_id, :integer
     # Filled by the `Balance` context. If the `:balance_errors` is set,  the balance
     # was not computed correctly.
-    field :balance, Money.Ecto.Composite.Type, virtual: true
+    field :balance, :decimal, virtual: true
     field :balance_errors, {:array, :string}, virtual: true, default: []
 
     timestamps()

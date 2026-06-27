@@ -32,7 +32,7 @@ defmodule AppWeb.BookReimbursementCreationLiveTest do
     {:ok, _live, html} =
       live(
         conn,
-        ~p"/books/#{book}/reimbursements/new?from=#{member1.id}&to=#{member2.id}&amount=%E2%82%AC100.00"
+        ~p"/books/#{book}/reimbursements/new?from=#{member1.id}&to=#{member2.id}&amount=100.00"
       )
 
     doc = LazyHTML.from_fragment(html)
@@ -105,6 +105,6 @@ defmodule AppWeb.BookReimbursementCreationLiveTest do
     assert reimbursement = Repo.get_by(MoneyTransfer, book_id: book.id)
     assert reimbursement.label == "Reimbursement from Member 1 to Member 2"
     assert reimbursement.type == :reimbursement
-    assert reimbursement.amount == Money.new(:EUR, "100.00")
+    assert Decimal.equal?(reimbursement.amount, 100)
   end
 end

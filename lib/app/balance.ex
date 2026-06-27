@@ -143,16 +143,15 @@ defmodule App.Balance do
   end
 
   defp reset_members_balance(members) do
-    Enum.map(members, fn member -> %{member | balance: Money.new!(:EUR, 0)} end)
+    Enum.map(members, fn member -> %{member | balance: Decimal.new(0)} end)
   end
 
   defp adjust_balance_from_transfers(members, []), do: members
 
   defp adjust_balance_from_transfers(members, [{:ok, transfer} | other_transfers]) do
     transfer_amount = Transfers.amount(transfer)
-
-    {_dividend, remaining} =
-      amounts = Money.split(transfer_amount, Decimal.to_integer(transfer.total_peer_weight))
+    amounts = Decimal.div_rem(transfer_amount, transfer.total_peer_weight)
+    {_dividend, remaining} = amounts
 
     members
     |> adjust_balance_from_peers(transfer, transfer.peers, amounts, remaining)
@@ -166,8 +165,8 @@ defmodule App.Balance do
   end
 
   defp adjust_balance_from_peers(members, _transfer, [], _amounts, remaining) do
-    unless Money.zero?(remaining) do
-      raise "Something went wrong, remaining amount is #{Money.to_string!(remaining)}"
+    if not Decimal.equal?(remaining, 0) do
+      raise "Something went wrong, remaining amount is #{App.Money.to_string(remaining)}"
     end
 
     members
@@ -198,8 +197,8 @@ defmodule App.Balance do
 
     adjustment_amount =
       dividend
-      |> Money.mult!(peer.total_weight)
-      |> Money.add!(remaining_taken)
+      |> App.Money.mult(peer.total_weight)
+      |> Decimal.add(remaining_taken)
 
     {adjustment_amount, remaining}
 
@@ -218,10 +217,10 @@ defmodule App.Balance do
         member
 
       %{id: ^member_id} = member ->
-        %{member | balance: Money.sub!(member.balance, adjustment_amount)}
+        %{member | balance: Decimal.sub(member.balance, adjustment_amount)}
 
       %{id: ^tenant_id} = member ->
-        %{member | balance: Money.add!(member.balance, adjustment_amount)}
+        %{member | balance: Decimal.add(member.balance, adjustment_amount)}
 
       member ->
         member
@@ -236,13 +235,13 @@ defmodule App.Balance do
       case other_peers do
         [_ | _] ->
           ratio = Decimal.div(peer.total_weight, transfer.total_peer_weight)
-          original_remaining |> Money.mult!(ratio) |> Money.round()
+          App.Money.mult(original_remaining, ratio)
 
         [] ->
           remaining
       end
 
-    remaining = Money.sub!(remaining, remaining_taken)
+    remaining = Decimal.sub(remaining, remaining_taken)
     {remaining_taken, remaining}
   end
 
@@ -279,7 +278,7 @@ defmodule App.Balance do
           id: String.t(),
           from: BookMember.t(),
           to: BookMember.t(),
-          amount: Money.t()
+          amount: Decimal.t()
         }
 
   @doc """
@@ -303,8 +302,8 @@ defmodule App.Balance do
     else
       {debtors, creditors} =
         members
-        |> Enum.reject(&Money.zero?(&1.balance))
-        |> Enum.split_with(&Money.negative?(&1.balance))
+        |> Enum.reject(&Decimal.equal?(&1.balance, 0))
+        |> Enum.split_with(&Decimal.negative?(&1.balance))
 
       {:ok, make_transactions(debtors, creditors, [])}
     end
@@ -320,9 +319,9 @@ defmodule App.Balance do
          [creditor | _other_creditors] = all_creditors,
          transactions
        ) do
-    debt = Money.negate!(debtor.balance)
+    debt = Decimal.negate(debtor.balance)
 
-    Money.compare!(creditor.balance, debt)
+    Decimal.compare(creditor.balance, debt)
     |> add_transaction_from_cmp(all_debtors, all_creditors, transactions)
   end
 
@@ -332,7 +331,7 @@ defmodule App.Balance do
          [creditor | other_creditors],
          transactions
        ) do
-    debt = Money.negate!(debtor.balance)
+    debt = Decimal.negate(debtor.balance)
     new_transaction = transaction_for(debtor, creditor, debt)
 
     make_transactions(
@@ -348,12 +347,12 @@ defmodule App.Balance do
          [creditor | other_creditors],
          transactions
        ) do
-    debt = Money.negate!(debtor.balance)
+    debt = Decimal.negate(debtor.balance)
     new_transaction = transaction_for(debtor, creditor, debt)
 
     make_transactions(
       other_debtors,
-      [%{creditor | balance: Money.sub!(creditor.balance, debt)} | other_creditors],
+      [%{creditor | balance: Decimal.sub(creditor.balance, debt)} | other_creditors],
       [new_transaction | transactions]
     )
   end
@@ -367,7 +366,7 @@ defmodule App.Balance do
     new_transaction = transaction_for(debtor, creditor, creditor.balance)
 
     make_transactions(
-      [%{debtor | balance: Money.add!(debtor.balance, creditor.balance)} | other_debtors],
+      [%{debtor | balance: Decimal.add(debtor.balance, creditor.balance)} | other_debtors],
       other_creditors,
       [new_transaction | transactions]
     )

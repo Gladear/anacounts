@@ -99,10 +99,10 @@ defmodule AppWeb.BookReimbursementCreationLive do
   end
 
   defp get_params_amount(%{"amount" => amount} = _params) do
-    Money.parse(amount)
+    App.Money.parse(amount)
   end
 
-  defp get_params_amount(_params), do: Money.new!(:EUR, 0)
+  defp get_params_amount(_params), do: Decimal.new(0)
 
   defp new_transfer_label(tenant, peer_member) do
     gettext("Reimbursement from %{debtor_name} to %{creditor_name}",
@@ -148,7 +148,7 @@ defmodule AppWeb.BookReimbursementCreationLive do
   end
 
   defp parse_money_or_nil(""), do: nil
-  defp parse_money_or_nil(amount), do: Money.new!(:EUR, amount)
+  defp parse_money_or_nil(amount), do: App.Money.parse(amount)
 
   defp to_reimbursement_form(changeset) do
     changeset

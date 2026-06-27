@@ -65,14 +65,13 @@ defmodule App.MixProject do
 
       ## Business
       {:decimal, "~> 2.1"},
+      {:ex_cldr_numbers, "~> 2.38"},
       {:phoenix_pubsub, "~> 2.1"},
 
       ## Database
       {:ecto_sql, "~> 3.9"},
       {:postgrex, ">= 0.0.0"},
       {:cloak_ecto, "~> 1.3.0"},
-      {:ex_money, "~> 5.15"},
-      {:ex_money_sql, "~> 1.9"},
 
       # Emails
       {:swoosh, "~> 1.13"},
