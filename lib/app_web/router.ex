@@ -64,14 +64,6 @@ defmodule AppWeb.Router do
       live "/users/settings/avatar", UserSettingsAvatarLive
       live "/users/settings/password", UserSettingsPasswordLive
     end
-
-    live_session :user_confirmation,
-      on_mount: [{AppWeb.UserAuth, :ensure_authenticated}],
-      layout: {AppWeb.Layouts, :auth} do
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
-    end
-
-    get "/users/confirm/:token", UserConfirmationController, :update
   end
 
   scope "/", AppWeb do

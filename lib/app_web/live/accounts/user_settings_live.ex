@@ -15,13 +15,6 @@ defmodule AppWeb.UserSettingsLive do
 
       <.hero_avatar user={@current_user} alt={gettext("Your avatar")} />
 
-      <.link navigate={~p"/users/confirm"}>
-        <.alert :if={@current_user.confirmed_at == nil} kind={:warning} class="mb-4">
-          <span class="grow">{gettext("Your email address was not confirmed")}</span>
-          <.icon name={:chevron_right} />
-        </.alert>
-      </.link>
-
       <.card_grid>
         <.link navigate={~p"/users/settings/email"}>
           <.card_button icon={:envelope}>{gettext("Change email")}</.card_button>

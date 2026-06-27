@@ -1,8 +1,8 @@
 defmodule App.Accounts do
   @moduledoc """
   Manage user accounts.
-  Provides with registering, authentication, token creation whether for
-  session, email and password change and reset.
+  Provides registering, authentication, token creation for session,
+  email and password change and reset.
   """
 
   alias App.Repo
@@ -78,7 +78,6 @@ defmodule App.Accounts do
   Updates the user email using the given token.
 
   If the token matches, the user email is updated and the token is deleted.
-  The confirmed_at date is also updated to the current time.
   """
   def update_user_email(user, token) do
     context = "change:#{user.email}"
@@ -93,10 +92,7 @@ defmodule App.Accounts do
   end
 
   defp user_email_multi(user, email, context) do
-    changeset =
-      user
-      |> User.email_changeset(%{email: email})
-      |> User.confirm_changeset()
+    changeset = User.email_changeset(user, %{email: email})
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, changeset)
@@ -167,45 +163,6 @@ defmodule App.Accounts do
     |> Repo.delete_all()
 
     :ok
-  end
-
-  ## Confirmation
-
-  @doc ~S"""
-  Delivers the confirmation email instructions to the given user.
-  """
-  def deliver_user_confirmation_instructions(%User{} = user, confirmation_url_fun)
-      when is_function(confirmation_url_fun, 1) do
-    if user.confirmed_at do
-      {:error, :already_confirmed}
-    else
-      {encoded_token, user_token} = UserToken.build_email_token(user, "confirm")
-      Repo.insert!(user_token)
-      UserNotifier.deliver_confirmation_instructions(user, confirmation_url_fun.(encoded_token))
-    end
-  end
-
-  @doc """
-  Confirms a user by the given token.
-
-  If the token matches, the user account is marked as confirmed
-  and the token is deleted.
-  """
-  @spec confirm_user(User.t(), String.t()) :: {:ok, User.t()} | :error
-  def confirm_user(%User{id: id} = _user, token) do
-    with {:ok, query} <- UserToken.verify_email_token_query(token, "confirm"),
-         %User{id: ^id} = user <- Repo.one(query),
-         {:ok, %{user: user}} <- Repo.transact(confirm_user_multi(user)) do
-      {:ok, user}
-    else
-      _ -> :error
-    end
-  end
-
-  defp confirm_user_multi(user) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, User.confirm_changeset(user))
-    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, ["confirm"]))
   end
 
   ## Reset password
