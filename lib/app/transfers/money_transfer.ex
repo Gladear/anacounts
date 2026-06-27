@@ -17,7 +17,7 @@ defmodule App.Transfers.MoneyTransfer do
   @type t :: %__MODULE__{
           id: id(),
           label: String.t(),
-          amount: Money.t(),
+          amount: Decimal.t(),
           type: type(),
           date: Date.t(),
           book_id: Book.id(),
@@ -41,7 +41,7 @@ defmodule App.Transfers.MoneyTransfer do
 
   schema "money_transfers" do
     field :label, :string
-    field :amount, Money.Ecto.Composite.Type
+    field :amount, :decimal
     field :type, Ecto.Enum, values: @transfer_types
     field :date, :date, read_after_writes: true
 

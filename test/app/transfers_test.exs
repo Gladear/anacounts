@@ -231,13 +231,13 @@ defmodule App.TransfersTest do
                  money_transfer_attributes(
                    tenant_id: member.id,
                    label: "A label",
-                   amount: Money.new!(:EUR, 1799),
+                   amount: Decimal.new(1799),
                    date: ~D[2022-06-23]
                  )
                )
 
       assert transfer.label == "A label"
-      assert transfer.amount == Money.new!(:EUR, 1799)
+      assert Decimal.equal?(transfer.amount, 1799)
       assert transfer.type == :payment
       assert transfer.date == ~D[2022-06-23]
       assert transfer.balance_means == :divide_equally
@@ -378,14 +378,14 @@ defmodule App.TransfersTest do
                |> Repo.preload(:peers)
                |> Transfers.update_money_transfer(%{
                  label: "my very own label !",
-                 amount: Money.new!(:EUR, 299),
+                 amount: Decimal.new(299),
                  date: ~D[2020-06-29],
                  balance_means: :weight_by_revenues,
                  peers: [%{member_id: other_member.id}]
                })
 
       assert updated.label == "my very own label !"
-      assert updated.amount == Money.new!(:EUR, 299)
+      assert Decimal.equal?(updated.amount, 299)
       assert updated.date == ~D[2020-06-29]
       assert updated.balance_means == :weight_by_revenues
 
@@ -481,14 +481,14 @@ defmodule App.TransfersTest do
       assert {:ok, money_transfer} =
                Transfers.create_reimbursement(book, %{
                  label: "Reimbursement from member1 to member2",
-                 amount: Money.new!(:EUR, 100),
+                 amount: Decimal.new(100),
                  date: ~D[2020-06-29],
                  tenant_id: member1.id,
                  peers: [%{member_id: member2.id}]
                })
 
       assert money_transfer.label == "Reimbursement from member1 to member2"
-      assert money_transfer.amount == Money.new!(:EUR, 100)
+      assert Decimal.equal?(money_transfer.amount, 100)
       assert money_transfer.type == :reimbursement
       assert money_transfer.date == ~D[2020-06-29]
       assert money_transfer.tenant_id == member1.id

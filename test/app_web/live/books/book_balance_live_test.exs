@@ -20,7 +20,7 @@ defmodule AppWeb.BookBalanceLiveTest do
     other_member = book_member_fixture(book, nickname: "Other Member")
 
     transfer =
-      money_transfer_fixture(book, tenant_id: member.id, amount: Money.new!(:EUR, "100.00"))
+      money_transfer_fixture(book, tenant_id: member.id, amount: Decimal.new("100.00"))
 
     _peer = peer_fixture(transfer, member_id: member.id)
     _peer = peer_fixture(transfer, member_id: other_member.id)
@@ -57,7 +57,7 @@ defmodule AppWeb.BookBalanceLiveTest do
     other_member = book_member_fixture(book, nickname: "You")
 
     transfer =
-      money_transfer_fixture(book, tenant_id: member.id, amount: Money.new!(:EUR, "100.00"))
+      money_transfer_fixture(book, tenant_id: member.id, amount: Decimal.new("100.00"))
 
     _peer = peer_fixture(transfer, member_id: member.id)
     _peer = peer_fixture(transfer, member_id: other_member.id)
@@ -73,7 +73,7 @@ defmodule AppWeb.BookBalanceLiveTest do
       |> Enum.to_list()
 
     expected_href =
-      ~p"/books/#{book}/reimbursements/new?from=#{other_member.id}&to=#{member.id}&amount=%E2%82%AC50.00"
+      ~p"/books/#{book}/reimbursements/new?from=#{other_member.id}&to=#{member.id}&amount=50.00"
 
     assert LazyHTML.attribute(tile_link, "href") == [expected_href]
 
@@ -91,7 +91,7 @@ defmodule AppWeb.BookBalanceLiveTest do
     transfer =
       money_transfer_fixture(book,
         tenant_id: member.id,
-        amount: Money.new!(:EUR, "100.00"),
+        amount: Decimal.new("100.00"),
         balance_means: :weight_by_revenues
       )
 

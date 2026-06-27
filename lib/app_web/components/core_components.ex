@@ -782,7 +782,7 @@ defmodule AppWeb.CoreComponents do
       assign_new(assigns, :normalized_value, fn ->
         # XXX When supporting other currencies, the rounding must be done based on the
         # currency's precision.
-        if assigns.value, do: Decimal.round(assigns.value.amount, 2)
+        if assigns.value, do: Decimal.round(assigns.value, 2)
       end)
 
     ~H"""

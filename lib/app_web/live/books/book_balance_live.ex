@@ -51,7 +51,7 @@ defmodule AppWeb.BookBalanceLive do
             :for={{dom_id, transaction} <- @streams.transactions}
             id={dom_id}
             navigate={
-              ~p"/books/#{@book}/reimbursements/new?from=#{transaction.from.id}&to=#{transaction.to.id}&amount=#{Money.to_string!(transaction.amount)}"
+              ~p"/books/#{@book}/reimbursements/new?from=#{transaction.from.id}&to=#{transaction.to.id}&amount=#{Decimal.to_string(transaction.amount)}"
             }
             class="block"
           >
@@ -62,7 +62,7 @@ defmodule AppWeb.BookBalanceLive do
                   owes
                   <.member_nickname book_member={transaction.to} current_member={@current_member} />
                 </div>
-                <span class="label">{transaction.amount}</span>
+                <span class="label">{App.Money.to_string(transaction.amount)}</span>
                 <.button kind={:ghost} class="row-span-2">
                   {gettext("Settle up")} <.icon name={:chevron_right} />
                 </.button>

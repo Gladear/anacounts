@@ -10,7 +10,7 @@ defmodule App.TransfersFixtures do
   def money_transfer_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
       label: "This is a money transfer",
-      amount: Money.new!(:EUR, 1799),
+      amount: Decimal.new(1799),
       date: ~D[2022-06-23],
       type: :payment,
       balance_means: :divide_equally

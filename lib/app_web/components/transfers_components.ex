@@ -137,7 +137,7 @@ defmodule AppWeb.TransfersComponents do
   defp transfer_amount(assigns) do
     assigns = assign(assigns, :sign, transfer_sign(assigns.transfer.type))
 
-    ~H|<span class="label">{@sign <> Money.to_string!(@transfer.amount)}</span>|
+    ~H|<span class="label">{@sign <> App.Money.to_string(@transfer.amount)}</span>|
   end
 
   defp transfer_sign(:payment), do: "-"
