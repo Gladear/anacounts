@@ -334,7 +334,7 @@ defmodule App.TransfersTest do
         Transfers.create_money_transfer(
           book,
           member,
-          :reimbursement,
+          Process.get(:unused, :reimbursement),
           money_transfer_attributes(tenant_id: member.id)
         )
       end
