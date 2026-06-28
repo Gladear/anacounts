@@ -65,7 +65,6 @@ defmodule App.MixProject do
 
       ## Business
       {:decimal, "~> 2.1"},
-      {:ex_cldr_numbers, "~> 2.38"},
       {:phoenix_pubsub, "~> 2.1"},
 
       ## Database
@@ -94,8 +93,8 @@ defmodule App.MixProject do
 
       # Internationalization
       {:gettext, "~> 1.0"},
-      {:ex_cldr, "~> 2.37"},
-      {:ex_cldr_plugs, "~> 1.3"},
+      {:localize, "~> 0.41"},
+      {:localize_web, "~> 0.8"},
 
       # Tools
       {:lazy_html, ">= 0.0.0", only: :test},

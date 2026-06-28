@@ -11,13 +11,11 @@ defmodule AppWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
 
-    plug Cldr.Plug.PutLocale,
-      apps: [:cldr, :gettext],
-      from: [:accept_language],
-      gettext: AppWeb.Gettext,
-      cldr: AppWeb.Cldr
+    plug Localize.Plug.PutLocale,
+      from: [:query, :session, :accept_language],
+      gettext: AppWeb.Gettext
 
-    plug Cldr.Plug.PutSession
+    plug Localize.Plug.PutSession
 
     plug :fetch_live_flash
     plug :put_root_layout, {AppWeb.Layouts, :root}

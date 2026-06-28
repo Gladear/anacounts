@@ -3,8 +3,6 @@ defmodule App.Money do
   Arithmetic and display helpers for EUR amounts stored as Decimal.
   """
 
-  alias AppWeb.Cldr
-
   @currency_scale 2
 
   @spec round_amount(Decimal.decimal()) :: Decimal.t()
@@ -25,7 +23,7 @@ defmodule App.Money do
   """
   @spec to_string(Decimal.t()) :: String.t()
   def to_string(amount) do
-    Cldr.Number.to_string!(amount, currency: :EUR, format: :currency)
+    Localize.Number.to_string!(amount, currency: :EUR)
   end
 
   @doc """

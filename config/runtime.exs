@@ -104,3 +104,7 @@ if config_env() == :prod do
     secret: ses_secret_key,
     identity: ses_identity
 end
+
+## Internationalization
+
+config :localize, supported_locales: Gettext.known_locales(AppWeb.Gettext)
