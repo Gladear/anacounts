@@ -35,7 +35,7 @@ runs:
 
     - name: Save dependencies & _build cache
       id: build_cache_save
-      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       if: steps.build_cache.outputs.cache-hit != 'true'
       with:
         key: |
@@ -67,7 +67,7 @@ runs:
     # so we separate the cache restore and save steps in case running dialyzer fails.
     - name: Save PLT cache
       id: plt_cache_save
-      uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       if: steps.plt_cache.outputs.cache-hit != 'true'
       with:
         key: |
