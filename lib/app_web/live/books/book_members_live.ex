@@ -73,7 +73,15 @@ defmodule AppWeb.BookMembersLive do
   end
 
   defp member_avatar(assigns) do
-    ~H|<.avatar name={@member.nickname} />|
+    if has_user?(assigns.member) do
+      ~H|<.avatar name={@member.nickname} />|
+    else
+      ~H|<.icon name={:user_circle} class="m-1" />|
+    end
+  end
+
+  defp has_user?(book_member) do
+    book_member.user_id != nil
   end
 
   @impl Phoenix.LiveView

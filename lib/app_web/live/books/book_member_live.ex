@@ -28,7 +28,14 @@ defmodule AppWeb.BookMemberLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.member_hero_avatar book_member={@book_member} />
+      <%= if @user do %>
+        <.member_hero_avatar book_member={@book_member} />
+      <% else %>
+        <div class="text-center my-4">
+          <.icon name={:user_circle} class="block size-[8rem] mx-auto" />
+          <span class="label">{@book_member.nickname}</span>
+        </div>
+      <% end %>
 
       <.alert_flash flash={@flash} kind={:error} class="mb-4" />
 
