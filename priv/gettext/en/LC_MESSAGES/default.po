@@ -48,10 +48,6 @@ msgid "Anacounts is a free and open-source software that helps you share expense
 msgstr "Anacounts is a free and open-source software that helps you share expensenses for a trip with your friend or in your household in a more fair way."
 
 #, elixir-autogen, elixir-format
-msgid "Anacounts uses Gravatar to display user avatars."
-msgstr "Anacounts uses Gravatar to display user avatars."
-
-#, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete the transfer?"
 msgstr "Are you sure you want to delete the transfer?"
 
@@ -78,10 +74,6 @@ msgstr "Before making the change effective, a confirmation email will be sent to
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
 msgstr "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
-
-#, elixir-autogen, elixir-format
-msgid "Change avatar"
-msgstr "Change avatar"
 
 #, elixir-autogen, elixir-format
 msgid "Change email"
@@ -220,16 +212,8 @@ msgid "Go back to sign in page."
 msgstr "Go back to sign in page."
 
 #, elixir-autogen, elixir-format
-msgid "Go to Gravatar"
-msgstr "Go to Gravatar"
-
-#, elixir-autogen, elixir-format
 msgid "Go to my account"
 msgstr "Go to my account"
-
-#, elixir-autogen, elixir-format
-msgid "Gravatar is a service providing globally unique avatars."
-msgstr "Gravatar is a service providing globally unique avatars."
 
 #, elixir-autogen, elixir-format
 msgid "Hello 👋 You have been invited to join a new book:"
@@ -569,10 +553,6 @@ msgid "This will prevent prevent any modification from being made to the book. T
 msgstr "This will prevent prevent any modification from being made to the book. The book can be reopened later. Are you sure you want to close the book?"
 
 #, elixir-autogen, elixir-format
-msgid "To edit your avatar, create an account and personalize your Gravatar."
-msgstr "To edit your avatar, create an account and personalize your Gravatar."
-
-#, elixir-autogen, elixir-format
 msgid "Transfers"
 msgstr "Transfers"
 
@@ -647,10 +627,6 @@ msgstr "You need to identify yourself. Who are you?"
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
 msgstr "You will join as the following member"
-
-#, elixir-autogen, elixir-format
-msgid "Your avatar"
-msgstr "Your avatar"
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"

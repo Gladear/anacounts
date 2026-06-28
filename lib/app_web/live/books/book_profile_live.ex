@@ -1,8 +1,7 @@
 defmodule AppWeb.BookProfileLive do
   use AppWeb, :live_view
 
-  import AppWeb.AccountsComponents, only: [hero_avatar: 1]
-  import AppWeb.BooksComponents, only: [balance_card_link: 1]
+  import AppWeb.BooksComponents, only: [balance_card_link: 1, member_hero_avatar: 1]
 
   alias App.Balance
 
@@ -22,7 +21,7 @@ defmodule AppWeb.BookProfileLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.hero_avatar user={@current_user} alt={gettext("Your avatar")} book_member={@current_member} />
+      <.member_hero_avatar book_member={@current_member} />
 
       <.card_grid>
         <.balance_card_link book_member={@current_member} />

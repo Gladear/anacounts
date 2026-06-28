@@ -5,8 +5,7 @@ defmodule AppWeb.BookMemberLive do
   """
   use AppWeb, :live_view
 
-  import AppWeb.AccountsComponents, only: [hero_avatar: 1]
-  import AppWeb.BooksComponents, only: [balance_card_link: 1]
+  import AppWeb.BooksComponents, only: [balance_card_link: 1, member_hero_avatar: 1]
 
   alias App.Accounts
   alias App.Balance
@@ -29,14 +28,7 @@ defmodule AppWeb.BookMemberLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <%= if @user do %>
-        <.hero_avatar user={@user} alt={gettext("Your avatar")} book_member={@book_member} />
-      <% else %>
-        <div class="text-center my-4">
-          <.icon name={:user_circle} class="block size-[8rem] mx-auto" />
-          <span class="label">{@book_member.nickname}</span>
-        </div>
-      <% end %>
+      <.member_hero_avatar book_member={@book_member} />
 
       <.alert_flash flash={@flash} kind={:error} class="mb-4" />
 

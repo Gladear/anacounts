@@ -63,6 +63,24 @@ defmodule AppWeb.BooksComponents do
     end
   end
 
+  ## Member hero avatar
+
+  @doc """
+  A component to display a book member in a hero layout.
+
+  Shows the member's initials avatar, nickname.
+  """
+  attr :book_member, BookMember, required: true
+
+  def member_hero_avatar(assigns) do
+    ~H"""
+    <div class="text-center my-4">
+      <.avatar name={@book_member.nickname} size={:hero} class="mx-auto" />
+      <span class="label">{@book_member.nickname}</span>
+    </div>
+    """
+  end
+
   @doc """
   Similar to `balance_card/1`, this component includes a link
   to the balance page of the book.

@@ -12,7 +12,6 @@ defmodule AppWeb.UserSettingsLiveTest do
         |> live(~p"/users/settings")
 
       assert html =~ "Change email"
-      assert html =~ "Change avatar"
       assert html =~ "Change password"
       assert html =~ "Disconnect"
     end

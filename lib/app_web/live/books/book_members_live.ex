@@ -8,7 +8,6 @@ defmodule AppWeb.BookMembersLive do
 
   import AppWeb.BooksComponents, only: [balance_text: 1]
 
-  alias App.Accounts.Avatars
   alias App.Balance
   alias App.Books
   alias App.Books.Members
@@ -74,15 +73,7 @@ defmodule AppWeb.BookMembersLive do
   end
 
   defp member_avatar(assigns) do
-    if has_user?(assigns.member) do
-      ~H|<.avatar src={Avatars.avatar_url(@member)} alt="" />|
-    else
-      ~H|<.icon name={:user_circle} class="m-1" />|
-    end
-  end
-
-  defp has_user?(book_member) do
-    book_member.user_id != nil
+    ~H|<.avatar name={@member.nickname} />|
   end
 
   @impl Phoenix.LiveView
