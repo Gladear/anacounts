@@ -47,7 +47,7 @@ defmodule AppWeb.BookMemberLiveTest do
 
     transfer =
       money_transfer_fixture(book,
-        amount: Money.new!(:EUR, 2),
+        amount: Decimal.new(2),
         tenant_id: member1.id
       )
 

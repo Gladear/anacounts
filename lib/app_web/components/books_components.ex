@@ -29,7 +29,7 @@ defmodule AppWeb.BooksComponents do
   defp balance_card_color(book_member) do
     cond do
       Balance.has_balance_error?(book_member) -> :neutral
-      Money.negative?(book_member.balance) -> :red
+      Decimal.negative?(book_member.balance) -> :red
       true -> :green
     end
   end
@@ -50,7 +50,7 @@ defmodule AppWeb.BooksComponents do
   defp balance_text_class(book_member) do
     cond do
       Balance.has_balance_error?(book_member) -> "text-neutral-500"
-      Money.negative?(book_member.balance) -> "text-red-500"
+      Decimal.negative?(book_member.balance) -> "text-red-500"
       true -> "text-green-500"
     end
   end
@@ -59,7 +59,7 @@ defmodule AppWeb.BooksComponents do
     if Balance.has_balance_error?(book_member) do
       "XX.XX"
     else
-      Money.to_string!(book_member.balance)
+      App.Money.to_string(book_member.balance)
     end
   end
 
