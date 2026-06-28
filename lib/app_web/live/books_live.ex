@@ -8,7 +8,6 @@ defmodule AppWeb.BooksLive do
 
   import AppWeb.FiltersComponents
 
-  alias App.Accounts.Avatars
   alias App.Books
 
   @impl Phoenix.LiveView
@@ -17,8 +16,9 @@ defmodule AppWeb.BooksLive do
     <div class="app-page">
       <header class="flex justify-between">
         <h1 class="title-1">{@page_title}</h1>
-        <.button kind={:ghost} navigate={~p"/users/settings"} class="p-1">
-          <.avatar src={Avatars.avatar_url(@current_user)} alt={gettext("My account")} />
+        <.button kind={:ghost} navigate={~p"/users/settings"} class="p-2">
+          <.icon name={:user_circle} />
+          {gettext("My account")}
         </.button>
       </header>
       <main>

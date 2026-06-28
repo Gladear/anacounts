@@ -92,28 +92,35 @@ defmodule AppWeb.CoreComponents do
   ## Avatar
 
   @doc """
-  An avatar is a visual representation of a user or entity.
+  An avatar is a visual representation of a person, displaying the initials of their name.
 
-  Avatar must always be accompanied by an `alt` attribute to provide a meaningful
-  description of the image for screen readers.
+  Renders a round element with the first letter of each word in `name` in uppercase.
   """
 
-  attr :src, :string, required: true
-  attr :alt, :string, required: true
+  attr :name, :string, required: true
   attr :size, :atom, default: :sm, values: [:sm, :hero]
 
   attr :rest, :global
 
   def avatar(assigns) do
-    assigns = prepend_class(assigns, ["avatar", avatar_size_class(assigns.size)])
+    assigns =
+      assigns
+      |> prepend_class(["avatar", avatar_size_class(assigns.size)])
+      |> assign(:initials, name_initials(assigns.name))
 
     ~H"""
-    <img src={@src} alt={@alt} {@rest} />
+    <div {@rest}>{@initials}</div>
     """
   end
 
   defp avatar_size_class(:sm), do: "avatar--sm"
   defp avatar_size_class(:hero), do: "avatar--hero"
+
+  defp name_initials(name) do
+    name
+    |> String.split()
+    |> Enum.map_join(&(&1 |> String.first() |> String.upcase()))
+  end
 
   ## breadcrumb
 

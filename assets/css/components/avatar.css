@@ -1,16 +1,19 @@
 @layer components {
   .avatar {
     @apply flex-none
-           object-cover
-           rounded-full;
+           flex items-center justify-center
+           rounded-full
+           bg-theme-100 text-theme-800 font-semibold
+           select-none;
   }
 
   .avatar--sm {
-    @apply size-sm;
+    @apply size-sm text-xs;
   }
 
   .avatar--hero {
     height: 8rem;
     width: 8rem;
+    @apply text-3xl;
   }
 }

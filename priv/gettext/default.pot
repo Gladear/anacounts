@@ -47,10 +47,6 @@ msgid "Anacounts is a free and open-source software that helps you share expense
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Anacounts uses Gravatar to display user avatars."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete the transfer?"
 msgstr ""
 
@@ -76,10 +72,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Change avatar"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -219,15 +211,7 @@ msgid "Go back to sign in page."
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Go to Gravatar"
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Go to my account"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Gravatar is a service providing globally unique avatars."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -568,10 +552,6 @@ msgid "This will prevent prevent any modification from being made to the book. T
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "To edit your avatar, create an account and personalize your Gravatar."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Transfers"
 msgstr ""
 
@@ -645,10 +625,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Your avatar"
 msgstr ""
 
 #, elixir-autogen, elixir-format

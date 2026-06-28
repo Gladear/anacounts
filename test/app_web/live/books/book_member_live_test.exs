@@ -24,7 +24,6 @@ defmodule AppWeb.BookMemberLiveTest do
     # display the avatar, nickname and email
     assert html =~ ~s(class="avatar)
     assert html =~ member.nickname
-    assert html =~ user.email
 
     # display the balance
     assert html =~ "€0.00"
