@@ -20,22 +20,118 @@ if System.get_env("PHX_SERVER") do
   config :app, AppWeb.Endpoint, server: true
 end
 
-if config_env() == :prod do
-  database_url =
-    System.get_env("DATABASE_URL") ||
+# ## Phoenix Endpoint
+# Configure the Phoenix endpoint to start the server on the correct port and host.
+
+# The `binding_*` variables are the one used by Phoenix to bind to a specified port
+# and address. Phoenix will listen the incoming requests on the configured IP and port.
+{binding_ip, binding_port} =
+  case config_env() do
+    :prod ->
+      port = System.get_env("PORT") || "4000"
+
+      # Enable IPv6 and bind on all interfaces.
+      {{0, 0, 0, 0, 0, 0, 0, 0}, port}
+
+    :dev ->
+      # Binding to loopback ipv4 address prevents access from other machines.
+      {{127, 0, 0, 1}, 4000}
+
+    :test ->
+      {{127, 0, 0, 1}, 4002}
+  end
+
+# The `exposed_*` variables are the one used to generate the URLs in the application,
+# through Phoenix' verified routes. They may be reused by further configuration which
+# may need to generate URLs, know the host of the application, etc.
+
+{exposed_scheme, exposed_host, exposed_port} =
+  cond do
+    config_env() == :test ->
+      {"http", "localhost", binding_port}
+
+    host = System.get_env("HOST") ->
+      # Assume that if the host is configured in dev, it's that people want to access
+      # the app through a reverse-proxy for HTTPS access.
+      {"https", host, 443}
+
+    config_env() == :prod ->
       raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
+      environment variable HOST is missing.
       """
 
-  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+    true ->
+      {"http", "localhost", binding_port}
+  end
 
-  config :app, App.Repo,
-    # ssl: true,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6
+# The secret key base is used to sign/encrypt cookies and other secrets.
+# A default value is used for :dev and :test environments, but we don't
+# to check the :prod value into version control, so we use an environment
+# variable instead.
+secret_key_base =
+  case config_env() do
+    :prod ->
+      System.get_env("SECRET_KEY_BASE") ||
+        raise """
+        environment variable SECRET_KEY_BASE is missing.
+        You can generate one by calling: mix phx.gen.secret
+        """
 
+    :dev ->
+      "Y8PSvX0+ZmmWKSfOyF3MRuaFKjHRwPA8IZKDm3A8RjiRF4jIoNq6cE07D1XWEdvV"
+
+    :test ->
+      "GHLDzAtB0iRfyK+gf+IQv69IFSZXgXQoYGyektl5fk90x/dxOW2WZ2OhH3XYvpK3"
+  end
+
+config :app, AppWeb.Endpoint,
+  url: [host: exposed_host, port: exposed_port, scheme: exposed_scheme],
+  secret_key_base: secret_key_base,
+  http: [ip: binding_ip, port: binding_port]
+
+# ## Ecto Repo
+#
+# Configure the connection to the database.
+
+cond do
+  config_env() == :dev ->
+    config :app, App.Repo,
+      username: "postgres",
+      password: "postgres",
+      hostname: "localhost",
+      database: "anacounts_dev",
+      stacktrace: true,
+      show_sensitive_data_on_connection_error: true
+
+  config_env() == :test ->
+    # The MIX_TEST_PARTITION environment variable can be used
+    # to provide built-in test partitioning in CI environment.
+    # Run `mix help test` for more information.
+
+    config :app, App.Repo,
+      username: "postgres",
+      password: "postgres",
+      hostname: "localhost",
+      database: "anacounts_test#{System.get_env("MIX_TEST_PARTITION")}",
+      pool: Ecto.Adapters.SQL.Sandbox
+
+  database_url = System.get_env("DATABASE_URL") ->
+    config :app, App.Repo, url: database_url, ssl: true
+
+  config_env() == :prod ->
+    raise """
+    environment variable DATABASE_URL is missing.
+    For example: ecto://USER:PASS@HOST/DATABASE
+    """
+end
+
+maybe_ecto_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+
+config :app, App.Repo,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  socket_options: maybe_ecto_ipv6
+
+if config_env() == :prod do
   # Configure Cloak's vault
   cloak_key =
     System.get_env("CLOAK_KEY") ||
@@ -46,36 +142,6 @@ if config_env() == :prod do
       default:
         {Cloak.Ciphers.AES.GCM, tag: "AES.GCM.V1", key: Base.decode64!(cloak_key), iv_length: 12}
     ]
-
-  # The secret key base is used to sign/encrypt cookies and other secrets.
-  # A default value is used in config/dev.exs and config/test.exs but you
-  # want to use a different value for prod and you most likely don't want
-  # to check this value into version control, so we use an environment
-  # variable instead.
-  secret_key_base =
-    System.get_env("SECRET_KEY_BASE") ||
-      raise """
-      environment variable SECRET_KEY_BASE is missing.
-      You can generate one by calling: mix phx.gen.secret
-      """
-
-  # For production, don't forget to configure the url host
-  # to something meaningful, Phoenix uses this information
-  # when generating URLs.
-
-  host =
-    System.get_env("HOST") ||
-      raise "environment variable HOST is missing."
-
-  config :app, AppWeb.Endpoint,
-    url: [host: host, port: 80],
-    http: [
-      # Enable IPv6 and bind on all interfaces.
-      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4000")
-    ],
-    secret_key_base: secret_key_base
 
   # ## Configuring the mailer
   #

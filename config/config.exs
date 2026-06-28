@@ -9,7 +9,8 @@ import Config
 
 # Configure Mix tasks and generators
 config :app,
-  ecto_repos: [App.Repo]
+  ecto_repos: [App.Repo],
+  generators: [context_app: :app]
 
 # Configures the mailer
 #
@@ -20,13 +21,8 @@ config :app,
 # at the `config/runtime.exs`.
 config :app, App.Mailer, adapter: Swoosh.Adapters.Local
 
-config :app,
-  ecto_repos: [App.Repo],
-  generators: [context_app: :app]
-
 # Configures the endpoint
 config :app, AppWeb.Endpoint,
-  url: [host: "localhost"],
   render_errors: [
     formats: [html: AppWeb.ErrorHTML, json: AppWeb.ErrorJSON],
     layout: false
