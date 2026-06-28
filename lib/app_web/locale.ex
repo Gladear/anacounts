@@ -8,7 +8,11 @@ defmodule AppWeb.Locale do
 
   @doc false
   def on_mount(:default, _params, session, socket) do
-    {:ok, _locale} = Cldr.Plug.put_locale_from_session(session)
+    {:ok, locale} = Localize.Plug.put_locale_from_session(session)
+
+    {:ok, gettext_locale} = Localize.Locale.gettext_locale_id(locale, AppWeb.Gettext)
+    Gettext.put_locale(gettext_locale)
+
     {:cont, socket}
   end
 end
