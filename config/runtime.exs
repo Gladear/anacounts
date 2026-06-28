@@ -89,22 +89,49 @@ config :app, AppWeb.Endpoint,
   secret_key_base: secret_key_base,
   http: [ip: binding_ip, port: binding_port]
 
+# ## Ecto Repo
+#
+# Configure the connection to the database.
+
+cond do
+  config_env() == :dev ->
+    config :app, App.Repo,
+      username: "postgres",
+      password: "postgres",
+      hostname: "localhost",
+      database: "anacounts_dev",
+      stacktrace: true,
+      show_sensitive_data_on_connection_error: true
+
+  config_env() == :test ->
+    # The MIX_TEST_PARTITION environment variable can be used
+    # to provide built-in test partitioning in CI environment.
+    # Run `mix help test` for more information.
+
+    config :app, App.Repo,
+      username: "postgres",
+      password: "postgres",
+      hostname: "localhost",
+      database: "anacounts_test#{System.get_env("MIX_TEST_PARTITION")}",
+      pool: Ecto.Adapters.SQL.Sandbox
+
+  database_url = System.get_env("DATABASE_URL") ->
+    config :app, App.Repo, url: database_url, ssl: true
+
+  config_env() == :prod ->
+    raise """
+    environment variable DATABASE_URL is missing.
+    For example: ecto://USER:PASS@HOST/DATABASE
+    """
+end
+
+maybe_ecto_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+
+config :app, App.Repo,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  socket_options: maybe_ecto_ipv6
+
 if config_env() == :prod do
-  database_url =
-    System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
-
-  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
-
-  config :app, App.Repo,
-    # ssl: true,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6
-
   # Configure Cloak's vault
   cloak_key =
     System.get_env("CLOAK_KEY") ||

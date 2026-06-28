@@ -9,7 +9,8 @@ import Config
 
 # Configure Mix tasks and generators
 config :app,
-  ecto_repos: [App.Repo]
+  ecto_repos: [App.Repo],
+  generators: [context_app: :app]
 
 # Configures the mailer
 #
@@ -19,10 +20,6 @@ config :app,
 # For production, a different adapter and identity are configured
 # at the `config/runtime.exs`.
 config :app, App.Mailer, adapter: Swoosh.Adapters.Local
-
-config :app,
-  ecto_repos: [App.Repo],
-  generators: [context_app: :app]
 
 # Configures the endpoint
 config :app, AppWeb.Endpoint,

@@ -1,15 +1,5 @@
 import Config
 
-# Configure your database
-config :app, App.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "anacounts_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 # Configure Cloak's vault
 config :app, App.Vault,
   ciphers: [
