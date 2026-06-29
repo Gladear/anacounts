@@ -116,7 +116,7 @@ cond do
       pool: Ecto.Adapters.SQL.Sandbox
 
   database_url = System.get_env("DATABASE_URL") ->
-    config :app, App.Repo, url: database_url, ssl: true
+    config :app, App.Repo, url: database_url
 
   config_env() == :prod ->
     raise """
