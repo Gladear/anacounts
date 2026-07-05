@@ -64,7 +64,7 @@ defmodule App.MixProject do
       {:bcrypt_elixir, "~> 3.1"},
 
       ## Business
-      {:decimal, "~> 2.1"},
+      {:decimal, "~> 3.1"},
       {:phoenix_pubsub, "~> 2.1"},
 
       ## Database
