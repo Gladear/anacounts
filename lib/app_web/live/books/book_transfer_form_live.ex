@@ -31,7 +31,13 @@ defmodule AppWeb.BookTransferFormLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.form for={@form} phx-change="validate" phx-submit="submit" class="space-y-4">
+      <.form
+        for={@form}
+        id="transfer-form"
+        phx-change="validate"
+        phx-submit="submit"
+        class="space-y-4"
+      >
         <section id="details" class="container space-y-2">
           <h2 class="title-2">{gettext("Details")}</h2>
 

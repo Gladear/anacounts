@@ -21,7 +21,13 @@ defmodule AppWeb.BookConfigurationNameLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.form for={@form} phx-change="validate" phx-submit="submit" class="container space-y-2">
+      <.form
+        for={@form}
+        id="book-name-form"
+        phx-change="validate"
+        phx-submit="submit"
+        class="container space-y-2"
+      >
         <p>
           {gettext("This is the current name of the book")}<br />
           <span class="label">{@book.name}</span>

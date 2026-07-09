@@ -19,7 +19,7 @@ defmodule AppWeb.BookMemberRevenuesLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.form for={@form} phx-change="validate" phx-submit="submit">
+      <.form for={@form} id="revenues-form" phx-change="validate" phx-submit="submit">
         <section class="container space-y-2 mb-4">
           <p>{revenues_balance_config_paragraph(assigns)}</p>
           <p>{gettext("What would you like to set them to?")}</p>

@@ -16,7 +16,13 @@ defmodule AppWeb.BookCreationLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.form for={@form} phx-change="validate" phx-submit="submit" class="container space-y-4">
+      <.form
+        for={@form}
+        id="book-creation-form"
+        phx-change="validate"
+        phx-submit="submit"
+        class="container space-y-4"
+      >
         <p>{gettext("What do you want to call your new book?")}</p>
 
         <.input
