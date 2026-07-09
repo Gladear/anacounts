@@ -22,7 +22,13 @@ defmodule AppWeb.BookReimbursementCreationLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.form for={@form} phx-change="validate" phx-submit="submit" class="container">
+      <.form
+        for={@form}
+        id="reimbursement-form"
+        phx-change="validate"
+        phx-submit="submit"
+        class="container"
+      >
         <section class="grid grid-cols-2 gap-y-2 gap-x-4 mb-4">
           <div class="col-span-2">
             <.input field={@form[:label]} type="text" label={gettext("Label")} required />
