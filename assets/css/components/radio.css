@@ -1,8 +1,8 @@
 @layer components {
-    .radio {
-        --radio-check-color: transparent;
-    
-        @apply shrink-0
+  .radio {
+    --radio-check-color: transparent;
+
+    @apply shrink-0
                relative
                size-[22px]
                p-1
@@ -11,7 +11,7 @@
                appearance-none
                outline-none
                transition-colors;
-      }
+  }
 
   .radio::after {
     @apply absolute

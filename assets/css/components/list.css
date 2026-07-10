@@ -14,7 +14,7 @@
   .list__item:not(:last-child) {
     margin-block-end: calc(1px + 0.5rem * 2);
   }
-  
+
   .list__item:not(:last-child)::after {
     content: "";
     @apply absolute
@@ -28,7 +28,7 @@
   .list__item--link {
     @apply transition-colors;
   }
-  
+
   .list__item--link:hover {
     @apply bg-neutral-500/10;
   }

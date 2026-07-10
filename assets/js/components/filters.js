@@ -44,7 +44,7 @@ function restoreState($container) {
     const values = state[name];
 
     for (const $input of $inputs) {
-      const checked = values.includes($input.value)
+      const checked = values.includes($input.value);
       hasChanged = hasChanged || $input.checked !== checked;
 
       $input.checked = checked;
