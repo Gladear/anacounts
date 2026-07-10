@@ -1,5 +1,12 @@
 {
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
+  },
   "dependencies": {
     "@floating-ui/dom": "^1.7.6"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.5"
   }
 }
