@@ -16,13 +16,11 @@ defmodule AppWeb.BookLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_item>{@page_title}</.breadcrumb_item>
       </:breadcrumb>
       <:title>{@page_title}</:title>
-
-      <.alert_flash flash={@flash} kind={:info} class="mb-4" />
 
       <.link :if={@no_revenues?} navigate={~p"/books/#{@book}/profile"}>
         <.alert kind={:warning}>

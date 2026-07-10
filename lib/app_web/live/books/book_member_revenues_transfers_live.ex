@@ -17,7 +17,7 @@ defmodule AppWeb.BookMemberRevenuesTransfersLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         {revenues_breadcrumbs(assigns)}
       </:breadcrumb>

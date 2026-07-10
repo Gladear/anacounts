@@ -5,7 +5,7 @@ defmodule AppWeb.UserSettingsEmailLive do
 
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_item navigate={~p"/users/settings"}>
           {gettext("My account")}
@@ -15,9 +15,6 @@ defmodule AppWeb.UserSettingsEmailLive do
         </.breadcrumb_item>
       </:breadcrumb>
       <:title>{@page_title}</:title>
-
-      <.alert_flash flash={@flash} kind={:info} class="mb-4" />
-      <.alert_flash flash={@flash} kind={:error} class="mb-4" />
 
       <.form
         for={@form}

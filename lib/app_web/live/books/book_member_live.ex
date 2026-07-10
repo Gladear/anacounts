@@ -16,7 +16,7 @@ defmodule AppWeb.BookMemberLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_ellipsis />
         <.breadcrumb_item navigate={~p"/books/#{@book}/members"}>
@@ -36,8 +36,6 @@ defmodule AppWeb.BookMemberLive do
           <span class="label">{@book_member.nickname}</span>
         </div>
       <% end %>
-
-      <.alert_flash flash={@flash} kind={:error} class="mb-4" />
 
       <.card_grid>
         <.balance_card_link book_member={@book_member} />
