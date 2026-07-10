@@ -45,6 +45,10 @@ RUN mkdir config
 COPY config/config.exs config/${MIX_ENV}.exs config/
 RUN mix deps.compile
 
+# Pre-download Localize's locale data so it's baked into the release
+# and doesn't need to be fetched at runtime.
+RUN mix localize.download_locales
+
 COPY priv priv
 COPY lib lib
 COPY assets assets
