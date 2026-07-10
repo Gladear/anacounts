@@ -17,7 +17,7 @@ defmodule AppWeb.BookMembersLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_item navigate={~p"/books/#{@book}"}>
           {@book.name}

@@ -21,6 +21,8 @@ defmodule AppWeb.PageComponents do
   It includes the breadcrumb, title, and the main content of the page.
   """
 
+  attr :flash, :map, required: true, doc: "The @flash assign"
+
   slot :breadcrumb, required: true
   slot :title, required: true
 
@@ -35,6 +37,7 @@ defmodule AppWeb.PageComponents do
         <h1 class="title-1 truncate">{render_slot(@title)}</h1>
       </header>
       <main>
+        <.alert_flash :for={kind <- [:info, :error]} flash={@flash} kind={kind} class="mb-4" />
         {render_slot(@inner_block)}
       </main>
     </div>

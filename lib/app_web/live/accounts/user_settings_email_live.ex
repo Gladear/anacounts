@@ -5,7 +5,7 @@ defmodule AppWeb.UserSettingsEmailLive do
 
   def render(assigns) do
     ~H"""
-    <.app_page>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_item navigate={~p"/users/settings"}>
           {gettext("My account")}
