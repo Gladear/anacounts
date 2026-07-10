@@ -5,11 +5,7 @@ const plugin = require("tailwindcss/plugin");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: [
-    "assets/js/**/*.js",
-    "lib/*_web.ex",
-    "lib/*_web/**/*.*ex",
-  ],
+  content: ["assets/js/**/*.js", "lib/*_web.ex", "lib/*_web/**/*.*ex"],
   theme: {
     borderRadius: {
       component: "0.375rem",
@@ -70,19 +66,19 @@ module.exports = {
       addVariant("phx-click-loading", [
         ".phx-click-loading&",
         ".phx-click-loading &",
-      ])
+      ]),
     ),
     plugin(({ addVariant }) =>
       addVariant("phx-submit-loading", [
         ".phx-submit-loading&",
         ".phx-submit-loading &",
-      ])
+      ]),
     ),
     plugin(({ addVariant }) =>
       addVariant("phx-change-loading", [
         ".phx-change-loading&",
         ".phx-change-loading &",
-      ])
+      ]),
     ),
   ],
 

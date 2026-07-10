@@ -1,0 +1,9 @@
+name: Assets style
+description: Check assets formatting with prettier
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check formatting
+      shell: bash
+      run: npm run lint --prefix assets
