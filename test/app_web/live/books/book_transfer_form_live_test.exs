@@ -109,7 +109,8 @@ defmodule AppWeb.BookTransferFormLiveTest do
     assert html =~ "Updated transfer"
 
     new_peer_ids =
-      Peer
+      money_transfer
+      |> Peer.transfer_query()
       |> Repo.all()
       |> Enum.map(& &1.id)
 
