@@ -16,9 +16,6 @@ defmodule AppWeb.UserSettingsEmailLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.alert_flash flash={@flash} kind={:info} class="mb-4" />
-      <.alert_flash flash={@flash} kind={:error} class="mb-4" />
-
       <.form
         for={@form}
         id="email_form"

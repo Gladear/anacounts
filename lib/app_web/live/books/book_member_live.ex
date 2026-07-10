@@ -37,8 +37,6 @@ defmodule AppWeb.BookMemberLive do
         </div>
       <% end %>
 
-      <.alert_flash flash={@flash} kind={:error} class="mb-4" />
-
       <.card_grid>
         <.balance_card_link book_member={@book_member} />
         <.card>

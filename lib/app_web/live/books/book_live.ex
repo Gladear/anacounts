@@ -22,8 +22,6 @@ defmodule AppWeb.BookLive do
       </:breadcrumb>
       <:title>{@page_title}</:title>
 
-      <.alert_flash flash={@flash} kind={:info} class="mb-4" />
-
       <.link :if={@no_revenues?} navigate={~p"/books/#{@book}/profile"}>
         <.alert kind={:warning}>
           <span class="grow">{gettext("Your revenues are not set")}</span>
