@@ -1,20 +1,9 @@
-name: Validate code
+name: Code style
+description: Check code formatting, lint with Credo, and check gettext files
 
 runs:
   using: "composite"
   steps:
-    - name: Check unused dependencies
-      shell: bash
-      run: mix deps.unlock --check-unused
-
-    - name: Check compilation
-      shell: bash
-      run: mix compile --warnings-as-errors
-
-    - name: Run dialyzer
-      shell: bash
-      run: mix dialyzer --format github
-
     - name: Check formatting
       shell: bash
       run: mix format --check-formatted
