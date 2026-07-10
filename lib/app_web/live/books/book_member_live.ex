@@ -5,7 +5,8 @@ defmodule AppWeb.BookMemberLive do
   """
   use AppWeb, :live_view
 
-  import AppWeb.BooksComponents, only: [balance_card_link: 1, member_hero_avatar: 1]
+  import AppWeb.BooksComponents,
+    only: [balance_card_link: 1, member_hero_avatar: 1, member_joined_at: 1]
 
   alias App.Accounts
   alias App.Balance
@@ -41,7 +42,7 @@ defmodule AppWeb.BookMemberLive do
         <.balance_card_link book_member={@book_member} />
         <.card>
           <:title>{gettext("Joined on")}</:title>
-          {format_date(@book_member.inserted_at)}
+          {member_joined_at(@book_member)}
         </.card>
         <.link
           navigate={is_nil(@user) && ~p"/books/#{@book}/members/#{@book_member}/revenues"}

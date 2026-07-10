@@ -96,4 +96,12 @@ defmodule AppWeb.BooksComponents do
     </.link>
     """
   end
+
+  @doc """
+  Formats the date a book member joined, for display in a detail card.
+  """
+  @spec member_joined_at(BookMember.t()) :: String.t()
+  def member_joined_at(%BookMember{} = book_member) do
+    Localize.Date.to_string!(book_member.inserted_at, format: :long)
+  end
 end

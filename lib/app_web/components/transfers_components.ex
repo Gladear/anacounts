@@ -82,7 +82,7 @@ defmodule AppWeb.TransfersComponents do
         {@transfer.tenant.nickname}
       </span>
       <span class="label truncate text-right">
-        {format_date(@transfer.date)}
+        {format_transfer_date(@transfer.date)}
         <.icon name={:calendar} />
       </span>
       <span class="label truncate text-left">
@@ -101,7 +101,7 @@ defmodule AppWeb.TransfersComponents do
         {@transfer.tenant.nickname}
       </span>
       <span class="label truncate text-right">
-        {format_date(@transfer.date)}
+        {format_transfer_date(@transfer.date)}
         <.icon name={:calendar} />
       </span>
       <span class="label truncate text-left">
@@ -114,6 +114,10 @@ defmodule AppWeb.TransfersComponents do
       </span>
     </div>
     """
+  end
+
+  defp format_transfer_date(date) do
+    Localize.Date.to_string!(date, format: :short)
   end
 
   defp format_balance_params_code(:divide_equally), do: gettext("Divided")

@@ -30,7 +30,7 @@ defmodule AppWeb.BookMemberLiveTest do
 
     # display the creation date
     assert html =~ "Joined on"
-    assert html =~ ~r/\d{2}-\d{2}-\d{4}/
+    assert html =~ ~r/[A-Z][a-z]+ \d{1,2}, \d{4}/
 
     # display the set revenues card, without a link since the user is already linked
     assert html =~ "Set revenues"
