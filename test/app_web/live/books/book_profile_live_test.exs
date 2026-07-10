@@ -52,7 +52,7 @@ defmodule AppWeb.BookProfileLiveTest do
       {:ok, _live, html} = live(conn, ~p"/books/#{member.book_id}/profile")
 
       assert html =~ "Joined on"
-      assert html =~ "05-10-2022"
+      assert html =~ "October 5, 2022"
     end
   end
 

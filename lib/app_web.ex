@@ -99,9 +99,6 @@ defmodule AppWeb do
       import AppWeb.PageComponents
       unquote(gettext())
 
-      # Import shared functions
-      import AppWeb.DateFormatHelpers
-
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
