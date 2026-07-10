@@ -32,10 +32,17 @@ jobs:
         with:
           otp-version: ${{ steps.elixir-install.outputs.otp-version }}
           elixir-version: ${{ steps.elixir-install.outputs.elixir-version }}
+      - name: Setup Node
+        uses: ./.github/actions/setup-node
+      - name: Build assets
+        uses: ./.github/actions/build-assets
+
       - name: Check dependencies
         uses: ./.github/actions/test-elixir-deps
       - name: Run code style checks
         uses: ./.github/actions/test-elixir-code
+      - name: Check assets style
+        uses: ./.github/actions/test-assets
       - name: Build PLT
         uses: ./.github/actions/build-plt
         with:

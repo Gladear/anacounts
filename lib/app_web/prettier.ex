@@ -31,7 +31,10 @@ if Mix.env() == :dev do
       try do
         File.write!(tmp_file, content)
 
-        case System.cmd("npx", ["prettier", tmp_file], stderr_to_stdout: true) do
+        case System.cmd("npx", ["prettier", tmp_file],
+               cd: Path.expand("assets", File.cwd!()),
+               stderr_to_stdout: true
+             ) do
           {output, 0} ->
             {:ok, String.trim(output)}
 
