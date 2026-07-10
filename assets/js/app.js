@@ -20,6 +20,7 @@ import "phoenix_html";
 // Establish Phoenix Socket and LiveView configuration.
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
+import { hooks } from "phoenix-colocated/app";
 import topbar from "../vendor/topbar";
 
 // Initialize app events handlers
@@ -34,6 +35,7 @@ let csrfToken = document
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
   params: { _csrf_token: csrfToken },
+  hooks,
 });
 
 // Show progress bar on live navigation and form submits
