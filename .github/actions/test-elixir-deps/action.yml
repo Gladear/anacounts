@@ -1,0 +1,9 @@
+name: Dependency check
+description: Check for unused dependencies
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check unused dependencies
+      shell: bash
+      run: mix deps.unlock --check-unused

@@ -24,10 +24,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Setup test environment
-        uses: ./.github/actions/test-setup
-      - name: Run code validation
-        uses: ./.github/actions/test-code
+      - name: Setup Elixir
+        id: elixir-install
+        uses: ./.github/actions/setup-elixir
+      - name: Build project
+        uses: ./.github/actions/build-elixir
+        with:
+          otp-version: ${{ steps.elixir-install.outputs.otp-version }}
+          elixir-version: ${{ steps.elixir-install.outputs.elixir-version }}
+      - name: Check dependencies
+        uses: ./.github/actions/test-elixir-deps
+      - name: Run code style checks
+        uses: ./.github/actions/test-elixir-code
+      - name: Build PLT
+        uses: ./.github/actions/build-plt
+        with:
+          otp-version: ${{ steps.elixir-install.outputs.otp-version }}
+          elixir-version: ${{ steps.elixir-install.outputs.elixir-version }}
+      - name: Run dialyzer
+        uses: ./.github/actions/test-dialyzer
 
   test:
     name: Build and test
@@ -51,10 +66,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-      - name: Setup test environment
-        uses: ./.github/actions/test-setup
+      - name: Setup Elixir
+        id: elixir-install
+        uses: ./.github/actions/setup-elixir
+      - name: Build project
+        uses: ./.github/actions/build-elixir
+        with:
+          otp-version: ${{ steps.elixir-install.outputs.otp-version }}
+          elixir-version: ${{ steps.elixir-install.outputs.elixir-version }}
       - name: Run unit tests
-        uses: ./.github/actions/test-unit
+        uses: ./.github/actions/test-elixir-unit
 
   dockerfile:
     name: Validate Dockerfile

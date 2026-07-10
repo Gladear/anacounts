@@ -1,0 +1,9 @@
+name: Dialyzer
+description: Run dialyzer
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run dialyzer
+      shell: bash
+      run: mix dialyzer --format github
