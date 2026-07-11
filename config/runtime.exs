@@ -43,7 +43,8 @@ end
 
 # The `exposed_*` variables are the one used to generate the URLs in the application,
 # through Phoenix' verified routes. They may be reused by further configuration which
-# may need to generate URLs, know the host of the application, etc.
+# may need to generate URLs, know the host of the application, etc. Note that a special
+# `exposed_url` variable is defined based on these three values, and may be used as well.
 
 {exposed_scheme, exposed_host, exposed_port} =
   cond do
@@ -63,6 +64,15 @@ end
     true ->
       {"http", "localhost", binding_port}
   end
+
+port_suffix =
+  case {exposed_scheme, exposed_port} do
+    {"http", 80} -> ""
+    {"https", 443} -> ""
+    {_, port} -> ":#{port}"
+  end
+
+exposed_url = "#{exposed_scheme}://#{exposed_host}#{port_suffix}"
 
 # The secret key base is used to sign/encrypt cookies and other secrets.
 # A default value is used for :dev and :test environments, but we don't
@@ -88,6 +98,16 @@ config :app, AppWeb.Endpoint,
   url: [host: exposed_host, port: exposed_port, scheme: exposed_scheme],
   secret_key_base: secret_key_base,
   http: [ip: binding_ip, port: binding_port]
+
+# ## WebAuthn / Passkeys
+#
+# The relying party origin and ID are derived from the same host/scheme/port used to
+# generate application URLs, so passkeys work both locally and in environments
+# configured via the HOST environment variable.
+config :app, App.Accounts.Webauthn,
+  origin: exposed_url,
+  rp_id: exposed_host,
+  rp_name: "Anacounts"
 
 # ## Ecto Repo
 #

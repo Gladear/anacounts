@@ -73,6 +73,13 @@ defmodule AppWeb.UserSettingsPasskeysLive do
           </li>
         </ul>
       </section>
+
+      <.divider class="my-4" />
+      <.card_grid>
+        <.link navigate={~p"/users/settings/passkeys/new"}>
+          <.card_button icon={:plus}>{gettext("Add a passkey")}</.card_button>
+        </.link>
+      </.card_grid>
     </.app_page>
     """
   end

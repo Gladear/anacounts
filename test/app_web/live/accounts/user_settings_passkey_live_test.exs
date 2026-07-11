@@ -120,4 +120,19 @@ defmodule AppWeb.UserSettingsPasskeysLiveTest do
       assert Accounts.get_user_passkey!(user, passkey.id)
     end
   end
+
+  describe "add a passkey" do
+    test "navigates to the dedicated passkey creation page", %{conn: conn} do
+      {:ok, lv, _html} = live(conn, ~p"/users/settings/passkeys")
+      render_async(lv)
+
+      {:ok, _new_lv, html} =
+        lv
+        |> element("a", "Add a passkey")
+        |> render_click()
+        |> follow_redirect(conn, ~p"/users/settings/passkeys/new")
+
+      assert html =~ "Add a passkey"
+    end
+  end
 end
