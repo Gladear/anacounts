@@ -130,7 +130,6 @@ defmodule App.Books do
       |> Ecto.Multi.insert(:book, Book.name_changeset(%Book{}, attrs))
       |> Ecto.Multi.insert(:creator, fn %{book: book} ->
         member = %BookMember{
-          role: :creator,
           book_id: book.id,
           user_id: creator.id
         }

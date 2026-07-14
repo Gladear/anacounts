@@ -28,7 +28,7 @@ defmodule App.BooksTest do
     setup do
       book = book_fixture()
       user = user_fixture()
-      _member = book_member_fixture(book, user_id: user.id, role: :creator)
+      _member = book_member_fixture(book, user_id: user.id)
       %{book: book, user: user}
     end
 
@@ -57,7 +57,7 @@ defmodule App.BooksTest do
     setup do
       book = book_fixture()
       user = user_fixture()
-      _member = book_member_fixture(book, user_id: user.id, role: :creator)
+      _member = book_member_fixture(book, user_id: user.id)
       %{book: book, user: user}
     end
 
@@ -179,7 +179,6 @@ defmodule App.BooksTest do
       assert book.name == "A valid book name !"
 
       assert member = Members.get_membership(book, user)
-      assert member.role == :creator
       assert member.nickname == "Creator nickname"
     end
 

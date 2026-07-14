@@ -20,7 +20,7 @@ defmodule AppWeb.BookAccessTest do
   describe "on_mount: ensure_book!" do
     test "assigns the book found in parameters", %{socket: socket, user: user} do
       book = book_fixture()
-      member = book_member_fixture(book, user_id: user.id, role: :creator)
+      member = book_member_fixture(book, user_id: user.id)
 
       {:cont, updated_socket} =
         BookAccess.on_mount(:ensure_book!, %{"book_id" => book.id}, nil, socket)

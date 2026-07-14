@@ -39,7 +39,6 @@ defmodule AppWeb.BookCreationLiveTest do
 
     member = Repo.get_by(BookMember, book_id: book.id, user_id: user.id)
     assert member.nickname == "Creator name"
-    assert member.role == :creator
   end
 
   test "shows errors from both name and nickname inputs", %{conn: conn} do

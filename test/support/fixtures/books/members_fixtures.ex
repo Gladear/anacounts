@@ -10,7 +10,6 @@ defmodule App.Books.MembersFixtures do
 
   def book_member_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      role: :member,
       nickname: "Member #{System.unique_integer()}"
     })
   end

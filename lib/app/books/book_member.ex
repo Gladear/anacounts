@@ -32,7 +32,7 @@ defmodule App.Books.BookMember do
 
   schema "book_members" do
     belongs_to :book, Book
-    field :role, Ecto.Enum, values: [:creator, :member]
+    field :role, Ecto.Enum, values: [:creator, :member], default: :member
 
     belongs_to :user, User
 
