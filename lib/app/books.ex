@@ -51,7 +51,6 @@ defmodule App.Books do
   ## Filters
 
   - `:sort_by` - the field to sort by, one of :alphabetically or :last_created
-  - `:owned_by` - the ownership of the book, one of :anyone, :me or :others
   - `:close_state` - the close state of the book, one of :any, :open or :closed
   """
   @spec list_books_of_user(User.t(), map()) :: [Book.t()]
@@ -75,7 +74,6 @@ defmodule App.Books do
 
   @filters_default %{
     sort_by: :last_created,
-    owned_by: [],
     close_state: []
   }
   @filters_types %{
@@ -83,7 +81,6 @@ defmodule App.Books do
       Ecto.ParameterizedType.init(Ecto.Enum,
         values: [:last_created, :first_created, :alphabetically]
       ),
-    owned_by: {:array, Ecto.ParameterizedType.init(Ecto.Enum, values: [:me, :others])},
     close_state: {:array, Ecto.ParameterizedType.init(Ecto.Enum, values: [:open, :closed])}
   }
 
@@ -95,7 +92,6 @@ defmodule App.Books do
 
     query
     |> sort_books_by(filters[:sort_by])
-    |> filter_books_by_ownership(filters[:owned_by])
     |> filter_books_by_close_state(filters[:close_state])
   end
 
@@ -108,15 +104,6 @@ defmodule App.Books do
 
   defp sort_books_by(query, :alphabetically),
     do: from([book: book] in query, order_by: [asc: book.name])
-
-  # filter `:owned_by`
-  defp filter_books_by_ownership(query, [:me]),
-    do: from([current_member: current_member] in query, where: current_member.role == :creator)
-
-  defp filter_books_by_ownership(query, [:others]),
-    do: from([current_member: current_member] in query, where: current_member.role != :creator)
-
-  defp filter_books_by_ownership(query, _empty_or_both), do: query
 
   # filter `:close_state`
 

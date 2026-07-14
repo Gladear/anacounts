@@ -36,14 +36,6 @@ defmodule AppWeb.BooksLive do
           phx-change="filters"
           filters={[
             multi_select(
-              name: "owned_by",
-              label: gettext("Owned by"),
-              options: [
-                me: gettext("Me"),
-                others: gettext("Others")
-              ]
-            ),
-            multi_select(
               name: "close_state",
               label: gettext("State"),
               options: [
