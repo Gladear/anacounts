@@ -1,7 +1,6 @@
 defmodule App.Books.BookMember do
   @moduledoc """
   The link between a book and a user.
-  It contains the role of the user for this particular book.
   """
   use Ecto.Schema
   import Ecto.Changeset
@@ -17,7 +16,6 @@ defmodule App.Books.BookMember do
           id: id(),
           book_id: Book.id(),
           book: Book.t(),
-          role: :creator | :member,
           user_id: User.id() | nil,
           user: User.t() | nil,
           deleted_at: NaiveDateTime.t() | nil,
@@ -32,7 +30,6 @@ defmodule App.Books.BookMember do
 
   schema "book_members" do
     belongs_to :book, Book
-    field :role, Ecto.Enum, values: [:creator, :member], default: :member
 
     belongs_to :user, User
 
