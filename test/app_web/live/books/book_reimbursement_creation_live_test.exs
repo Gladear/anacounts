@@ -25,6 +25,15 @@ defmodule AppWeb.BookReimbursementCreationLiveTest do
     assert html =~ "Create reimbursement"
   end
 
+  test "does not propose archived members", %{conn: conn, book: book} do
+    _archived_member =
+      book_member_fixture(book, nickname: "Archie", archived_at: NaiveDateTime.utc_now(:second))
+
+    {:ok, _live, html} = live(conn, ~p"/books/#{book}/reimbursements/new")
+
+    refute html =~ "Archie"
+  end
+
   test "includes params as default values", %{conn: conn, book: book} do
     member1 = book_member_fixture(book, nickname: "Member 1")
     member2 = book_member_fixture(book, nickname: "Member 2")

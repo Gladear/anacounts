@@ -110,6 +110,15 @@ defmodule App.Books.BookMember do
   end
 
   @doc """
+  Filters down an `%Ecto.Query{}` to only return non-archived book members.
+  """
+  @spec non_archived_query(Ecto.Queryable.t()) :: Ecto.Query.t()
+  def non_archived_query(query) do
+    from [book_member: book_member] in query,
+      where: is_nil(book_member.archived_at)
+  end
+
+  @doc """
   Updates an `%Ecto.Query{}` to select the `:email` of book members.
   """
   @spec select_email(Ecto.Query.t()) :: Ecto.Query.t()

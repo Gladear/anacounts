@@ -31,11 +31,22 @@ defmodule App.Books.Members do
   end
 
   @doc """
-  Lists all members of a book that are not linked to a user.
+  List members of the book that are not archived.
+  """
+  @spec list_active_book_members(Book.t()) :: [BookMember.t()]
+  def list_active_book_members(book) do
+    members_of_book_query(book)
+    |> BookMember.non_archived_query()
+    |> Repo.all()
+  end
+
+  @doc """
+  Lists all members of a book that are not linked to a user and not archived.
   """
   @spec list_unlinked_members_of_book(Book.t()) :: [BookMember.t()]
   def list_unlinked_members_of_book(book) do
     members_of_book_query(book)
+    |> BookMember.non_archived_query()
     |> where([book_member: book_member], is_nil(book_member.user_id))
     |> Repo.all()
   end
@@ -56,7 +67,10 @@ defmodule App.Books.Members do
   defp members_of_book_query(book) do
     from([book_member: book_member] in BookMember.book_query(book),
       left_join: user in assoc(book_member, :user),
-      order_by: [asc: book_member.nickname]
+      order_by: [
+        asc: not is_nil(book_member.archived_at),
+        asc: book_member.nickname
+      ]
     )
     |> BookMember.select_email()
   end
