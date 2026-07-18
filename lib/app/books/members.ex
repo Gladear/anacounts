@@ -65,14 +65,11 @@ defmodule App.Books.Members do
   end
 
   defp members_of_book_query(book) do
-    from([book_member: book_member] in BookMember.book_query(book),
-      left_join: user in assoc(book_member, :user),
+    from [book_member: book_member] in BookMember.book_query(book),
       order_by: [
         asc: not is_nil(book_member.archived_at),
         asc: book_member.nickname
       ]
-    )
-    |> BookMember.select_email()
   end
 
   @doc """
