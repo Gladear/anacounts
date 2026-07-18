@@ -6,6 +6,7 @@ defmodule AppWeb.BookTransferFormLive do
 
   use AppWeb, :live_view
 
+  import AppWeb.BooksComponents, only: [book_member_avatar: 1]
   import Ecto.Query
 
   alias App.Books
@@ -209,7 +210,7 @@ defmodule AppWeb.BookTransferFormLive do
       assign(assigns, :member, member)
 
     ~H"""
-    <.avatar name={@member.nickname} />
+    <.book_member_avatar book_member={@member} />
     <span class="label truncate">{@member.nickname}</span>
     """
   end
