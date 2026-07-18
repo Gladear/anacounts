@@ -98,13 +98,19 @@ defmodule AppWeb.BookLive do
   end
 
   defp members_count(book) do
-    from([book_member: book_member] in BookMember.book_query(book),
-      select: %{
-        total: count(),
-        unlinked: fragment("? FILTER (WHERE ?)", count(), is_nil(book_member.user_id))
-      }
-    )
-    |> Repo.one!()
+    base_query =
+      book
+      |> BookMember.book_query()
+      |> BookMember.non_archived_query()
+
+    count_query =
+      from book_member in base_query,
+        select: %{
+          total: count(),
+          unlinked: filter(count(), is_nil(book_member.user_id))
+        }
+
+    Repo.one!(count_query)
   end
 
   defp latest_transfers(book) do

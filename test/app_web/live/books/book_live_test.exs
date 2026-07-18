@@ -148,14 +148,21 @@ defmodule AppWeb.BookLiveTest do
 
       {:ok, _live, html} = live(conn, ~p"/books/#{book}")
 
-      member_card_text =
-        html
-        |> LazyHTML.from_fragment()
-        |> LazyHTML.query("[href='/books/#{book.id}/members']")
-        |> LazyHTML.text()
+      assert member_card_lines(html, book) == ["Members", "3", "2 unlinked"]
+    end
 
-      assert member_card_text =~ "3"
-      assert member_card_text =~ "2 unlinked"
+    test "excludes archived members from the count", %{conn: conn, book: book} do
+      _member2 = book_member_fixture(book, nickname: "Member2")
+
+      _archived_member =
+        book_member_fixture(book,
+          nickname: "NotCounted",
+          archived_at: NaiveDateTime.utc_now(:second)
+        )
+
+      {:ok, _live, html} = live(conn, ~p"/books/#{book}")
+
+      assert member_card_lines(html, book) == ["Members", "2", "1 unlinked"]
     end
 
     test "navigates to the book members", %{conn: conn, book: book} do
@@ -168,6 +175,20 @@ defmodule AppWeb.BookLiveTest do
                |> follow_redirect(conn, ~p"/books/#{book}/members")
 
       assert html =~ "Members"
+    end
+
+    defp member_card_lines(html, book) do
+      member_card_text =
+        html
+        |> LazyHTML.from_fragment()
+        |> LazyHTML.query("[href='/books/#{book.id}/members']")
+        |> LazyHTML.text()
+
+      for line <- String.split(member_card_text, "\n"),
+          trimmed_line = String.trim(line),
+          trimmed_line != "" do
+        trimmed_line
+      end
     end
   end
 
