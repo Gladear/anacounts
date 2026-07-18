@@ -20,6 +20,10 @@ msgid "%{count} unlinked"
 msgstr "%{count} sans utilisateur"
 
 #, elixir-autogen, elixir-format
+msgid "(Archived)"
+msgstr "(Archivé)"
+
+#, elixir-autogen, elixir-format
 msgid "A link to confirm your email change has been sent to the new address."
 msgstr "Un lien de confirmation a été envoyé à votre nouvelle adresse."
 
@@ -46,6 +50,14 @@ msgstr "Montant"
 #, elixir-autogen, elixir-format
 msgid "Anacounts is a free and open-source software that helps you share expensenses for a trip with your friend or in your household in a more fair way."
 msgstr "Anacounts est un logiciel gratuit et open source aidant à rendre la répartition des dépenses de vos voyages ou de votre foyer plus juste."
+
+#, elixir-autogen, elixir-format
+msgid "Archive"
+msgstr "Archiver"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to archive this member?"
+msgstr "Êtes-vous certain de vouloir archiver ce membre ?"
 
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete the transfer?"
@@ -513,6 +525,14 @@ msgid "The main difference with invited members is that you can see and edit rev
 msgstr "La différence principale avec les membres invités est que vous pouvez voir et modifier les revenues des membres sans utilisateurs."
 
 #, elixir-autogen, elixir-format
+msgid "The member is linked to a user and cannot be archived."
+msgstr "Le member est lié à un utilisateur et ne peut pas être archivé."
+
+#, elixir-autogen, elixir-format
+msgid "The member's balance must be settled before archiving."
+msgstr "Le solde de ce membre doit être à zéro avec de l'archiver."
+
+#, elixir-autogen, elixir-format
 msgid "There is no transfer in the book for now. You can finish the operation safely!"
 msgstr "Il n'y a pas de transfert dans le livret pour le moment. Vous pouvez terminer l'opération !"
 
@@ -555,6 +575,10 @@ msgstr "Transferts"
 #, elixir-autogen, elixir-format
 msgid "Type your new password again here"
 msgstr "Taper votre nouveau mot de passe encore une fois ici"
+
+#, elixir-autogen, elixir-format
+msgid "Unarchive"
+msgstr "Désarchiver"
 
 #, elixir-autogen, elixir-format
 msgid "View profile"
