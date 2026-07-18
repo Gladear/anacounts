@@ -63,6 +63,22 @@ defmodule AppWeb.BooksComponents do
     end
   end
 
+  @doc """
+  Similar to `balance_card/1`, this component includes a link
+  to the balance page of the book.
+  """
+  attr :book_member, BookMember, required: true
+
+  def balance_card_link(assigns) do
+    ~H"""
+    <.link navigate={~p"/books/#{@book_member.book_id}/balance"}>
+      <.balance_card book_member={@book_member}>
+        <:extra_title><.icon name={:chevron_right} /></:extra_title>
+      </.balance_card>
+    </.link>
+    """
+  end
+
   ## Member hero avatar
 
   @doc """
@@ -78,22 +94,6 @@ defmodule AppWeb.BooksComponents do
       <.avatar name={@book_member.nickname} size={:hero} class="mx-auto" />
       <span class="label">{@book_member.nickname}</span>
     </div>
-    """
-  end
-
-  @doc """
-  Similar to `balance_card/1`, this component includes a link
-  to the balance page of the book.
-  """
-  attr :book_member, BookMember, required: true
-
-  def balance_card_link(assigns) do
-    ~H"""
-    <.link navigate={~p"/books/#{@book_member.book_id}/balance"}>
-      <.balance_card book_member={@book_member}>
-        <:extra_title><.icon name={:chevron_right} /></:extra_title>
-      </.balance_card>
-    </.link>
     """
   end
 
