@@ -18,7 +18,6 @@ defmodule App.Books.BookMember do
           book: Book.t(),
           user_id: User.id() | nil,
           user: User.t() | nil,
-          deleted_at: NaiveDateTime.t() | nil,
           archived_at: NaiveDateTime.t() | nil,
           nickname: String.t(),
           email: String.t(),
@@ -34,7 +33,6 @@ defmodule App.Books.BookMember do
 
     belongs_to :user, User
 
-    field :deleted_at, :naive_datetime
     field :archived_at, :naive_datetime
 
     # When the member is not linked to a user, the display name falls back to the book
