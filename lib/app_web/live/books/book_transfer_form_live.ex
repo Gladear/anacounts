@@ -202,7 +202,7 @@ defmodule AppWeb.BookTransferFormLive do
     ]
   end
 
-  def peer_form_profile(%{form: form} = assigns) do
+  defp peer_form_profile(%{form: form} = assigns) do
     member = Ecto.Changeset.fetch_field!(form.source, :member)
 
     assigns =
