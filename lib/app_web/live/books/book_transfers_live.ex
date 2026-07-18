@@ -219,10 +219,11 @@ defmodule AppWeb.BookTransfersLive do
     book = socket.assigns.book
 
     book_members_options =
-      from(book_member in BookMember.book_query(book),
-        order_by: [asc: book_member.nickname],
-        select: {book_member.id, book_member.nickname}
-      )
+      book
+      |> BookMember.book_query()
+      |> BookMember.non_archived_query()
+      |> order_by(asc: :nickname)
+      |> select([book_member], {book_member.id, book_member.nickname})
       |> Repo.all()
 
     assign(socket, :book_members_options, book_members_options)

@@ -8,57 +8,73 @@ defmodule AppWeb.BookTransfersLiveTest do
 
   setup [:register_and_log_in_user, :book_with_member_context]
 
-  test "lists book money transfers", %{conn: conn, book: book, member: member} do
-    money_transfer = money_transfer_fixture(book, tenant_id: member.id)
+  describe "Transfers list" do
+    test "lists book money transfers", %{conn: conn, book: book, member: member} do
+      money_transfer = money_transfer_fixture(book, tenant_id: member.id)
 
-    other_book = book_fixture()
+      other_book = book_fixture()
 
-    other_money_transfer =
-      money_transfer_fixture(other_book,
-        tenant_id: member.id,
-        label: "Other book money transfer"
-      )
+      other_money_transfer =
+        money_transfer_fixture(other_book,
+          tenant_id: member.id,
+          label: "Other book money transfer"
+        )
 
-    {:ok, _index_live, html} = live(conn, ~p"/books/#{book}/transfers")
+      {:ok, _index_live, html} = live(conn, ~p"/books/#{book}/transfers")
 
-    assert html =~ "Transfers"
-    assert html =~ money_transfer.label
-    refute html =~ other_money_transfer.label
+      assert html =~ "Transfers"
+      assert html =~ money_transfer.label
+      refute html =~ other_money_transfer.label
+    end
+
+    test "allows to go to edit form", %{conn: conn, book: book, member: member} do
+      money_transfer = money_transfer_fixture(book, tenant_id: member.id)
+
+      {:ok, index_live, html} = live(conn, ~p"/books/#{book}/transfers")
+
+      assert html =~ "Transfers"
+      assert html =~ money_transfer.label
+
+      {:ok, _edit_live, html} =
+        index_live
+        |> element(".button", "Edit")
+        |> render_click()
+        |> follow_redirect(conn, ~p"/books/#{book}/transfers/#{money_transfer}/edit")
+
+      assert html =~ "Save"
+      assert html =~ "<form"
+      assert html =~ money_transfer.label
+    end
+
+    test "allows to delete a transfer", %{conn: conn, book: book, member: member} do
+      money_transfer = money_transfer_fixture(book, tenant_id: member.id)
+
+      {:ok, index_live, html} = live(conn, ~p"/books/#{book}/transfers")
+
+      assert html =~ "Transfers"
+      assert html =~ money_transfer.label
+
+      html =
+        index_live
+        |> element(".button", "Delete")
+        |> render_click()
+
+      refute html =~ money_transfer.label
+    end
   end
 
-  test "allows to go to edit form", %{conn: conn, book: book, member: member} do
-    money_transfer = money_transfer_fixture(book, tenant_id: member.id)
+  describe "List filters" do
+    test "does not list archived members in the created by filter", %{conn: conn, book: book} do
+      archived_member =
+        book_member_fixture(book,
+          nickname: "Archived member",
+          archived_at: NaiveDateTime.utc_now(:second)
+        )
 
-    {:ok, index_live, html} = live(conn, ~p"/books/#{book}/transfers")
+      {:ok, _index_live, html} = live(conn, ~p"/books/#{book}/transfers")
 
-    assert html =~ "Transfers"
-    assert html =~ money_transfer.label
-
-    {:ok, _edit_live, html} =
-      index_live
-      |> element(".button", "Edit")
-      |> render_click()
-      |> follow_redirect(conn, ~p"/books/#{book}/transfers/#{money_transfer}/edit")
-
-    assert html =~ "Save"
-    assert html =~ "<form"
-    assert html =~ money_transfer.label
-  end
-
-  test "allows to delete a transfer", %{conn: conn, book: book, member: member} do
-    money_transfer = money_transfer_fixture(book, tenant_id: member.id)
-
-    {:ok, index_live, html} = live(conn, ~p"/books/#{book}/transfers")
-
-    assert html =~ "Transfers"
-    assert html =~ money_transfer.label
-
-    html =
-      index_live
-      |> element(".button", "Delete")
-      |> render_click()
-
-    refute html =~ money_transfer.label
+      refute html =~ archived_member.nickname
+    end
   end
 
   # Depends on :register_and_log_in_user
