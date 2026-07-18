@@ -117,6 +117,51 @@ defmodule AppWeb.BookTransferFormLiveTest do
     assert [peer.id] == new_peer_ids
   end
 
+  describe "archived members" do
+    test "are not proposed as peers or tenant on a new transfer", %{conn: conn, book: book} do
+      _archived_member =
+        book_member_fixture(book, nickname: "Archie", archived_at: NaiveDateTime.utc_now(:second))
+
+      {:ok, _form_live, html} = live(conn, ~p"/books/#{book}/transfers/new")
+
+      refute html =~ "Archie"
+    end
+
+    test "still show up as an already-selected peer when editing a transfer",
+         %{
+           conn: conn,
+           book: book
+         } do
+      tenant = book_member_fixture(book)
+
+      archived_member =
+        book_member_fixture(book, nickname: "Archie", archived_at: NaiveDateTime.utc_now(:second))
+
+      money_transfer = money_transfer_fixture(book, tenant_id: tenant.id)
+      _peer = peer_fixture(money_transfer, member_id: archived_member.id)
+
+      {:ok, _form_live, html} = live(conn, ~p"/books/#{book}/transfers/#{money_transfer}/edit")
+
+      assert html =~ "Archie"
+      assert html =~ "grayscale opacity-50"
+    end
+
+    test "still show up as the current tenant when editing a transfer",
+         %{
+           conn: conn,
+           book: book
+         } do
+      archived_member =
+        book_member_fixture(book, nickname: "Archie", archived_at: NaiveDateTime.utc_now(:second))
+
+      money_transfer = money_transfer_fixture(book, tenant_id: archived_member.id)
+
+      {:ok, _form_live, html} = live(conn, ~p"/books/#{book}/transfers/#{money_transfer}/edit")
+
+      assert html =~ ~s(selected="" value="#{archived_member.id}">Archie)
+    end
+  end
+
   # Depends on :register_and_log_in_user
   defp book_with_member_context(%{user: user} = context) do
     book = book_fixture()

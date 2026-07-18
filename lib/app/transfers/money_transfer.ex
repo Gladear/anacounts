@@ -133,8 +133,11 @@ defmodule App.Transfers.MoneyTransfer do
 
   ## Queries
 
-  # create a simple query with named binding
-  defp base_query do
+  @doc """
+  Returns an `%Ecto.Query{}` fetching all money transfers.
+  """
+  @spec base_query :: Ecto.Query.t()
+  def base_query do
     from __MODULE__, as: :money_transfer
   end
 

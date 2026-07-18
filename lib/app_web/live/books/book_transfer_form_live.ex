@@ -211,7 +211,7 @@ defmodule AppWeb.BookTransferFormLive do
 
     ~H"""
     <.book_member_avatar book_member={@member} />
-    <span class="label truncate">{@member.nickname}</span>
+    <span class={["label truncate", Members.archived?(@member) && "text-gray-500"]}>{@member.nickname}</span>
     """
   end
 
@@ -245,24 +245,21 @@ defmodule AppWeb.BookTransferFormLive do
 
   @impl Phoenix.LiveView
   def mount(params, _session, socket) do
-    %{book: book, live_action: live_action} = socket.assigns
-    members = Members.list_members_of_book(book)
+    %{live_action: live_action} = socket.assigns
 
-    socket =
-      socket
-      |> assign(members: members)
-      |> mount_action(live_action, params)
-
+    socket = mount_action(socket, live_action, params)
     {:ok, socket}
   end
 
   defp mount_action(socket, :new, params) do
-    %{book: book, current_member: current_member, members: members} = socket.assigns
-    type = parse_params_type(params["type"])
+    %{book: book, current_member: current_member} = socket.assigns
 
     if Books.closed?(book) do
       push_navigate(socket, to: ~p"/books/#{book}")
     else
+      type = parse_params_type(params["type"])
+      members = Members.list_active_book_members(book)
+
       peers =
         for member <- members do
           %Peer{member_id: member.id, member: member}
@@ -280,6 +277,7 @@ defmodule AppWeb.BookTransferFormLive do
 
       assign(socket,
         page_title: form_new_title(type),
+        members: members,
         form: form,
         type: type,
         display_weight?: false
@@ -288,7 +286,9 @@ defmodule AppWeb.BookTransferFormLive do
   end
 
   defp mount_action(socket, :edit, %{"money_transfer_id" => money_transfer_id}) do
-    money_transfer = get_money_transfer(money_transfer_id, socket)
+    %{book: book} = socket.assigns
+    members = list_money_transfer_members(book, money_transfer_id)
+    money_transfer = get_money_transfer(book, members, money_transfer_id)
 
     form =
       money_transfer
@@ -299,11 +299,39 @@ defmodule AppWeb.BookTransferFormLive do
 
     assign(socket,
       page_title: money_transfer.label,
+      members: members,
       form: form,
       type: money_transfer.type,
       display_weight?: display_weight?,
       money_transfer: money_transfer
     )
+  end
+
+  # Include members of the book that match any of these conditions:
+  # - they are not archived
+  # - they are the tenant of the current money transfer
+  # - they are a peer of current money transfer
+  #
+  # The idea is to let archived member be displayed as usual if they
+  # are already part of the money transfer.
+  defp list_money_transfer_members(book, money_transfer_id) do
+    query =
+      from book_member in BookMember.book_query(book),
+        where:
+          is_nil(book_member.archived_at) or
+            exists(
+              from money_transfer in MoneyTransfer.base_query(),
+                where: money_transfer.id == ^money_transfer_id,
+                where: money_transfer.tenant_id == parent_as(:book_member).id
+            ) or
+            exists(
+              from peer in Peer.base_query(),
+                where: peer.transfer_id == ^money_transfer_id,
+                where: peer.member_id == parent_as(:book_member).id
+            ),
+        order_by: [asc: book_member.nickname]
+
+    Repo.all(query)
   end
 
   defp form_new_title(:income), do: gettext("New income")
@@ -312,8 +340,7 @@ defmodule AppWeb.BookTransferFormLive do
   defp parse_params_type("income"), do: :income
   defp parse_params_type(_payment_or_nil), do: :payment
 
-  defp get_money_transfer(money_transfer_id, socket) do
-    %{book: book, members: members} = socket.assigns
+  defp get_money_transfer(book, members, money_transfer_id) do
     members_by_id = Map.new(members, &{&1.id, &1})
 
     from([money_transfer: money_transfer] in MoneyTransfer.transfers_of_book_query(book),
