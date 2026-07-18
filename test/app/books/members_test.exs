@@ -153,6 +153,56 @@ defmodule App.Books.MembersTest do
     end
   end
 
+  describe "archived?/1" do
+    test "returns true if the member is archived" do
+      book_member =
+        book_member_fixture(book_fixture(), archived_at: NaiveDateTime.utc_now(:second))
+
+      assert Members.archived?(book_member)
+    end
+
+    test "returns false if the member is not archived" do
+      book_member = book_member_fixture(book_fixture())
+      refute Members.archived?(book_member)
+    end
+  end
+
+  describe "archive_book_member/2" do
+    test "archives a member with a zero balance and no linked user" do
+      book_member = book_member_fixture(book_fixture(), user_id: nil)
+      book_member = %{book_member | balance: Decimal.new(0)}
+
+      assert {:ok, book_member} = Members.archive_book_member(book_member)
+      assert Members.archived?(book_member)
+    end
+
+    test "returns an error if the member has a non-zero balance" do
+      book_member = book_member_fixture(book_fixture(), user_id: nil)
+      book_member = %{book_member | balance: Decimal.new(1)}
+
+      assert {:error, :has_balance} = Members.archive_book_member(book_member)
+      refute Members.archived?(Repo.reload(book_member))
+    end
+
+    test "returns an error if the member is linked to a user" do
+      book_member = book_member_fixture(book_fixture(), user_id: user_fixture().id)
+      book_member = %{book_member | balance: Decimal.new(0)}
+
+      assert {:error, :linked_to_user} = Members.archive_book_member(book_member)
+      refute Members.archived?(Repo.reload(book_member))
+    end
+  end
+
+  describe "unarchive_book_member/1" do
+    test "unarchives an archived member" do
+      book_member =
+        book_member_fixture(book_fixture(), archived_at: NaiveDateTime.utc_now(:second))
+
+      book_member = Members.unarchive_book_member(book_member)
+      refute Members.archived?(book_member)
+    end
+  end
+
   defp book_with_creator_context(_context) do
     book = book_fixture()
     user = user_fixture()

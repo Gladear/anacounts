@@ -122,4 +122,50 @@ defmodule App.Books.Members do
 
     :ok
   end
+
+  ## Archive / Unarchive
+
+  @doc """
+  Checks if a book member is archived.
+  """
+  @spec archived?(BookMember.t()) :: boolean()
+  def archived?(%BookMember{} = book_member) do
+    book_member.archived_at != nil
+  end
+
+  @doc """
+  Archives a book member.
+
+  A member can only be archived if it is not linked to a user and its
+  balance is zero.
+  """
+  @spec archive_book_member(BookMember.t()) ::
+          {:ok, BookMember.t()} | {:error, :linked_to_user} | {:error, :has_balance}
+  def archive_book_member(%BookMember{archived_at: nil} = book_member) do
+    cond do
+      book_member.user_id != nil ->
+        {:error, :linked_to_user}
+
+      not Decimal.equal?(book_member.balance, 0) ->
+        {:error, :has_balance}
+
+      true ->
+        book_member =
+          book_member
+          |> BookMember.archive_changeset()
+          |> Repo.update!()
+
+        {:ok, book_member}
+    end
+  end
+
+  @doc """
+  Unarchives a book member that was previously archived.
+  """
+  @spec unarchive_book_member(BookMember.t()) :: BookMember.t()
+  def unarchive_book_member(%BookMember{archived_at: %{}} = book_member) do
+    book_member
+    |> BookMember.unarchive_changeset()
+    |> Repo.update!()
+  end
 end
