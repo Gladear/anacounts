@@ -79,7 +79,24 @@ defmodule AppWeb.BooksComponents do
     """
   end
 
-  ## Member hero avatar
+  ## Member avatars
+
+  @doc """
+  Display the avatar related to a book member.
+  """
+  attr :book_member, BookMember, required: true
+
+  def book_member_avatar(assigns) do
+    if has_user?(assigns.book_member) do
+      ~H|<.avatar name={@book_member.nickname} />|
+    else
+      ~H|<.icon name={:user_circle} class="m-1" />|
+    end
+  end
+
+  defp has_user?(book_member) do
+    book_member.user_id != nil
+  end
 
   @doc """
   A component to display a book member in a hero layout.

@@ -6,7 +6,7 @@ defmodule AppWeb.BookMembersLive do
 
   use AppWeb, :live_view
 
-  import AppWeb.BooksComponents, only: [balance_text: 1]
+  import AppWeb.BooksComponents, only: [balance_text: 1, book_member_avatar: 1]
 
   alias App.Balance
   alias App.Books
@@ -54,7 +54,7 @@ defmodule AppWeb.BookMembersLive do
           <.tile>
             <div class="grow grid grid-cols-[1fr_9rem] grid-flow-col">
               <div class="row-span-2 flex items-center gap-2 truncate">
-                <.member_avatar member={member} />
+                <.book_member_avatar book_member={member} />
                 <span class="label">{member.nickname}</span>
               </div>
               <div class="text-right pr-5">
@@ -70,18 +70,6 @@ defmodule AppWeb.BookMembersLive do
       </div>
     </.app_page>
     """
-  end
-
-  defp member_avatar(assigns) do
-    if has_user?(assigns.member) do
-      ~H|<.avatar name={@member.nickname} />|
-    else
-      ~H|<.icon name={:user_circle} class="m-1" />|
-    end
-  end
-
-  defp has_user?(book_member) do
-    book_member.user_id != nil
   end
 
   @impl Phoenix.LiveView
