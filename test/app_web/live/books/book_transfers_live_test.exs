@@ -63,6 +63,20 @@ defmodule AppWeb.BookTransfersLiveTest do
     end
   end
 
+  describe "List filters" do
+    test "does not list archived members in the created by filter", %{conn: conn, book: book} do
+      archived_member =
+        book_member_fixture(book,
+          nickname: "Archived member",
+          archived_at: NaiveDateTime.utc_now(:second)
+        )
+
+      {:ok, _index_live, html} = live(conn, ~p"/books/#{book}/transfers")
+
+      refute html =~ archived_member.nickname
+    end
+  end
+
   # Depends on :register_and_log_in_user
   defp book_with_member_context(%{user: user} = context) do
     book = book_fixture()
