@@ -388,10 +388,6 @@ msgid "Others"
 msgstr "Others"
 
 #, elixir-autogen, elixir-format
-msgid "Owned by"
-msgstr "Owned by"
-
-#, elixir-autogen, elixir-format
 msgid "Paid by"
 msgstr "Paid by"
 
