@@ -7,6 +7,7 @@ defmodule AppWeb.BooksComponents do
 
   alias App.Balance
   alias App.Books.BookMember
+  alias App.Books.Members
 
   ## Balance card
 
@@ -90,7 +91,12 @@ defmodule AppWeb.BooksComponents do
     if has_user?(assigns.book_member) do
       ~H|<.avatar name={@book_member.nickname} />|
     else
-      ~H|<.icon name={:user_circle} class="m-1" />|
+      ~H"""
+      <.icon
+        name={:user_circle}
+        class={["m-1", Members.archived?(@book_member) && "grayscale opacity-50"]}
+      />
+      """
     end
   end
 
