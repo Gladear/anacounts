@@ -97,7 +97,6 @@ defmodule AppWeb.BookInvitationControllerTest do
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "You have been added to the book"
 
       book_member = Repo.get_by!(BookMember, book_id: book.id, user_id: user.id)
-      assert book_member.role == :member
       assert book_member.nickname == "New Member"
     end
 

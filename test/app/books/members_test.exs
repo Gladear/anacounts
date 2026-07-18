@@ -125,7 +125,6 @@ defmodule App.Books.MembersTest do
                Members.create_book_member_for_user(book, user, %{nickname: "Member"})
 
       assert book_member.book_id == book.id
-      assert book_member.role == :member
       assert book_member.user_id == user.id
       assert book_member.nickname == "Member"
     end
@@ -157,7 +156,7 @@ defmodule App.Books.MembersTest do
   defp book_with_creator_context(_context) do
     book = book_fixture()
     user = user_fixture()
-    member = book_member_fixture(book, user_id: user.id, role: :creator)
+    member = book_member_fixture(book, user_id: user.id)
 
     %{
       book: book,

@@ -78,8 +78,7 @@ defmodule App.Books.Members do
           {:ok, BookMember.t()} | {:error, Ecto.Changeset.t()}
   def create_book_member(%Book{} = book, attrs) do
     %BookMember{
-      book_id: book.id,
-      role: :member
+      book_id: book.id
     }
     |> BookMember.nickname_changeset(attrs)
     |> Repo.insert()
@@ -106,7 +105,6 @@ defmodule App.Books.Members do
   def create_book_member_for_user(book, user, params) do
     %BookMember{
       book_id: book.id,
-      role: :member,
       user_id: user.id
     }
     |> BookMember.nickname_changeset(params)

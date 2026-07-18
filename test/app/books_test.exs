@@ -28,7 +28,7 @@ defmodule App.BooksTest do
     setup do
       book = book_fixture()
       user = user_fixture()
-      _member = book_member_fixture(book, user_id: user.id, role: :creator)
+      _member = book_member_fixture(book, user_id: user.id)
       %{book: book, user: user}
     end
 
@@ -57,7 +57,7 @@ defmodule App.BooksTest do
     setup do
       book = book_fixture()
       user = user_fixture()
-      _member = book_member_fixture(book, user_id: user.id, role: :creator)
+      _member = book_member_fixture(book, user_id: user.id)
       %{book: book, user: user}
     end
 
@@ -141,46 +141,6 @@ defmodule App.BooksTest do
              |> Enum.map(& &1.id) == [book2.id, book1.id]
     end
 
-    test "filters by owned by anyone", %{user: user} do
-      book1 = book_fixture(inserted_at: ~N[2020-01-01 00:00:00Z])
-      _member1 = book_member_fixture(book1, user_id: user.id)
-
-      book2 = book_fixture(inserted_at: ~N[2020-01-02 00:00:00Z])
-      _member2 = book_member_fixture(book2, user_id: user.id)
-
-      _not_member_of_book = book_fixture()
-
-      assert user
-             |> Books.list_books_of_user(%{owned_by: [:me, :others]})
-             |> Enum.map(& &1.id) == [book2.id, book1.id]
-    end
-
-    test "filters by owned by me", %{user: user} do
-      book1 = book_fixture()
-      _member1 = book_member_fixture(book1, user_id: user.id, role: :creator)
-      book2 = book_fixture()
-      _member2 = book_member_fixture(book2, user_id: user.id, role: :member)
-
-      _not_member_of_book = book_fixture()
-
-      assert user
-             |> Books.list_books_of_user(%{owned_by: [:me]})
-             |> Enum.map(& &1.id) == [book1.id]
-    end
-
-    test "filters by owned by others", %{user: user} do
-      book1 = book_fixture()
-      _member1 = book_member_fixture(book1, user_id: user.id, role: :creator)
-      book2 = book_fixture()
-      _member2 = book_member_fixture(book2, user_id: user.id, role: :member)
-
-      _not_member_of_book = book_fixture()
-
-      assert user
-             |> Books.list_books_of_user(%{owned_by: [:others]})
-             |> Enum.map(& &1.id) == [book2.id]
-    end
-
     test "filters closed books", %{user: user} do
       book1 = book_fixture(closed_at: nil)
       _member1 = book_member_fixture(book1, user_id: user.id)
@@ -219,7 +179,6 @@ defmodule App.BooksTest do
       assert book.name == "A valid book name !"
 
       assert member = Members.get_membership(book, user)
-      assert member.role == :creator
       assert member.nickname == "Creator nickname"
     end
 
