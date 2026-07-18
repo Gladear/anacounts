@@ -19,6 +19,47 @@ defmodule App.Books.MembersTest do
              |> Enum.map(& &1.id)
              |> Enum.sort() == [linked_member.id, unlinked_member.id]
     end
+
+    test "lists archived members after active members, alphabetically within each group" do
+      book = book_fixture()
+
+      active_b = book_member_fixture(book, nickname: "B")
+      active_a = book_member_fixture(book, nickname: "A")
+
+      archived_b =
+        book_member_fixture(book, nickname: "B", archived_at: NaiveDateTime.utc_now(:second))
+
+      archived_a =
+        book_member_fixture(book, nickname: "A", archived_at: NaiveDateTime.utc_now(:second))
+
+      assert book
+             |> Members.list_members_of_book()
+             |> Enum.map(& &1.id) == [active_a.id, active_b.id, archived_a.id, archived_b.id]
+    end
+  end
+
+  describe "list_active_book_members/1" do
+    test "lists members of the book that are not archived" do
+      book = book_fixture()
+      active_member = book_member_fixture(book)
+      _other_member = book_member_fixture(book_fixture())
+
+      assert book
+             |> Members.list_active_book_members()
+             |> Enum.map(& &1.id) == [active_member.id]
+    end
+
+    test "excludes archived members" do
+      book = book_fixture()
+      active_member = book_member_fixture(book)
+
+      _archived_member =
+        book_member_fixture(book, archived_at: NaiveDateTime.utc_now(:second))
+
+      assert book
+             |> Members.list_active_book_members()
+             |> Enum.map(& &1.id) == [active_member.id]
+    end
   end
 
   describe "list_unlinked_members_of_book/1" do
@@ -27,6 +68,18 @@ defmodule App.Books.MembersTest do
       _linked_member = book_member_fixture(book, user_id: user_fixture().id)
       unlinked_member = book_member_fixture(book, user_id: nil)
       _other_member = book_member_fixture(book_fixture())
+
+      assert book
+             |> Members.list_unlinked_members_of_book()
+             |> Enum.map(& &1.id) == [unlinked_member.id]
+    end
+
+    test "excludes archived members" do
+      book = book_fixture()
+      unlinked_member = book_member_fixture(book, user_id: nil)
+
+      _archived_member =
+        book_member_fixture(book, user_id: nil, archived_at: NaiveDateTime.utc_now(:second))
 
       assert book
              |> Members.list_unlinked_members_of_book()
@@ -150,6 +203,56 @@ defmodule App.Books.MembersTest do
 
       book_member = Repo.reload(book_member)
       assert book_member.user_id == user.id
+    end
+  end
+
+  describe "archived?/1" do
+    test "returns true if the member is archived" do
+      book_member =
+        book_member_fixture(book_fixture(), archived_at: NaiveDateTime.utc_now(:second))
+
+      assert Members.archived?(book_member)
+    end
+
+    test "returns false if the member is not archived" do
+      book_member = book_member_fixture(book_fixture())
+      refute Members.archived?(book_member)
+    end
+  end
+
+  describe "archive_book_member/2" do
+    test "archives a member with a zero balance and no linked user" do
+      book_member = book_member_fixture(book_fixture(), user_id: nil)
+      book_member = %{book_member | balance: Decimal.new(0)}
+
+      assert {:ok, book_member} = Members.archive_book_member(book_member)
+      assert Members.archived?(book_member)
+    end
+
+    test "returns an error if the member has a non-zero balance" do
+      book_member = book_member_fixture(book_fixture(), user_id: nil)
+      book_member = %{book_member | balance: Decimal.new(1)}
+
+      assert {:error, :has_balance} = Members.archive_book_member(book_member)
+      refute Members.archived?(Repo.reload(book_member))
+    end
+
+    test "returns an error if the member is linked to a user" do
+      book_member = book_member_fixture(book_fixture(), user_id: user_fixture().id)
+      book_member = %{book_member | balance: Decimal.new(0)}
+
+      assert {:error, :linked_to_user} = Members.archive_book_member(book_member)
+      refute Members.archived?(Repo.reload(book_member))
+    end
+  end
+
+  describe "unarchive_book_member/1" do
+    test "unarchives an archived member" do
+      book_member =
+        book_member_fixture(book_fixture(), archived_at: NaiveDateTime.utc_now(:second))
+
+      book_member = Members.unarchive_book_member(book_member)
+      refute Members.archived?(book_member)
     end
   end
 

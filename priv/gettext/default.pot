@@ -19,6 +19,10 @@ msgid "%{count} unlinked"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "(Archived)"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "A link to confirm your email change has been sent to the new address."
 msgstr ""
 
@@ -44,6 +48,14 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Anacounts is a free and open-source software that helps you share expensenses for a trip with your friend or in your household in a more fair way."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Archive"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to archive this member?"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -512,6 +524,14 @@ msgid "The main difference with invited members is that you can see and edit rev
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "The member is linked to a user and cannot be archived."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "The member's balance must be settled before archiving."
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "There is no transfer in the book for now. You can finish the operation safely!"
 msgstr ""
 
@@ -553,6 +573,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Type your new password again here"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Unarchive"
 msgstr ""
 
 #, elixir-autogen, elixir-format

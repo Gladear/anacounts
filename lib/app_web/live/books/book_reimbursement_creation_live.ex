@@ -67,7 +67,7 @@ defmodule AppWeb.BookReimbursementCreationLive do
   def mount(params, _session, socket) do
     book = socket.assigns.book
 
-    members = Members.list_members_of_book(book)
+    members = Members.list_active_book_members(book)
     form = parse_params_form(params, members)
 
     socket =

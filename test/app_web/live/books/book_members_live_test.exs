@@ -29,6 +29,22 @@ defmodule AppWeb.BookMembersLiveTest do
     refute html =~ "Eric"
   end
 
+  test "displays archived members last, greyed and labelled", %{conn: conn, book: book} do
+    archived_member =
+      book_member_fixture(book, nickname: "Archie", archived_at: NaiveDateTime.utc_now(:second))
+
+    active_member = book_member_fixture(book, nickname: "Zach")
+
+    {:ok, _live, html} = live(conn, ~p"/books/#{book}/members")
+
+    assert html =~ "(Archived)"
+    assert html =~ "grayscale opacity-50"
+
+    active_index = :binary.match(html, active_member.nickname) |> elem(0)
+    archived_index = :binary.match(html, archived_member.nickname) |> elem(0)
+    assert active_index < archived_index
+  end
+
   test "tiles navigate to the member page", %{conn: conn, book: book} do
     member = book_member_fixture(book)
 

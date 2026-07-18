@@ -55,7 +55,12 @@ defmodule AppWeb.BookMembersLive do
             <div class="grow grid grid-cols-[1fr_9rem] grid-flow-col">
               <div class="row-span-2 flex items-center gap-2 truncate">
                 <.book_member_avatar book_member={member} />
-                <span class="label">{member.nickname}</span>
+                <span class={["label", Members.archived?(member) && "text-gray-500"]}>
+                  {member.nickname}
+                  <span :if={Members.archived?(member)}>
+                    {gettext("(Archived)")}
+                  </span>
+                </span>
               </div>
               <div class="text-right pr-5">
                 <.balance_text book_member={member} />

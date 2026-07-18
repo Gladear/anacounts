@@ -20,6 +20,10 @@ msgid "%{count} unlinked"
 msgstr "%{count} unlinked"
 
 #, elixir-autogen, elixir-format
+msgid "(Archived)"
+msgstr "(Archived)"
+
+#, elixir-autogen, elixir-format
 msgid "A link to confirm your email change has been sent to the new address."
 msgstr "A link to confirm your email change has been sent to the new address."
 
@@ -46,6 +50,14 @@ msgstr "Amount"
 #, elixir-autogen, elixir-format
 msgid "Anacounts is a free and open-source software that helps you share expensenses for a trip with your friend or in your household in a more fair way."
 msgstr "Anacounts is a free and open-source software that helps you share expensenses for a trip with your friend or in your household in a more fair way."
+
+#, elixir-autogen, elixir-format
+msgid "Archive"
+msgstr "Archive"
+
+#, elixir-autogen, elixir-format
+msgid "Are you sure you want to archive this member?"
+msgstr "Are you sure you want to archive this member?"
 
 #, elixir-autogen, elixir-format
 msgid "Are you sure you want to delete the transfer?"
@@ -513,6 +525,14 @@ msgid "The main difference with invited members is that you can see and edit rev
 msgstr "The main difference with invited members is that you can see and edit revenues of unlinked members from their member page."
 
 #, elixir-autogen, elixir-format
+msgid "The member is linked to a user and cannot be archived."
+msgstr "The member is linked to a user and cannot be archived."
+
+#, elixir-autogen, elixir-format
+msgid "The member's balance must be settled before archiving."
+msgstr "The member's balance must be settled before archiving."
+
+#, elixir-autogen, elixir-format
 msgid "There is no transfer in the book for now. You can finish the operation safely!"
 msgstr "There is no transfer in the book for now. You can finish the operation safely!"
 
@@ -555,6 +575,10 @@ msgstr "Transfers"
 #, elixir-autogen, elixir-format
 msgid "Type your new password again here"
 msgstr "Type your new password again here"
+
+#, elixir-autogen, elixir-format
+msgid "Unarchive"
+msgstr "Unarchive"
 
 #, elixir-autogen, elixir-format
 msgid "View profile"

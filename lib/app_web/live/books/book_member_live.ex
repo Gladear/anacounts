@@ -10,6 +10,7 @@ defmodule AppWeb.BookMemberLive do
 
   alias App.Accounts
   alias App.Balance
+  alias App.Books.Members
 
   on_mount {AppWeb.BookAccess, :ensure_book!}
   on_mount {AppWeb.BookAccess, :ensure_book_member!}
@@ -57,6 +58,22 @@ defmodule AppWeb.BookMemberLive do
             {gettext("Change nickname")}
           </.card_button>
         </.link>
+        <%= if Members.archived?(@book_member) do %>
+          <.link phx-click="unarchive">
+            <.card_button icon={:archive_box_x_mark}>
+              {gettext("Unarchive")}
+            </.card_button>
+          </.link>
+        <% else %>
+          <.link
+            data-confirm={gettext("Are you sure you want to archive this member?")}
+            phx-click="archive"
+          >
+            <.card_button icon={:archive_box}>
+              {gettext("Archive")}
+            </.card_button>
+          </.link>
+        <% end %>
       </.card_grid>
     </.app_page>
     """
@@ -83,5 +100,30 @@ defmodule AppWeb.BookMemberLive do
 
       {:ok, socket}
     end
+  end
+
+  @impl Phoenix.LiveView
+  def handle_event("archive", _params, socket) do
+    %{book_member: book_member} = socket.assigns
+
+    case Members.archive_book_member(book_member) do
+      {:ok, book_member} ->
+        {:noreply, assign(socket, :book_member, book_member)}
+
+      {:error, reason} ->
+        error_message =
+          case reason do
+            :linked_to_user -> gettext("The member is linked to a user and cannot be archived.")
+            :has_balance -> gettext("The member's balance must be settled before archiving.")
+          end
+
+        socket = put_flash(socket, :error, error_message)
+        {:noreply, socket}
+    end
+  end
+
+  def handle_event("unarchive", _params, socket) do
+    book_member = Members.unarchive_book_member(socket.assigns.book_member)
+    {:noreply, assign(socket, :book_member, book_member)}
   end
 end

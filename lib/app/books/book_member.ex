@@ -19,6 +19,7 @@ defmodule App.Books.BookMember do
           user_id: User.id() | nil,
           user: User.t() | nil,
           deleted_at: NaiveDateTime.t() | nil,
+          archived_at: NaiveDateTime.t() | nil,
           nickname: String.t(),
           email: String.t(),
           balance_config_id: BalanceConfig.id() | nil,
@@ -34,6 +35,7 @@ defmodule App.Books.BookMember do
     belongs_to :user, User
 
     field :deleted_at, :naive_datetime
+    field :archived_at, :naive_datetime
 
     # When the member is not linked to a user, the display name falls back to the book
     # member's `:nickname`, set at creation
@@ -71,6 +73,23 @@ defmodule App.Books.BookMember do
     change(struct, balance_config_id: balance_config.id)
   end
 
+  @doc """
+  Returns a changeset to archive a book member.
+  """
+  @spec archive_changeset(t()) :: Ecto.Changeset.t()
+  def archive_changeset(book_member) do
+    now = NaiveDateTime.utc_now(:second)
+    change(book_member, archived_at: now)
+  end
+
+  @doc """
+  Returns a changeset to unarchive a book member.
+  """
+  @spec unarchive_changeset(t()) :: Ecto.Changeset.t()
+  def unarchive_changeset(book_member) do
+    change(book_member, archived_at: nil)
+  end
+
   ## Queries
 
   @doc """
@@ -88,6 +107,15 @@ defmodule App.Books.BookMember do
   def book_query(query \\ base_query(), book) do
     from [book_member: book_member] in query,
       where: book_member.book_id == ^book.id
+  end
+
+  @doc """
+  Filters down an `%Ecto.Query{}` to only return non-archived book members.
+  """
+  @spec non_archived_query(Ecto.Queryable.t()) :: Ecto.Query.t()
+  def non_archived_query(query) do
+    from [book_member: book_member] in query,
+      where: is_nil(book_member.archived_at)
   end
 
   @doc """

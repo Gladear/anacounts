@@ -31,11 +31,22 @@ defmodule App.Books.Members do
   end
 
   @doc """
-  Lists all members of a book that are not linked to a user.
+  List members of the book that are not archived.
+  """
+  @spec list_active_book_members(Book.t()) :: [BookMember.t()]
+  def list_active_book_members(book) do
+    members_of_book_query(book)
+    |> BookMember.non_archived_query()
+    |> Repo.all()
+  end
+
+  @doc """
+  Lists all members of a book that are not linked to a user and not archived.
   """
   @spec list_unlinked_members_of_book(Book.t()) :: [BookMember.t()]
   def list_unlinked_members_of_book(book) do
     members_of_book_query(book)
+    |> BookMember.non_archived_query()
     |> where([book_member: book_member], is_nil(book_member.user_id))
     |> Repo.all()
   end
@@ -56,7 +67,10 @@ defmodule App.Books.Members do
   defp members_of_book_query(book) do
     from([book_member: book_member] in BookMember.book_query(book),
       left_join: user in assoc(book_member, :user),
-      order_by: [asc: book_member.nickname]
+      order_by: [
+        asc: not is_nil(book_member.archived_at),
+        asc: book_member.nickname
+      ]
     )
     |> BookMember.select_email()
   end
@@ -121,5 +135,51 @@ defmodule App.Books.Members do
       |> Repo.update_all(set: [user_id: user.id])
 
     :ok
+  end
+
+  ## Archive / Unarchive
+
+  @doc """
+  Checks if a book member is archived.
+  """
+  @spec archived?(BookMember.t()) :: boolean()
+  def archived?(%BookMember{} = book_member) do
+    book_member.archived_at != nil
+  end
+
+  @doc """
+  Archives a book member.
+
+  A member can only be archived if it is not linked to a user and its
+  balance is zero.
+  """
+  @spec archive_book_member(BookMember.t()) ::
+          {:ok, BookMember.t()} | {:error, :linked_to_user} | {:error, :has_balance}
+  def archive_book_member(%BookMember{archived_at: nil} = book_member) do
+    cond do
+      book_member.user_id != nil ->
+        {:error, :linked_to_user}
+
+      not Decimal.equal?(book_member.balance, 0) ->
+        {:error, :has_balance}
+
+      true ->
+        book_member =
+          book_member
+          |> BookMember.archive_changeset()
+          |> Repo.update!()
+
+        {:ok, book_member}
+    end
+  end
+
+  @doc """
+  Unarchives a book member that was previously archived.
+  """
+  @spec unarchive_book_member(BookMember.t()) :: BookMember.t()
+  def unarchive_book_member(%BookMember{archived_at: %{}} = book_member) do
+    book_member
+    |> BookMember.unarchive_changeset()
+    |> Repo.update!()
   end
 end
