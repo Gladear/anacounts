@@ -20,7 +20,6 @@ defmodule App.Books.BookMember do
           user: User.t() | nil,
           archived_at: NaiveDateTime.t() | nil,
           nickname: String.t(),
-          email: String.t(),
           balance_config_id: BalanceConfig.id() | nil,
           balance: Decimal.t() | nil,
           balance_errors: [String.t()],
@@ -38,9 +37,6 @@ defmodule App.Books.BookMember do
     # When the member is not linked to a user, the display name falls back to the book
     # member's `:nickname`, set at creation
     field :nickname, :string
-
-    # Filled with the user `:email` if there is one
-    field :email, :string, virtual: true
 
     # the current balance configuration for this member
     field :balance_config_id, :integer
@@ -114,22 +110,5 @@ defmodule App.Books.BookMember do
   def non_archived_query(query) do
     from [book_member: book_member] in query,
       where: is_nil(book_member.archived_at)
-  end
-
-  @doc """
-  Updates an `%Ecto.Query{}` to select the `:email` of book members.
-  """
-  @spec select_email(Ecto.Query.t()) :: Ecto.Query.t()
-  def select_email(query) do
-    from [user: user] in join_user(query),
-      select_merge: %{email: user.email}
-  end
-
-  defp join_user(query) do
-    with_named_binding(query, :user, fn query ->
-      from [book_member: book_member] in query,
-        left_join: user in assoc(book_member, :user),
-        as: :user
-    end)
   end
 end
