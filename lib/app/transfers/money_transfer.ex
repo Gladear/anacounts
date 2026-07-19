@@ -46,6 +46,8 @@ defmodule App.Transfers.MoneyTransfer do
     field :date, :date, read_after_writes: true
 
     field :book_id, :integer
+    # Contains the ID of the book member who created the money transfer. At the time of
+    # writing, the field is only used to filter transfers in the interface.
     field :creator_id, :integer
     belongs_to :tenant, BookMember
 
