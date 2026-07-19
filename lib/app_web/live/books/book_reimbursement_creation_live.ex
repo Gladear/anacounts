@@ -131,10 +131,10 @@ defmodule AppWeb.BookReimbursementCreationLive do
   end
 
   def handle_event("submit", %{"reimbursement" => reimbursement_params}, socket) do
-    book = socket.assigns.book
+    %{book: book, current_member: current_member} = socket.assigns
     transfer_params = to_transfer_params(reimbursement_params)
 
-    case Transfers.create_reimbursement(book, transfer_params) do
+    case Transfers.create_reimbursement(book, current_member, transfer_params) do
       {:ok, _money_transfer} ->
         {:noreply, push_navigate(socket, to: ~p"/books/#{book}/balance")}
 

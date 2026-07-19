@@ -213,11 +213,12 @@ defmodule App.Transfers do
   @doc """
   Creates a new reimbursement.
   """
-  @spec create_reimbursement(Book.t(), map()) ::
+  @spec create_reimbursement(Book.t(), BookMember.t(), map()) ::
           {:ok, MoneyTransfer.t()} | {:error, Ecto.Changeset.t()}
-  def create_reimbursement(%Book{} = book, attrs) do
+  def create_reimbursement(%Book{} = book, %BookMember{} = creator, attrs) do
     %MoneyTransfer{
       book_id: book.id,
+      creator_id: creator.id,
       type: :reimbursement,
       balance_means: :divide_equally
     }
