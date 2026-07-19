@@ -164,9 +164,7 @@ defmodule App.Books do
   """
   @spec delete_book!(Book.t()) :: Book.t()
   def delete_book!(%Book{} = book) do
-    book
-    |> Book.delete_changeset()
-    |> Repo.update!()
+    Repo.delete!(book)
   end
 
   ## Close / Reopen

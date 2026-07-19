@@ -12,7 +12,6 @@ defmodule App.Books.Book do
           id: id(),
           name: String.t(),
           closed_at: NaiveDateTime.t() | nil,
-          deleted_at: NaiveDateTime.t() | nil,
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
@@ -20,7 +19,6 @@ defmodule App.Books.Book do
   schema "books" do
     field :name, :string
     field :closed_at, :naive_datetime
-    field :deleted_at, :naive_datetime
 
     timestamps()
   end
@@ -56,21 +54,11 @@ defmodule App.Books.Book do
     change(book, closed_at: nil)
   end
 
-  @doc """
-  Returns a changeset to soft-delete a book.
-  """
-  @spec delete_changeset(t()) :: Ecto.Changeset.t()
-  def delete_changeset(book) do
-    now = NaiveDateTime.utc_now(:second)
-    change(book, deleted_at: now)
-  end
-
   ## Queries
 
   @spec base_query() :: Ecto.Query.t()
   def base_query do
     from book in __MODULE__,
-      as: :book,
-      where: is_nil(book.deleted_at)
+      as: :book
   end
 end
