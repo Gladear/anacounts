@@ -4,7 +4,7 @@
     "lint": "prettier --check ."
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.6"
+    "@floating-ui/dom": "^1.8.0"
   },
   "devDependencies": {
     "prettier": "^3.9.5"
