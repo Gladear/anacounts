@@ -10,6 +10,7 @@ defmodule App.Books do
   alias App.Books.BookMember
   alias App.Books.InvitationToken
   alias App.Repo
+  alias App.Transfers.MoneyTransfer
 
   ## Database getters
 
@@ -164,7 +165,23 @@ defmodule App.Books do
   """
   @spec delete_book!(Book.t()) :: Book.t()
   def delete_book!(%Book{} = book) do
-    Repo.delete!(book)
+    {:ok, book} =
+      Repo.transact(fn ->
+        # Book members are referenced by the following foreign keys, restricting their
+        # deletion to avoid data inconsistencies:
+        # - money_transfers_tenant_id_fkey (ON DELETE RESTRICT)
+        # - money_transfers_creator_id_fkey (ON DELETE RESTRICT)
+        # - transfers_peers_member_id_fkey (ON DELETE RESTRICT)
+        #
+        # Money transfers must therefore be deleted before book members to ensure members
+        # are no longer "tenant", "creator" or "peer", and can safely be deleted.
+        book |> MoneyTransfer.transfers_of_book_query() |> Repo.delete_all()
+        book |> BookMember.book_query() |> Repo.delete_all()
+
+        {:ok, Repo.delete!(book)}
+      end)
+
+    book
   end
 
   ## Close / Reopen

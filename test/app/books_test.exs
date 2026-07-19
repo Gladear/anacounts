@@ -4,6 +4,7 @@ defmodule App.BooksTest do
   import App.AccountsFixtures
   import App.Books.MembersFixtures
   import App.BooksFixtures
+  import App.TransfersFixtures
 
   alias App.Books
   alias App.Books.Book
@@ -224,7 +225,7 @@ defmodule App.BooksTest do
 
   ## Deletion
 
-  describe "delete_book!/2" do
+  describe "delete_book!/1" do
     setup do
       %{book: book_fixture()}
     end
@@ -233,6 +234,52 @@ defmodule App.BooksTest do
       deleted = Books.delete_book!(book)
       assert deleted.id == book.id
       assert Repo.reload(book) == nil
+    end
+
+    test "deletes book members with no dependent money transfers", %{book: book} do
+      member = book_member_fixture(book)
+
+      Books.delete_book!(book)
+
+      assert Repo.reload(member) == nil
+    end
+
+    test "deletes money transfers along with their tenant and creator book members",
+         %{book: book} do
+      tenant = book_member_fixture(book)
+      creator = book_member_fixture(book)
+      transfer = money_transfer_fixture(book, tenant_id: tenant.id, creator_id: creator.id)
+
+      Books.delete_book!(book)
+
+      assert Repo.reload(transfer) == nil
+      assert Repo.reload(tenant) == nil
+      assert Repo.reload(creator) == nil
+    end
+
+    test "deletes transfer peers along with the peer book member", %{book: book} do
+      tenant = book_member_fixture(book)
+      peer_member = book_member_fixture(book)
+      transfer = money_transfer_fixture(book, tenant_id: tenant.id)
+      peer = peer_fixture(transfer, member_id: peer_member.id)
+
+      Books.delete_book!(book)
+
+      assert Repo.reload(peer) == nil
+      assert Repo.reload(peer_member) == nil
+    end
+
+    test "does not delete data belonging to other books", %{book: book} do
+      other_book = book_fixture()
+      other_member = book_member_fixture(other_book)
+      other_transfer = money_transfer_fixture(other_book, tenant_id: other_member.id)
+      other_peer = peer_fixture(other_transfer, member_id: other_member.id)
+
+      Books.delete_book!(book)
+
+      assert Repo.reload(other_member) == other_member
+      assert Repo.reload(other_transfer) == other_transfer
+      assert Repo.reload(other_peer) == other_peer
     end
   end
 
