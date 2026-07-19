@@ -35,7 +35,6 @@ defmodule AppWeb.BookCreationLiveTest do
 
     assert book = Repo.get_by(Book, name: "Book name")
     assert book.closed_at == nil
-    assert book.deleted_at == nil
 
     member = Repo.get_by(BookMember, book_id: book.id, user_id: user.id)
     assert member.nickname == "Creator name"

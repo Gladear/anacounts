@@ -232,9 +232,7 @@ defmodule App.BooksTest do
     test "deletes the book", %{book: book} do
       deleted = Books.delete_book!(book)
       assert deleted.id == book.id
-
-      assert deleted_book = Repo.get(Book, book.id)
-      assert deleted_book.deleted_at
+      assert Repo.reload(book) == nil
     end
   end
 
