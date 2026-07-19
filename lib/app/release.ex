@@ -30,24 +30,6 @@ defmodule App.Release do
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
 
-  @doc """
-  Run Ecto's data migrations. The migrations will permenantly alter the data in
-  the database. They can take time, and should be able to be cancelled and restarted
-  without causing any problem.
-
-  A guide to correctly writing data migrations was published by Fly, and can be found
-  [on their blog](https://fly.io/phoenix-files/backfilling-data/).
-  """
-  def migrate_data do
-    load_app()
-
-    path = Application.app_dir(:app, "priv/repo/data_migrations")
-
-    for repo <- repos() do
-      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, path, :up, all: true))
-    end
-  end
-
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)
   end
