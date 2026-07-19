@@ -3,6 +3,7 @@
     @apply absolute inset-0
              p-2 m-0
              w-[20rem]
+             max-h-[20rem]
              rounded-container
              shadow;
   }
