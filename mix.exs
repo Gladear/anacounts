@@ -117,15 +117,9 @@ defmodule App.MixProject do
       setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
 
-      ## Data related aliases
+      ## Repo related aliases
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      # Generate a data migration, counterpart of `mix ecto.gen.migration`
-      "ecto.gen.data_migration": [
-        "ecto.gen.migration --migrations-path priv/repo/data_migrations"
-      ],
-      # Run data migrations, counterpart of `mix ecto.migrate`
-      "ecto.migrate_data": ["eval App.ReleaseTasks.migrate_data"],
 
       ## Web-related aliases
       gettext: ["gettext.extract --merge --no-fuzzy"],
