@@ -468,18 +468,25 @@ defmodule App.TransfersTest do
     end
   end
 
-  describe "create_reimbursement/2" do
+  describe "create_reimbursement/3" do
     setup do
       book = book_fixture()
       member1 = book_member_fixture(book)
       member2 = book_member_fixture(book)
+      creator = book_member_fixture(book)
 
-      %{book: book, member1: member1, member2: member2}
+      %{book: book, member1: member1, member2: member2, creator: creator}
     end
 
-    test "creates a reimbursement in a book", %{book: book, member1: member1, member2: member2} do
+    test "creates a reimbursement in a book",
+         %{
+           book: book,
+           member1: member1,
+           member2: member2,
+           creator: creator
+         } do
       assert {:ok, money_transfer} =
-               Transfers.create_reimbursement(book, %{
+               Transfers.create_reimbursement(book, creator, %{
                  label: "Reimbursement from member1 to member2",
                  amount: Decimal.new(100),
                  date: ~D[2020-06-29],
@@ -493,12 +500,20 @@ defmodule App.TransfersTest do
       assert money_transfer.date == ~D[2020-06-29]
       assert money_transfer.tenant_id == member1.id
       assert money_transfer.balance_means == :divide_equally
+      assert money_transfer.creator_id == creator.id
     end
 
-    test "cannot create a payment or an income", %{book: book, member1: member1, member2: member2} do
+    test "cannot create a payment or an income",
+         %{
+           book: book,
+           member1: member1,
+           member2: member2,
+           creator: creator
+         } do
       assert {:ok, money_transfer} =
                Transfers.create_reimbursement(
                  book,
+                 creator,
                  money_transfer_attributes(
                    type: :payment,
                    tenant_id: member1.id,
@@ -509,14 +524,17 @@ defmodule App.TransfersTest do
       assert money_transfer.type == :reimbursement
     end
 
-    test "cannot create a money transfer weighted by income", %{
-      book: book,
-      member1: member1,
-      member2: member2
-    } do
+    test "cannot create a money transfer weighted by income",
+         %{
+           book: book,
+           member1: member1,
+           member2: member2,
+           creator: creator
+         } do
       assert {:ok, money_transfer} =
                Transfers.create_reimbursement(
                  book,
+                 creator,
                  money_transfer_attributes(
                    balance_means: :weighted_by_income,
                    tenant_id: member1.id,
@@ -527,10 +545,16 @@ defmodule App.TransfersTest do
       assert money_transfer.balance_means == :divide_equally
     end
 
-    test "cannot create a money transfer withour peers", %{book: book, member1: member1} do
+    test "cannot create a money transfer withour peers",
+         %{
+           book: book,
+           member1: member1,
+           creator: creator
+         } do
       assert_raise Ecto.ChangeError, "A reimbursement must have exactly one peer", fn ->
         Transfers.create_reimbursement(
           book,
+          creator,
           money_transfer_attributes(
             tenant_id: member1.id,
             peers: []
@@ -539,13 +563,19 @@ defmodule App.TransfersTest do
       end
     end
 
-    test "cannot create a money transfer with multiple peers", %{book: book, member1: member1} do
+    test "cannot create a money transfer with multiple peers",
+         %{
+           book: book,
+           member1: member1,
+           creator: creator
+         } do
       member2 = book_member_fixture(book)
       member3 = book_member_fixture(book)
 
       assert_raise Ecto.ChangeError, "A reimbursement must have exactly one peer", fn ->
         Transfers.create_reimbursement(
           book,
+          creator,
           money_transfer_attributes(
             tenant_id: member1.id,
             peers: [%{member_id: member2.id}, %{member_id: member3.id}]
@@ -554,13 +584,16 @@ defmodule App.TransfersTest do
       end
     end
 
-    test "cannot create a money transfer with the only peer being the tenant", %{
-      book: book,
-      member1: member1
-    } do
+    test "cannot create a money transfer with the only peer being the tenant",
+         %{
+           book: book,
+           member1: member1,
+           creator: creator
+         } do
       assert {:error, changeset} =
                Transfers.create_reimbursement(
                  book,
+                 creator,
                  money_transfer_attributes(
                    tenant_id: member1.id,
                    peers: [%{member_id: member1.id}]

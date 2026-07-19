@@ -69,7 +69,7 @@ alias App.Transfers
   })
 
 {:ok, _reimbursement} =
-  Transfers.create_reimbursement(book, %{
+  Transfers.create_reimbursement(book, member_3, %{
     label: "Reimbursement from Member 2 to Anacounts",
     amount: Decimal.new("20.00"),
     date: ~D[2026-07-05],

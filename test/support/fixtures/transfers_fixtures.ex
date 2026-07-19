@@ -18,7 +18,10 @@ defmodule App.TransfersFixtures do
   end
 
   def money_transfer_fixture(book, attrs \\ %{}) do
-    %MoneyTransfer{book_id: book.id}
+    %MoneyTransfer{
+      book_id: book.id,
+      creator_id: attrs[:tenant_id]
+    }
     |> Map.merge(money_transfer_attributes(attrs))
     |> Repo.insert!()
   end
