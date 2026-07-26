@@ -7,6 +7,6 @@
     "@floating-ui/dom": "^1.8.0"
   },
   "devDependencies": {
-    "prettier": "^3.9.5"
+    "prettier": "^3.9.6"
   }
 }
