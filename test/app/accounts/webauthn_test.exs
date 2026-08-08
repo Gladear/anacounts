@@ -110,7 +110,126 @@ defmodule App.Accounts.WebauthnTest do
     end
   end
 
-  describe "save_passkey/2" do
+  describe "begin_passkey_authentication/0" do
+    test "returns a challenge and matching PublicKeyCredentialRequestOptions" do
+      {challenge, options} = Webauthn.begin_passkey_authentication()
+
+      assert %Wax.Challenge{type: :authentication} = challenge
+      assert options["challenge"] == Base.url_encode64(challenge.bytes, padding: false)
+      assert options["rpId"] == challenge.rp_id
+      assert options["allowCredentials"] == []
+      assert options["timeout"] == challenge.timeout * 1_000
+    end
+
+    test "requires user verification, matching the challenge it generates" do
+      {challenge, options} = Webauthn.begin_passkey_authentication()
+
+      assert challenge.user_verification == "required"
+      assert options["userVerification"] == "required"
+    end
+  end
+
+  describe "verify_passkey_authentication/2" do
+    setup :begin_passkey_authentication
+
+    test "returns the user for a valid assertion",
+         %{user: user, challenge: challenge, credential_id: credential_id, keypair: keypair} do
+      credential =
+        fake_authentication_response(challenge, credential_id: credential_id, keypair: keypair)
+
+      assert {:ok, returned_user} = Webauthn.verify_passkey_authentication(credential, challenge)
+      assert returned_user.id == user.id
+    end
+
+    test "persists the authenticator's new sign count",
+         %{passkey: passkey, challenge: challenge, credential_id: credential_id, keypair: keypair} do
+      credential =
+        fake_authentication_response(challenge,
+          credential_id: credential_id,
+          keypair: keypair,
+          sign_count: 7
+        )
+
+      assert {:ok, _user} = Webauthn.verify_passkey_authentication(credential, challenge)
+      assert Repo.get!(UserPasskey, passkey.id).sign_count == 7
+    end
+
+    test "accepts a sign count of 0, as reported by counter-less authenticators",
+         %{challenge: challenge, credential_id: credential_id, keypair: keypair} do
+      credential =
+        fake_authentication_response(challenge,
+          credential_id: credential_id,
+          keypair: keypair,
+          sign_count: 0
+        )
+
+      assert {:ok, _user} = Webauthn.verify_passkey_authentication(credential, challenge)
+    end
+
+    test "rejects a sign count that didn't strictly increase, as a possible cloned authenticator",
+         %{
+           passkey: passkey,
+           challenge: challenge,
+           credential_id: credential_id,
+           keypair: keypair
+         } do
+      passkey |> Ecto.Changeset.change(sign_count: 5) |> Repo.update!()
+
+      credential =
+        fake_authentication_response(challenge,
+          credential_id: credential_id,
+          keypair: keypair,
+          sign_count: 5
+        )
+
+      assert {:error, :cloned_authenticator} =
+               Webauthn.verify_passkey_authentication(credential, challenge)
+    end
+
+    test "returns an error for an unknown credential id", %{
+      challenge: challenge,
+      keypair: keypair
+    } do
+      credential =
+        fake_authentication_response(challenge,
+          credential_id: :crypto.strong_rand_bytes(16),
+          keypair: keypair
+        )
+
+      assert {:error, :not_found} = Webauthn.verify_passkey_authentication(credential, challenge)
+    end
+
+    test "returns an error when the user was not verified by the authenticator",
+         %{challenge: challenge, credential_id: credential_id, keypair: keypair} do
+      credential =
+        fake_authentication_response(challenge,
+          credential_id: credential_id,
+          keypair: keypair,
+          user_verified: false
+        )
+
+      assert {:error, _reason} = Webauthn.verify_passkey_authentication(credential, challenge)
+    end
+
+    test "returns an error when the challenge doesn't match", %{
+      credential_id: credential_id,
+      keypair: keypair
+    } do
+      {other_challenge, _options} = Webauthn.begin_passkey_authentication()
+
+      credential =
+        fake_authentication_response(other_challenge,
+          credential_id: credential_id,
+          keypair: keypair
+        )
+
+      {challenge, _options} = Webauthn.begin_passkey_authentication()
+
+      assert {:error, _reason} = Webauthn.verify_passkey_authentication(credential, challenge)
+    end
+  end
+
+  describe "register_passkey/2" do
     setup :begin_passkey_registration
 
     setup %{user: user, challenge: challenge, credential: credential} do
@@ -146,5 +265,21 @@ defmodule App.Accounts.WebauthnTest do
     credential = fake_registration_response(challenge)
 
     %{challenge: challenge, credential: credential}
+  end
+
+  defp begin_passkey_authentication(%{user: user}) do
+    keypair = {public_key, _private_key} = generate_keypair()
+    credential_id = :crypto.strong_rand_bytes(16)
+
+    passkey =
+      user_passkey_fixture(user, %{
+        credential_id: credential_id,
+        public_key: :erlang.term_to_binary(cose_key_from_public_key(public_key)),
+        sign_count: 0
+      })
+
+    {challenge, _options} = Webauthn.begin_passkey_authentication()
+
+    %{keypair: keypair, credential_id: credential_id, passkey: passkey, challenge: challenge}
   end
 end

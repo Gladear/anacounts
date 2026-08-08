@@ -3,10 +3,132 @@ defmodule App.Accounts.Webauthn do
   See https://webauthn.guide for a more detailed explanation.
   """
 
+  import Ecto.Query
+
   alias App.Accounts
   alias App.Accounts.User
   alias App.Accounts.UserPasskey
   alias App.Repo
+
+  ## Passkey authentication
+
+  @doc """
+  Generates a WebAuthn authentication challenge and the corresponding
+  PublicKeyCredentialRequestOptions to send to the browser.
+  """
+  @spec begin_passkey_authentication() :: {Wax.Challenge.t(), map()}
+  def begin_passkey_authentication do
+    challenge =
+      Wax.new_authentication_challenge(
+        allow_credentials: [],
+        origin: webauthn_origin(),
+        rp_id: webauthn_rp_id(),
+        # Require the authenticator to verify the user (PIN, biometrics...),
+        # not just confirm their presence, since a passkey is meant to be a
+        # standalone authentication factor, not a second one.
+        user_verification: "required"
+      )
+
+    options = %{
+      "challenge" => Base.url_encode64(challenge.bytes, padding: false),
+      "rpId" => webauthn_rp_id(),
+      "allowCredentials" => [],
+      "userVerification" => challenge.user_verification,
+      "timeout" => challenge.timeout * 1_000
+    }
+
+    {challenge, options}
+  end
+
+  @doc """
+  Verifies a WebAuthn assertion, and returns the related user on success.
+  """
+  @spec verify_passkey_authentication(map(), Wax.Challenge.t()) ::
+          {:ok, User.t()}
+          | {:error, :invalid_credential}
+          | {:error, :not_found}
+          | {:error, :cloned_authenticator}
+          | {:error, {:wax, Exception.t()}}
+  def verify_passkey_authentication(credential_response, stored_challenge) do
+    Repo.transact(fn ->
+      with {:ok, credential_id, passkey, challenge} <-
+             resolve_asserted_credential(credential_response, stored_challenge),
+           {:ok, authenticator_data} <-
+             authenticate(credential_id, credential_response, challenge),
+           :ok <- verify_sign_count(passkey, authenticator_data.sign_count) do
+        record_sign_count(passkey, authenticator_data.sign_count)
+        {:ok, Accounts.get_user!(passkey.user_id)}
+      else
+        :error -> {:error, :invalid_credential}
+        {:error, _} = error -> error
+      end
+    end)
+  end
+
+  # Looks up the passkey the client claims to be asserting, and restricts the
+  # challenge to that single credential's public key so `Wax.authenticate/6`
+  # verifies the signature against it.
+  defp resolve_asserted_credential(credential_response, stored_challenge) do
+    with {:ok, credential_id} <-
+           Base.url_decode64(credential_response["rawId"], padding: false),
+         {:ok, passkey} <- fetch_passkey_by_credential_id(credential_id) do
+      cose_key = :erlang.binary_to_term(passkey.public_key, [:safe])
+      challenge = %{stored_challenge | allow_credentials: [{credential_id, cose_key}]}
+      {:ok, credential_id, passkey, challenge}
+    end
+  end
+
+  defp fetch_passkey_by_credential_id(credential_id) do
+    query =
+      from user_passkey in UserPasskey.base_query(),
+        where: user_passkey.credential_id == ^credential_id,
+        lock: "FOR UPDATE"
+
+    if passkey = Repo.one(query) do
+      {:ok, passkey}
+    else
+      {:error, :not_found}
+    end
+  end
+
+  defp authenticate(credential_id, credential_response, challenge) do
+    response = credential_response["response"]
+
+    with {:ok, auth_data} <- Base.url_decode64(response["authenticatorData"], padding: false),
+         {:ok, sig} <- Base.url_decode64(response["signature"], padding: false),
+         {:ok, client_data_json} <- Base.url_decode64(response["clientDataJSON"], padding: false) do
+      wax_authenticate(credential_id, auth_data, sig, client_data_json, challenge)
+    end
+  end
+
+  defp wax_authenticate(credential_id, auth_data, sig, client_data_json, challenge) do
+    with {:error, reason} <-
+           Wax.authenticate(credential_id, auth_data, sig, client_data_json, challenge) do
+      {:error, {:wax, reason}}
+    end
+  end
+
+  # Per WebAuthn 7.2 step 17: a sign count that doesn't strictly increase
+  # indicates the authenticator's private key may have been cloned. Some
+  # platform authenticators (e.g. Touch ID) never implement a counter and
+  # always report 0, so the check is skipped when either side is 0.
+  defp verify_sign_count(%UserPasskey{} = passkey, new_count) when is_integer(new_count) do
+    stored_count = passkey.sign_count
+
+    cond do
+      stored_count == 0 or new_count == 0 -> :ok
+      stored_count < new_count -> :ok
+      true -> {:error, :cloned_authenticator}
+    end
+  end
+
+  defp record_sign_count(passkey, sign_count) do
+    passkey
+    |> UserPasskey.change_sign_count_changeset(sign_count)
+    |> Repo.update!()
+  end
+
+  ## Passkey creation (settings)
 
   @doc """
   Generates a WebAuthn registration challenge and the corresponding
