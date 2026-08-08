@@ -28,12 +28,32 @@ msgid "A link to confirm your email change has been sent to the new address."
 msgstr "Un lien de confirmation a été envoyé à votre nouvelle adresse."
 
 #, elixir-autogen, elixir-format
+msgid "A name to identify this device"
+msgstr "Nom pour identifier la passkey"
+
+#, elixir-autogen, elixir-format
+msgid "A passkey lets you sign in using your device's built-in security (fingerprint, face recognition, or screen lock) instead of a password. It is stored securely on this device and can't be phished or leaked."
+msgstr "Une passkey permet de se connecter à l'aide des fonctionnalités de sécurité intégrées à votre appareil (empreinte digitale, reconnaissance faciale ou verrouillage de l'écran) au lieu d'un mot de passe. Elle est stockée en toute sécurité sur cet appareil et ne peut donc pas faire l'objet d'une tentative d'hameçonnage ni d'une fuite."
+
+#, elixir-autogen, elixir-format
+msgid "Add a passkey"
+msgstr "Ajouter une passkey"
+
+#, elixir-autogen, elixir-format
 msgid "Add another member"
 msgstr "Ajouter un membre"
 
 #, elixir-autogen, elixir-format
 msgid "Add everyone"
 msgstr "Ajouter tout le monde"
+
+#, elixir-autogen, elixir-format
+msgid "Add passkey"
+msgstr "Ajouter la passkey"
+
+#, elixir-autogen, elixir-format
+msgid "Added on %{date}"
+msgstr "Ajoutée le %{date}"
 
 #, elixir-autogen, elixir-format
 msgid "Alphabetically"
@@ -86,6 +106,10 @@ msgstr "Avant d'appliquer le changement, un email de confirmation sera envoyé �
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
 msgstr "Par défault, seuls les nouveaux transfers utiliseront ces revenus. Ici, vous pouvez sélectionner les transfers qui devraient utiliser ces nouveaux revenus."
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Annuler"
 
 #, elixir-autogen, elixir-format
 msgid "Change email"
@@ -168,12 +192,20 @@ msgid "Delete book"
 msgstr "Supprimer le livret"
 
 #, elixir-autogen, elixir-format
+msgid "Delete this passkey?"
+msgstr "Supprimer cette passkey ?"
+
+#, elixir-autogen, elixir-format
 msgid "Describe the purpose of the book in a few words."
 msgstr "Décrivez le but du livret en quelques mots."
 
 #, elixir-autogen, elixir-format
 msgid "Details"
 msgstr "Détails"
+
+#, elixir-autogen, elixir-format
+msgid "Device name"
+msgstr "Nom de la passkey"
 
 #, elixir-autogen, elixir-format
 msgid "Disconnect"
@@ -372,6 +404,10 @@ msgid "Nicknames can be changed later on."
 msgstr "Les pseudos peuvent être changés plus tard."
 
 #, elixir-autogen, elixir-format
+msgid "No passkeys registered yet."
+msgstr "Aucune passkey n'a été enregistrée pour le moment."
+
+#, elixir-autogen, elixir-format
 msgid "No transfers yet"
 msgstr "Pas de transfert"
 
@@ -404,12 +440,28 @@ msgid "Paid by"
 msgstr "Payé par"
 
 #, elixir-autogen, elixir-format
+msgid "Passkey added successfully."
+msgstr "La passkey a été ajoutée."
+
+#, elixir-autogen, elixir-format
+msgid "Passkey sign-in expired, please try again."
+msgstr "L'authentification a expiré, veuillez essayer de nouveau."
+
+#, elixir-autogen, elixir-format
+msgid "Passkey sign-in failed, please try again."
+msgstr "L'authentication a échoué, veuillez essayer de nouveau."
+
+#, elixir-autogen, elixir-format
+msgid "Passkeys"
+msgstr "Passkeys"
+
+#, elixir-autogen, elixir-format
 msgid "Password"
 msgstr "Mot de passe"
 
 #, elixir-autogen, elixir-format
 msgid "Password reset."
-msgstr ""
+msgstr "Mot de passe réinitialisé."
 
 #, elixir-autogen, elixir-format
 msgid "People clicking this link will be asked either to join as an existing member, or to create a new one."
@@ -428,12 +480,24 @@ msgid "Register"
 msgstr "Créer un compte"
 
 #, elixir-autogen, elixir-format
+msgid "Registered passkeys"
+msgstr "Passkeys enregistrées"
+
+#, elixir-autogen, elixir-format
+msgid "Registration failed, please try again."
+msgstr "L'ajout de la passkey a échoué, veuillez essayer de nouveau."
+
+#, elixir-autogen, elixir-format
 msgid "Reimbursement from %{debtor_name} to %{creditor_name}"
 msgstr "Remboursement de %{debtor_name} à %{creditor_name}"
 
 #, elixir-autogen, elixir-format
 msgid "Remove all"
 msgstr "Enlever tout"
+
+#, elixir-autogen, elixir-format
+msgid "Rename"
+msgstr "Renommer"
 
 #, elixir-autogen, elixir-format
 msgid "Reopen book"
@@ -495,6 +559,10 @@ msgstr "Se connecter"
 #, elixir-autogen, elixir-format
 msgid "Sign in to your account"
 msgstr "Se connecter à mon compte"
+
+#, elixir-autogen, elixir-format
+msgid "Sign in with a passkey"
+msgstr "Connexion avec une passkey"
 
 #, elixir-autogen, elixir-format
 msgid "Some information is missing to balance the book"
@@ -635,6 +703,10 @@ msgstr "Vous avez été ajouté au livret"
 #, elixir-autogen, elixir-format
 msgid "You have not set your revenues yet."
 msgstr "Vous n'avez pas encore définis vos revenus."
+
+#, elixir-autogen, elixir-format
+msgid "You must keep at least one passkey. Add another device first."
+msgstr "Vous devez garder au moins une passkey. Commencez par ajouter un autre appareil."
 
 #, elixir-autogen, elixir-format
 msgid "You must log in to access this page."
