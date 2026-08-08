@@ -457,6 +457,115 @@ defmodule App.AccountsTest do
     end
   end
 
+  describe "list_user_passkeys/1" do
+    test "returns an empty list when the user has no passkeys" do
+      user = user_fixture()
+      _other_user_passkey = user_passkey_fixture(user_fixture())
+      assert Accounts.list_user_passkeys(user) == []
+    end
+
+    test "returns the user's passkeys ordered by name" do
+      user = user_fixture()
+      _other_user_passkey = user_passkey_fixture(user_fixture())
+      passkey_b = user_passkey_fixture(user, device_name: "B passkey")
+      passkey_a = user_passkey_fixture(user, device_name: "A passkey")
+
+      assert Accounts.list_user_passkeys(user) |> Enum.map(& &1.id) == [
+               passkey_a.id,
+               passkey_b.id
+             ]
+    end
+  end
+
+  describe "count_user_passkeys/1" do
+    test "returns 0 when the user has no passkeys" do
+      user = user_fixture()
+      assert Accounts.count_user_passkeys(user) == 0
+    end
+
+    test "returns the number of passkeys for the user" do
+      user = user_fixture()
+      for _ <- 1..3, do: user_passkey_fixture(user)
+      _other_user_passkey = user_passkey_fixture(user_fixture())
+
+      assert Accounts.count_user_passkeys(user) == 3
+    end
+  end
+
+  describe "get_user_passkey!/2" do
+    test "returns the passkey when it belongs to the user" do
+      user = user_fixture()
+      user_passkey = user_passkey_fixture(user)
+
+      assert Accounts.get_user_passkey!(user, user_passkey.id).id == user_passkey.id
+    end
+
+    test "raises when the passkey does not belong to the user" do
+      user_passkey = user_passkey_fixture(user_fixture())
+      other_user = user_fixture()
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_user_passkey!(other_user, user_passkey.id)
+      end
+    end
+
+    test "raises when the passkey does not exist" do
+      user = user_fixture()
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Accounts.get_user_passkey!(user, -1)
+      end
+    end
+  end
+
+  describe "rename_user_passkey/2" do
+    test "renames the passkey" do
+      user_passkey = user_passkey_fixture(user_fixture(), %{device_name: "Old name"})
+
+      assert {:ok, updated_passkey} =
+               Accounts.rename_user_passkey(user_passkey, %{device_name: "New name"})
+
+      assert updated_passkey.device_name == "New name"
+      assert Repo.reload!(user_passkey).device_name == "New name"
+    end
+
+    test "requires a device name" do
+      user_passkey = user_passkey_fixture(user_fixture())
+
+      assert {:error, changeset} = Accounts.rename_user_passkey(user_passkey, %{device_name: ""})
+      assert %{device_name: ["can't be blank"]} = errors_on(changeset)
+    end
+
+    test "fails if name is too long" do
+      user_passkey = user_passkey_fixture(user_fixture())
+
+      too_long = String.duplicate("a", 256)
+
+      assert {:error, changeset} =
+               Accounts.rename_user_passkey(user_passkey, %{device_name: too_long})
+
+      assert %{device_name: ["should be at most 255 character(s)"]} = errors_on(changeset)
+    end
+  end
+
+  describe "delete_user_passkey/1" do
+    test "deletes the passkey when the user has more than one" do
+      user = user_fixture()
+      user_passkey_fixture(user)
+      user_passkey_to_delete = user_passkey_fixture(user)
+
+      assert {:ok, _} = Accounts.delete_user_passkey(user_passkey_to_delete)
+      assert Repo.reload(user_passkey_to_delete) == nil
+    end
+
+    test "returns an error when deleting the user's last passkey" do
+      user_passkey = user_passkey_fixture(user_fixture())
+
+      assert Accounts.delete_user_passkey(user_passkey) == {:error, :last_passkey}
+      assert Repo.reload(user_passkey) != nil
+    end
+  end
+
   describe "inspect/2 for the User module" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""

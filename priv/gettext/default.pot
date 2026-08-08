@@ -27,11 +27,31 @@ msgid "A link to confirm your email change has been sent to the new address."
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "A name to identify this device"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "A passkey lets you sign in using your device's built-in security (fingerprint, face recognition, or screen lock) instead of a password. It is stored securely on this device and can't be phished or leaked."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Add a passkey"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Add another member"
 msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Add everyone"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Add passkey"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Added on %{date}"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -84,6 +104,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Cancel"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -167,11 +191,19 @@ msgid "Delete book"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Delete this passkey?"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Describe the purpose of the book in a few words."
 msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Details"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Device name"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -371,6 +403,10 @@ msgid "Nicknames can be changed later on."
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "No passkeys registered yet."
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "No transfers yet"
 msgstr ""
 
@@ -403,6 +439,22 @@ msgid "Paid by"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Passkey added successfully."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Passkey sign-in expired, please try again."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Passkey sign-in failed, please try again."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Passkeys"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Password"
 msgstr ""
 
@@ -427,11 +479,23 @@ msgid "Register"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Registered passkeys"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Registration failed, please try again."
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Reimbursement from %{debtor_name} to %{creditor_name}"
 msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Remove all"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Rename"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -493,6 +557,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Sign in to your account"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Sign in with a passkey"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -633,6 +701,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "You have not set your revenues yet."
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "You must keep at least one passkey. Add another device first."
 msgstr ""
 
 #, elixir-autogen, elixir-format

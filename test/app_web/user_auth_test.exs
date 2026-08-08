@@ -277,4 +277,28 @@ defmodule AppWeb.UserAuthTest do
       refute conn.status
     end
   end
+
+  describe "sign_passkey_login_token/1 and verify_passkey_login_token/1" do
+    test "round-trips to the signing user", %{user: user} do
+      token = UserAuth.sign_passkey_login_token(user)
+      assert %Accounts.User{id: id} = UserAuth.verify_passkey_login_token(token)
+      assert id == user.id
+    end
+
+    test "returns nil for a tampered token", %{user: user} do
+      token = UserAuth.sign_passkey_login_token(user)
+      assert UserAuth.verify_passkey_login_token(token <> "x") == nil
+    end
+
+    test "returns nil for an expired token", %{user: user} do
+      expired_signed_at = System.system_time(:second) - 31
+
+      token =
+        Phoenix.Token.sign(AppWeb.Endpoint, "user passkey login", user.id,
+          signed_at: expired_signed_at
+        )
+
+      assert UserAuth.verify_passkey_login_token(token) == nil
+    end
+  end
 end
