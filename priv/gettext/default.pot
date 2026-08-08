@@ -439,10 +439,6 @@ msgid "Paid by"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Passkey added successfully."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Passkey sign-in expired, please try again."
 msgstr ""
 
