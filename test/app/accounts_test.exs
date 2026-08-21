@@ -492,6 +492,27 @@ defmodule App.AccountsTest do
     end
   end
 
+  describe "user_has_passkey?/1" do
+    test "returns false when the user has no passkeys" do
+      user = user_fixture()
+      refute Accounts.user_has_passkey?(user)
+    end
+
+    test "returns true when the user has at least one passkey" do
+      user = user_fixture()
+      _user_passkey = user_passkey_fixture(user)
+
+      assert Accounts.user_has_passkey?(user)
+    end
+
+    test "does not consider other users' passkeys" do
+      user = user_fixture()
+      _other_user_passkey = user_passkey_fixture(user_fixture())
+
+      refute Accounts.user_has_passkey?(user)
+    end
+  end
+
   describe "get_user_passkey!/2" do
     test "returns the passkey when it belongs to the user" do
       user = user_fixture()

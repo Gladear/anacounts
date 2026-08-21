@@ -476,6 +476,10 @@ msgid "Register"
 msgstr "Register"
 
 #, elixir-autogen, elixir-format
+msgid "Register a passkey"
+msgstr "Register a passkey"
+
+#, elixir-autogen, elixir-format
 msgid "Registered passkeys"
 msgstr "Registered passkeys"
 
@@ -567,6 +571,10 @@ msgstr "Some information is missing to balance the book"
 #, elixir-autogen, elixir-format
 msgid "Someone new"
 msgstr "Someone new"
+
+#, elixir-autogen, elixir-format
+msgid "Soon, you will only be able to sign in with a passkey. Register one now so you don't lose access to your account."
+msgstr "Soon, you will only be able to sign in with a passkey. Register one now so you don't lose access to your account."
 
 #, elixir-autogen, elixir-format
 msgid "Sort by"

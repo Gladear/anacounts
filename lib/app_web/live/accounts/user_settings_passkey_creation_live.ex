@@ -9,7 +9,7 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
 
   def render(assigns) do
     ~H"""
-    <.app_page flash={@flash}>
+    <.app_page flash={@flash} current_user={@current_user}>
       <:breadcrumb>
         <.breadcrumb_item navigate={~p"/users/settings"}>
           {gettext("My account")}
