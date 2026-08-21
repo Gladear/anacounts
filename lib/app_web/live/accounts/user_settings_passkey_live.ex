@@ -79,6 +79,9 @@ defmodule AppWeb.UserSettingsPasskeysLive do
         <.link navigate={~p"/users/settings/passkeys/new"}>
           <.card_button icon={:plus}>{gettext("Add a passkey")}</.card_button>
         </.link>
+        <.link navigate={~p"/users/settings/passkeys/link_device"}>
+          <.card_button icon={:qr_code}>{gettext("Add a new device")}</.card_button>
+        </.link>
       </.card_grid>
     </.app_page>
     """
