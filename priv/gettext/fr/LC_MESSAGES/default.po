@@ -476,6 +476,10 @@ msgid "Register"
 msgstr "Créer un compte"
 
 #, elixir-autogen, elixir-format
+msgid "Register a passkey"
+msgstr "Enregistrer une passkey"
+
+#, elixir-autogen, elixir-format
 msgid "Registered passkeys"
 msgstr "Passkeys enregistrées"
 
@@ -567,6 +571,10 @@ msgstr "Certaines informations manquent pour pouvoir équilibrer le livret"
 #, elixir-autogen, elixir-format
 msgid "Someone new"
 msgstr "Quelqu'un d'autre"
+
+#, elixir-autogen, elixir-format
+msgid "Soon, you will only be able to sign in with a passkey. Register one now so you don't lose access to your account."
+msgstr "Bientôt, vous ne pourrez vous connecter qu'avec une passkey. Enregistrez-en une dès maintenant pour ne pas perdre l'accès à votre compte."
 
 #, elixir-autogen, elixir-format
 msgid "Sort by"

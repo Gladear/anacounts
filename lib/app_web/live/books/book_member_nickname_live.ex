@@ -10,7 +10,7 @@ defmodule AppWeb.BookMemberNicknameLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page flash={@flash}>
+    <.app_page flash={@flash} current_user={@current_user}>
       <:breadcrumb>
         {nickname_breadcrumbs(assigns)}
       </:breadcrumb>

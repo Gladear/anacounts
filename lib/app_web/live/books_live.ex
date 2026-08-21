@@ -14,6 +14,7 @@ defmodule AppWeb.BooksLive do
   def render(assigns) do
     ~H"""
     <div class="app-page">
+      <.user_passkey_banner current_user={@current_user} />
       <header class="flex justify-between">
         <h1 class="title-1">{@page_title}</h1>
         <.button kind={:ghost} navigate={~p"/users/settings"} class="p-2">
