@@ -63,7 +63,7 @@ defmodule AppWeb.Router do
       live "/users/settings/password", UserSettingsPasswordLive
       live "/users/settings/passkeys", UserSettingsPasskeysLive
       live "/users/settings/passkeys/new", UserSettingsPasskeyCreationLive
-      live "/users/settings/passkeys/link_device", UserSettingsDeviceLinkLive
+      live "/users/settings/passkeys/link-device", UserSettingsDeviceLinkLive
     end
   end
 
