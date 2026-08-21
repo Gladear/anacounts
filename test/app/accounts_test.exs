@@ -587,6 +587,66 @@ defmodule App.AccountsTest do
     end
   end
 
+  describe "create_device_link_token/1" do
+    test "creates a device_link token for the user" do
+      user = user_fixture()
+      token = Accounts.create_device_link_token(user)
+
+      {:ok, decoded_token} = Base.url_decode64(token, padding: false)
+      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, decoded_token))
+      assert user_token.user_id == user.id
+      assert user_token.context == "device_link"
+      assert user_token.sent_to == nil
+    end
+  end
+
+  describe "get_user_by_device_link_token/1" do
+    setup do
+      user = user_fixture()
+      token = Accounts.create_device_link_token(user)
+      %{user: user, token: token}
+    end
+
+    test "returns the user with a valid token", %{user: %{id: id}, token: token} do
+      assert %User{id: ^id} = Accounts.get_user_by_device_link_token(token)
+    end
+
+    test "does not return the user with an invalid token", %{user: user} do
+      refute Accounts.get_user_by_device_link_token("oops")
+      assert Repo.get_by(UserToken, user_id: user.id)
+    end
+
+    test "does not return the user if the token expired", %{user: user, token: token} do
+      {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
+      refute Accounts.get_user_by_device_link_token(token)
+      assert Repo.get_by(UserToken, user_id: user.id)
+    end
+
+    test "does not return the user once the token has been consumed", %{user: user, token: token} do
+      Accounts.delete_device_link_tokens(user)
+      refute Accounts.get_user_by_device_link_token(token)
+    end
+  end
+
+  describe "delete_device_link_tokens/1" do
+    test "deletes the user's device_link tokens" do
+      user = user_fixture()
+      Accounts.create_device_link_token(user)
+
+      assert Accounts.delete_device_link_tokens(user) == :ok
+      refute Repo.get_by(UserToken, user_id: user.id, context: "device_link")
+    end
+
+    test "does not delete other users' device_link tokens" do
+      other_user = user_fixture()
+      Accounts.create_device_link_token(other_user)
+
+      Accounts.delete_device_link_tokens(user_fixture())
+
+      assert Repo.get_by(UserToken, user_id: other_user.id, context: "device_link")
+    end
+  end
+
   describe "inspect/2 for the User module" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""

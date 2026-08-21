@@ -17,6 +17,7 @@ defmodule App.Accounts.UserToken do
   @reset_password_validity_in_days 1
   @change_email_validity_in_days 7
   @session_validity_in_days 60
+  @device_link_validity_in_minutes 10
 
   schema "user_tokens" do
     field :token, :binary
@@ -130,6 +131,44 @@ defmodule App.Accounts.UserToken do
   end
 
   defp days_for_context("reset_password"), do: @reset_password_validity_in_days
+
+  @doc """
+  Builds a token to link a new device: it lets that device register a
+  passkey for the given user without the user having to sign in there
+  first.
+
+  This token is displayed as a link/QR code on an already-authenticated device.
+  It is short-lived and single-use: see `verify_device_link_token_query/1` for the
+  expiry, and the caller is expected to delete the token once it has been redeemed.
+  """
+  def build_device_link_token(user) do
+    build_hashed_token(user, "device_link", nil)
+  end
+
+  @doc """
+  Checks if the device-link token is valid and returns its underlying lookup query.
+
+  The query returns the user found by the token, if any. The token is valid
+  if it matches its hashed counterpart in the database and it has not
+  expired (after @device_link_validity_in_minutes).
+  """
+  def verify_device_link_token_query(token) do
+    case Base.url_decode64(token, padding: false) do
+      {:ok, decoded_token} ->
+        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
+
+        query =
+          from token in token_and_context_query(hashed_token, "device_link"),
+            join: user in assoc(token, :user),
+            where: token.inserted_at > ago(@device_link_validity_in_minutes, "minute"),
+            select: user
+
+        {:ok, query}
+
+      :error ->
+        :error
+    end
+  end
 
   @doc """
   Checks if the token is valid and returns its underlying lookup query.
