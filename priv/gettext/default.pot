@@ -35,6 +35,10 @@ msgid "A passkey lets you sign in using your device's built-in security (fingerp
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Add a new device"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Add a passkey"
 msgstr ""
 
@@ -459,6 +463,10 @@ msgid "Password reset."
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Paste this link on your other device to register it"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "People clicking this link will be asked either to join as an existing member, or to create a new one."
 msgstr ""
 
@@ -529,6 +537,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Save"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -632,6 +644,10 @@ msgid "This is your current revenues"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "This link is invalid or has expired."
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "This member revenues were not set yet."
 msgstr ""
 
@@ -721,6 +737,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
 msgstr ""
 
 #, elixir-autogen, elixir-format

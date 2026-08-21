@@ -4,8 +4,8 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
   """
   use AppWeb, :live_view
 
-  alias App.Accounts.UserPasskey
   alias App.Accounts.Webauthn
+  alias AppWeb.PasskeyRegistrationFlow
 
   def render(assigns) do
     ~H"""
@@ -96,18 +96,9 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
     socket =
       socket
       |> assign(:page_title, gettext("Add a passkey"))
-      |> assign_intro()
+      |> PasskeyRegistrationFlow.assign_intro()
 
     {:ok, socket}
-  end
-
-  defp assign_intro(socket) do
-    assign(socket,
-      step: :intro,
-      form: nil,
-      challenge: nil,
-      pending_passkey: nil
-    )
   end
 
   def handle_event("start_register", _params, socket) do
@@ -123,29 +114,14 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
   end
 
   def handle_event("register_response", %{"response" => credential}, socket) do
-    current_user = socket.assigns.current_user
+    socket =
+      PasskeyRegistrationFlow.handle_register_response(
+        socket,
+        socket.assigns.current_user,
+        credential
+      )
 
-    case Webauthn.verify_passkey_registration(current_user, credential, socket.assigns.challenge) do
-      {:ok, passkey} ->
-        form = %UserPasskey{} |> UserPasskey.device_name_changeset(%{}) |> to_form()
-
-        socket =
-          assign(socket,
-            step: :naming,
-            pending_passkey: passkey,
-            form: form
-          )
-
-        {:noreply, socket}
-
-      {:error, _reason} ->
-        socket =
-          socket
-          |> put_flash(:error, gettext("Registration failed, please try again."))
-          |> assign_intro()
-
-        {:noreply, socket}
-    end
+    {:noreply, socket}
   end
 
   def handle_event("register_error", %{"message" => message}, socket) do
@@ -153,13 +129,7 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
   end
 
   def handle_event("validate", %{"user_passkey" => passkey_attrs}, socket) do
-    form =
-      %UserPasskey{}
-      |> UserPasskey.device_name_changeset(passkey_attrs)
-      |> Map.put(:action, :validate)
-      |> to_form()
-
-    {:noreply, assign(socket, :form, form)}
+    {:noreply, PasskeyRegistrationFlow.handle_validate(socket, passkey_attrs)}
   end
 
   def handle_event("save", %{"user_passkey" => passkey_attrs}, socket) do

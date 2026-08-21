@@ -36,6 +36,10 @@ msgid "A passkey lets you sign in using your device's built-in security (fingerp
 msgstr "Une passkey permet de se connecter à l'aide des fonctionnalités de sécurité intégrées à votre appareil (empreinte digitale, reconnaissance faciale ou verrouillage de l'écran) au lieu d'un mot de passe. Elle est stockée en toute sécurité sur cet appareil et ne peut donc pas faire l'objet d'une tentative d'hameçonnage ni d'une fuite."
 
 #, elixir-autogen, elixir-format
+msgid "Add a new device"
+msgstr "Ajouter un appareil"
+
+#, elixir-autogen, elixir-format
 msgid "Add a passkey"
 msgstr "Ajouter une passkey"
 
@@ -460,6 +464,10 @@ msgid "Password reset."
 msgstr "Mot de passe réinitialisé."
 
 #, elixir-autogen, elixir-format
+msgid "Paste this link on your other device to register it"
+msgstr "Collez ce lien sur votre autre appareil pour l'enregistrer"
+
+#, elixir-autogen, elixir-format
 msgid "People clicking this link will be asked either to join as an existing member, or to create a new one."
 msgstr "Après avoir cliqué sur le lien, il sera proposé de rejoindre en tant qu'un membre existant, ou d'en créer un nouveau."
 
@@ -531,6 +539,10 @@ msgstr "Les revenues sont définis par livret. Choisissez la manière la plus é
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr "Enregistrer"
+
+#, elixir-autogen, elixir-format
+msgid "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
+msgstr "Scannez ce QR code avec votre nouvel appareil, ou copiez le lien ci-dessous et ouvrez-le sur cet appareil. Cela invitera cet appareil à enregistrer sa propre passkey, et vous connectera automatiquement. Ce lien expire dans 10 minutes."
 
 #, elixir-autogen, elixir-format
 msgid "Send instructions"
@@ -633,6 +645,10 @@ msgid "This is your current revenues"
 msgstr "Voici vos revenus actuels"
 
 #, elixir-autogen, elixir-format
+msgid "This link is invalid or has expired."
+msgstr "Ce lien est invalide ou a expiré."
+
+#, elixir-autogen, elixir-format
 msgid "This member revenues were not set yet."
 msgstr "Les revenues de ce membre ne sont pas encore définis."
 
@@ -723,6 +739,10 @@ msgstr "Vous devez vous identifier. Qui êtes-vous ?"
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
 msgstr "Vous allez rejoindre le livret en temps que le membre suivant"
+
+#, elixir-autogen, elixir-format
+msgid "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
+msgstr "Vous êtes sur le point d'enregistrer cet appareil sur votre compte. Cela déclenchera l'enregistrement d'une nouvelle passkey, puis vous serez connecté automatiquement une fois celle-ci enregistrée."
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"
