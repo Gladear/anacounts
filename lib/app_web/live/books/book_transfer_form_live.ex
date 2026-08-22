@@ -22,7 +22,7 @@ defmodule AppWeb.BookTransferFormLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.app_page flash={@flash} current_user={@current_user}>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_ellipsis />
         <.breadcrumb_item navigate={~p"/books/#{@book}/transfers"}>

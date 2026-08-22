@@ -162,17 +162,6 @@ defmodule App.Accounts do
   end
 
   @doc """
-  Returns whether the user has at least one passkey configured.
-  """
-  @doc deprecated: "to be removed once all users are only logged in using passkeys"
-  @spec user_has_passkey?(User.t()) :: boolean()
-  def user_has_passkey?(%User{} = user) do
-    user
-    |> UserPasskey.user_query()
-    |> Repo.exists?()
-  end
-
-  @doc """
   Gets a single passkey if it belongs to the user.
 
   Raises `Ecto.NoResultsError` if the passkey does not exist or does not belong to the user.

@@ -3,7 +3,7 @@ defmodule AppWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.app_page flash={@flash} current_user={@current_user}>
+    <.app_page flash={@flash}>
       <:breadcrumb>
         <.breadcrumb_item>
           {@page_title}
