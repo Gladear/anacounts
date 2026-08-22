@@ -13,9 +13,6 @@ defmodule AppWeb.PageComponents do
 
   import AppWeb.CoreComponents
 
-  alias App.Accounts
-  alias App.Accounts.User
-
   ## App page
 
   @doc """
@@ -25,7 +22,6 @@ defmodule AppWeb.PageComponents do
   """
 
   attr :flash, :map, required: true, doc: "The @flash assign"
-  attr :current_user, User, required: true
 
   slot :breadcrumb, required: true
   slot :title, required: true
@@ -33,7 +29,6 @@ defmodule AppWeb.PageComponents do
   def app_page(assigns) do
     ~H"""
     <div class="app-page">
-      <.user_passkey_banner current_user={@current_user} />
       <header>
         <.breadcrumb>
           <.breadcrumb_home navigate={~p"/books"} alt={gettext("Home")} />
@@ -46,32 +41,6 @@ defmodule AppWeb.PageComponents do
         {render_slot(@inner_block)}
       </main>
     </div>
-    """
-  end
-
-  ## User passkey banner
-
-  @doc """
-  Warns the user that passkey-only sign-in is coming, and prompts them to register a
-  passkey if they haven't got one yet.
-
-  Hides itself once the user has registered at least one passkey.
-  """
-  attr :current_user, User, required: true
-
-  def user_passkey_banner(assigns) do
-    ~H"""
-    <.alert :if={not Accounts.user_has_passkey?(@current_user)} kind={:warning} class="mb-4">
-      <div>
-        {gettext(
-          "Soon, you will only be able to sign in with a passkey. Register one now so you don't lose access to your account."
-        )}
-        <br />
-        <.anchor navigate={~p"/users/settings/passkeys/new"}>
-          {gettext("Register a passkey")}
-        </.anchor>
-      </div>
-    </.alert>
     """
   end
 end
