@@ -9,7 +9,7 @@ defmodule AppWeb.UserSettingsDeviceLinkLiveTest do
   setup [:register_and_log_in_user]
 
   test "shows a copyable device-link URL and its QR code", %{conn: conn, user: user} do
-    {:ok, lv, html} = live(conn, ~p"/users/settings/passkeys/link-device")
+    {:ok, lv, html} = live(conn, ~p"/users/settings/passkeys/link_device")
 
     assert html =~ "svg"
 
@@ -28,7 +28,7 @@ defmodule AppWeb.UserSettingsDeviceLinkLiveTest do
   end
 
   test "cancelling navigates back to the passkeys list", %{conn: conn} do
-    {:ok, lv, _html} = live(conn, ~p"/users/settings/passkeys/link-device")
+    {:ok, lv, _html} = live(conn, ~p"/users/settings/passkeys/link_device")
 
     {:ok, _new_lv, html} =
       lv
