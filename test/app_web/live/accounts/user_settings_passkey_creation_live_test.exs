@@ -122,8 +122,9 @@ defmodule AppWeb.UserSettingsPasskeyCreationLiveTest do
         |> form("form", %{"user_passkey" => %{"device_name" => "My phone"}})
         |> render_submit()
 
-      assert {:ok, new_lv, _html} = follow_redirect(result, conn)
+      assert {:ok, new_lv, html} = follow_redirect(result, conn)
 
+      assert html =~ "Passkey added successfully."
       assert [passkey] = Accounts.list_user_passkeys(user)
       assert passkey.device_name == "My phone"
       assert has_element?(new_lv, "#passkeys-#{passkey.id}")

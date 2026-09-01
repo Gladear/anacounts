@@ -165,7 +165,10 @@ defmodule AppWeb.UserSettingsPasskeyCreationLive do
   def handle_event("save", %{"user_passkey" => passkey_attrs}, socket) do
     case Webauthn.register_passkey(socket.assigns.pending_passkey, passkey_attrs) do
       {:ok, _passkey} ->
-        socket = push_navigate(socket, to: ~p"/users/settings/passkeys")
+        socket =
+          socket
+          |> put_flash(:info, gettext("Passkey added successfully."))
+          |> push_navigate(to: ~p"/users/settings/passkeys")
 
         {:noreply, socket}
 
