@@ -36,10 +36,6 @@ msgid "A passkey lets you sign in using your device's built-in security (fingerp
 msgstr "A passkey lets you sign in using your device's built-in security (fingerprint, face recognition, or screen lock) instead of a password. It is stored securely on this device and can't be phished or leaked."
 
 #, elixir-autogen, elixir-format
-msgid "Add a new device"
-msgstr "Add a new device"
-
-#, elixir-autogen, elixir-format
 msgid "Add a passkey"
 msgstr "Add a passkey"
 
@@ -464,10 +460,6 @@ msgid "Password reset."
 msgstr "Password reset."
 
 #, elixir-autogen, elixir-format
-msgid "Paste this link on your other device to register it"
-msgstr "Paste this link on your other device to register it"
-
-#, elixir-autogen, elixir-format
 msgid "People clicking this link will be asked either to join as an existing member, or to create a new one."
 msgstr "People clicking this link will be asked either to join as an existing member, or to create a new one."
 
@@ -535,10 +527,6 @@ msgstr "Revenues are set by book. Choose the most fair way to compute revenues (
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr "Save"
-
-#, elixir-autogen, elixir-format
-msgid "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
-msgstr "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
 
 #, elixir-autogen, elixir-format
 msgid "Send instructions"
@@ -637,10 +625,6 @@ msgid "This is your current revenues"
 msgstr "This is your current revenues"
 
 #, elixir-autogen, elixir-format
-msgid "This link is invalid or has expired."
-msgstr "This link is invalid or has expired."
-
-#, elixir-autogen, elixir-format
 msgid "This member revenues were not set yet."
 msgstr "This member revenues were not set yet."
 
@@ -731,10 +715,6 @@ msgstr "You need to identify yourself. Who are you?"
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
 msgstr "You will join as the following member"
-
-#, elixir-autogen, elixir-format
-msgid "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
-msgstr "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"

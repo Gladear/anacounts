@@ -197,41 +197,6 @@ defmodule App.Accounts do
     end
   end
 
-  ## Device linking
-
-  @doc """
-  Creates a short-lived, single-use token that lets a new device register a
-  passkey for the given user.
-  """
-  def create_device_link_token(%User{} = user) do
-    {encoded_token, user_token} = UserToken.build_device_link_token(user)
-    Repo.insert!(user_token)
-    encoded_token
-  end
-
-  @doc """
-  Gets the user by device-link token.
-  """
-  def get_user_by_device_link_token(token) do
-    with {:ok, query} <- UserToken.verify_device_link_token_query(token),
-         %User{} = user <- Repo.one(query) do
-      user
-    else
-      _ -> nil
-    end
-  end
-
-  @doc """
-  Deletes the given user's device-link tokens, so a token can only be
-  redeemed once.
-  """
-  def delete_device_link_tokens(%User{} = user) do
-    UserToken.user_and_contexts_query(user, ["device_link"])
-    |> Repo.delete_all()
-
-    :ok
-  end
-
   ## Session
 
   @doc """
