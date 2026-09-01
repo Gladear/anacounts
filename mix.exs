@@ -62,7 +62,6 @@ defmodule App.MixProject do
     [
       ## Authentication
       {:bcrypt_elixir, "~> 3.1"},
-      {:wax_, "~> 0.7"},
 
       ## Business
       {:decimal, "~> 3.1"},

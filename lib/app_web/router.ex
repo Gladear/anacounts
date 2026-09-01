@@ -60,8 +60,6 @@ defmodule AppWeb.Router do
       live "/users/settings/email", UserSettingsEmailLive
       live "/users/settings/email/confirm/:token", UserSettingsEmailLive
       live "/users/settings/password", UserSettingsPasswordLive
-      live "/users/settings/passkeys", UserSettingsPasskeysLive
-      live "/users/settings/passkeys/new", UserSettingsPasskeyCreationLive
     end
   end
 

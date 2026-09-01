@@ -5,13 +5,10 @@ defmodule App.Accounts do
   email and password change and reset.
   """
 
-  import Ecto.Query
-
   alias App.Repo
 
   alias App.Accounts.User
   alias App.Accounts.UserNotifier
-  alias App.Accounts.UserPasskey
   alias App.Accounts.UserToken
 
   ## Database getters
@@ -136,64 +133,6 @@ defmodule App.Accounts do
     |> case do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
-    end
-  end
-
-  ## Passkeys
-
-  @doc """
-  Returns the list of passkeys for the given user.
-  """
-  @spec list_user_passkeys(User.t()) :: UserPasskey.t()
-  def list_user_passkeys(%User{} = user) do
-    user
-    |> UserPasskey.user_query()
-    |> order_by(asc: :device_name)
-    |> Repo.all()
-  end
-
-  @doc """
-  Returns the number of passkeys a user has configured.
-  """
-  def count_user_passkeys(%User{} = user) do
-    user
-    |> UserPasskey.user_query()
-    |> Repo.aggregate(:count)
-  end
-
-  @doc """
-  Gets a single passkey if it belongs to the user.
-
-  Raises `Ecto.NoResultsError` if the passkey does not exist or does not belong to the user.
-  """
-  @spec get_user_passkey!(User.t(), integer()) :: UserPasskey.t()
-  def get_user_passkey!(%User{} = user, id) do
-    user
-    |> UserPasskey.user_query()
-    |> Repo.get!(id)
-  end
-
-  @doc """
-  Change a passkey's device name.
-  """
-  def rename_user_passkey(%UserPasskey{} = user_passkey, attrs) do
-    user_passkey
-    |> UserPasskey.device_name_changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a passkey.
-
-  Returns `{:error, :last_passkey}` when this is the last passkey of a user.
-  """
-  def delete_user_passkey(%UserPasskey{} = user_passkey) do
-    user = get_user!(user_passkey.user_id)
-
-    if count_user_passkeys(user) <= 1 do
-      {:error, :last_passkey}
-    else
-      Repo.delete(user_passkey)
     end
   end
 

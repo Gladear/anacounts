@@ -3,8 +3,6 @@ defmodule AppWeb.UserSessionControllerTest do
 
   import App.AccountsFixtures
 
-  alias AppWeb.UserAuth
-
   @valid_user_password "initial valid password"
 
   setup do
@@ -91,31 +89,6 @@ defmodule AppWeb.UserSessionControllerTest do
         })
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
-      assert redirected_to(conn) == ~p"/users/log_in"
-    end
-  end
-
-  describe "POST /users/log_in with _action=passkey_auth" do
-    test "logs the user in", %{conn: conn, user: user} do
-      token = UserAuth.sign_passkey_login_token(user)
-
-      conn =
-        post(conn, ~p"/users/log_in", %{"_action" => "passkey_auth", "passkey_token" => token})
-
-      assert get_session(conn, :user_token)
-      assert redirected_to(conn) == ~p"/"
-    end
-
-    test "redirects to login page with an invalid token", %{conn: conn} do
-      conn =
-        post(conn, ~p"/users/log_in", %{
-          "_action" => "passkey_auth",
-          "passkey_token" => "not-a-real-token"
-        })
-
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) ==
-               "Passkey sign-in expired, please try again."
-
       assert redirected_to(conn) == ~p"/users/log_in"
     end
   end

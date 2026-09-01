@@ -18,9 +18,6 @@ defmodule AppWeb.UserSettingsLive do
         <.link navigate={~p"/users/settings/password"}>
           <.card_button icon={:lock_closed}>{gettext("Change password")}</.card_button>
         </.link>
-        <.link navigate={~p"/users/settings/passkeys"}>
-          <.card_button icon={:key}>{gettext("Passkeys")}</.card_button>
-        </.link>
         <.link href={~p"/users/log_out"} method="delete">
           <.card_button icon={:arrow_left_start_on_rectangle}>
             {gettext("Disconnect")}
