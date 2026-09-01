@@ -4,8 +4,7 @@
     "lint": "prettier --check ."
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.8.0",
-    "@simplewebauthn/browser": "^13.0.0"
+    "@floating-ui/dom": "^1.8.0"
   },
   "devDependencies": {
     "prettier": "^3.9.6"

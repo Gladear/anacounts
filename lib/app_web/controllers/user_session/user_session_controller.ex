@@ -14,16 +14,6 @@ defmodule AppWeb.UserSessionController do
     |> create_user_session(params)
   end
 
-  def create(conn, %{"_action" => "passkey_auth", "passkey_token" => token}) do
-    if user = UserAuth.verify_passkey_login_token(token) do
-      UserAuth.log_in_user(conn, user)
-    else
-      conn
-      |> put_flash(:error, gettext("Passkey sign-in expired, please try again."))
-      |> redirect(to: ~p"/users/log_in")
-    end
-  end
-
   def create(conn, params) do
     create_user_session(conn, params)
   end

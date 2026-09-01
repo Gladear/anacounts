@@ -28,36 +28,12 @@ msgid "A link to confirm your email change has been sent to the new address."
 msgstr "A link to confirm your email change has been sent to the new address."
 
 #, elixir-autogen, elixir-format
-msgid "A name to identify this device"
-msgstr "A name to identify this device"
-
-#, elixir-autogen, elixir-format
-msgid "A passkey lets you sign in using your device's built-in security (fingerprint, face recognition, or screen lock) instead of a password. It is stored securely on this device and can't be phished or leaked."
-msgstr "A passkey lets you sign in using your device's built-in security (fingerprint, face recognition, or screen lock) instead of a password. It is stored securely on this device and can't be phished or leaked."
-
-#, elixir-autogen, elixir-format
-msgid "Add a new device"
-msgstr "Add a new device"
-
-#, elixir-autogen, elixir-format
-msgid "Add a passkey"
-msgstr "Add a passkey"
-
-#, elixir-autogen, elixir-format
 msgid "Add another member"
 msgstr "Add another member"
 
 #, elixir-autogen, elixir-format
 msgid "Add everyone"
 msgstr "Add everyone"
-
-#, elixir-autogen, elixir-format
-msgid "Add passkey"
-msgstr "Add passkey"
-
-#, elixir-autogen, elixir-format
-msgid "Added on %{date}"
-msgstr "Added on %{date}"
 
 #, elixir-autogen, elixir-format
 msgid "Alphabetically"
@@ -110,10 +86,6 @@ msgstr "Before making the change effective, a confirmation email will be sent to
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
 msgstr "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
-
-#, elixir-autogen, elixir-format
-msgid "Cancel"
-msgstr "Cancel"
 
 #, elixir-autogen, elixir-format
 msgid "Change email"
@@ -196,20 +168,12 @@ msgid "Delete book"
 msgstr "Delete book"
 
 #, elixir-autogen, elixir-format
-msgid "Delete this passkey?"
-msgstr "Delete this passkey?"
-
-#, elixir-autogen, elixir-format
 msgid "Describe the purpose of the book in a few words."
 msgstr "Describe the purpose of the book in a few words."
 
 #, elixir-autogen, elixir-format
 msgid "Details"
 msgstr "Details"
-
-#, elixir-autogen, elixir-format
-msgid "Device name"
-msgstr "Device name"
 
 #, elixir-autogen, elixir-format
 msgid "Disconnect"
@@ -408,10 +372,6 @@ msgid "Nicknames can be changed later on."
 msgstr "Nicknames can be changed later on."
 
 #, elixir-autogen, elixir-format
-msgid "No passkeys registered yet."
-msgstr "No passkeys registered yet."
-
-#, elixir-autogen, elixir-format
 msgid "No transfers yet"
 msgstr "No transfers yet"
 
@@ -444,28 +404,12 @@ msgid "Paid by"
 msgstr "Paid by"
 
 #, elixir-autogen, elixir-format
-msgid "Passkey sign-in expired, please try again."
-msgstr "Passkey sign-in expired, please try again."
-
-#, elixir-autogen, elixir-format
-msgid "Passkey sign-in failed, please try again."
-msgstr "Passkey sign-in failed, please try again."
-
-#, elixir-autogen, elixir-format
-msgid "Passkeys"
-msgstr "Passkeys"
-
-#, elixir-autogen, elixir-format
 msgid "Password"
 msgstr "Password"
 
 #, elixir-autogen, elixir-format
 msgid "Password reset."
 msgstr "Password reset."
-
-#, elixir-autogen, elixir-format
-msgid "Paste this link on your other device to register it"
-msgstr "Paste this link on your other device to register it"
 
 #, elixir-autogen, elixir-format
 msgid "People clicking this link will be asked either to join as an existing member, or to create a new one."
@@ -484,24 +428,12 @@ msgid "Register"
 msgstr "Register"
 
 #, elixir-autogen, elixir-format
-msgid "Registered passkeys"
-msgstr "Registered passkeys"
-
-#, elixir-autogen, elixir-format
-msgid "Registration failed, please try again."
-msgstr "Registration failed, please try again."
-
-#, elixir-autogen, elixir-format
 msgid "Reimbursement from %{debtor_name} to %{creditor_name}"
 msgstr "Reimbursement from %{debtor_name} to %{creditor_name}"
 
 #, elixir-autogen, elixir-format
 msgid "Remove all"
 msgstr "Remove all"
-
-#, elixir-autogen, elixir-format
-msgid "Rename"
-msgstr "Rename"
 
 #, elixir-autogen, elixir-format
 msgid "Reopen book"
@@ -537,10 +469,6 @@ msgid "Save"
 msgstr "Save"
 
 #, elixir-autogen, elixir-format
-msgid "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
-msgstr "Scan this QR code with your new device, or copy the link below and open it there. It will invite that device to register its own passkey, and sign you in automatically. This link expires in 10 minutes."
-
-#, elixir-autogen, elixir-format
 msgid "Send instructions"
 msgstr "Send instructions"
 
@@ -567,10 +495,6 @@ msgstr "Sign in"
 #, elixir-autogen, elixir-format
 msgid "Sign in to your account"
 msgstr "Sign in to your account"
-
-#, elixir-autogen, elixir-format
-msgid "Sign in with a passkey"
-msgstr "Sign in with a passkey"
 
 #, elixir-autogen, elixir-format
 msgid "Some information is missing to balance the book"
@@ -635,10 +559,6 @@ msgstr "This is your current nickname"
 #, elixir-autogen, elixir-format
 msgid "This is your current revenues"
 msgstr "This is your current revenues"
-
-#, elixir-autogen, elixir-format
-msgid "This link is invalid or has expired."
-msgstr "This link is invalid or has expired."
 
 #, elixir-autogen, elixir-format
 msgid "This member revenues were not set yet."
@@ -717,10 +637,6 @@ msgid "You have not set your revenues yet."
 msgstr "You have not set your revenues yet."
 
 #, elixir-autogen, elixir-format
-msgid "You must keep at least one passkey. Add another device first."
-msgstr "You must keep at least one passkey. Add another device first."
-
-#, elixir-autogen, elixir-format
 msgid "You must log in to access this page."
 msgstr "You must log in to access this page."
 
@@ -731,10 +647,6 @@ msgstr "You need to identify yourself. Who are you?"
 #, elixir-autogen, elixir-format
 msgid "You will join as the following member"
 msgstr "You will join as the following member"
-
-#, elixir-autogen, elixir-format
-msgid "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
-msgstr "You're about to register this device on your account. This will trigger the registration of a new passkey, then you'll be signed in automatically once it's registered."
 
 #, elixir-autogen, elixir-format
 msgid "Your current password is required to make this change"

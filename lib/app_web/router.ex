@@ -46,7 +46,6 @@ defmodule AppWeb.Router do
       live "/users/log_in", UserLoginLive
       live "/users/reset_password", UserForgotPasswordLive
       live "/users/reset_password/:token", UserResetPasswordLive
-      live "/devices/link/:token", DeviceLinkLive
     end
 
     post "/users/log_in", UserSessionController, :create
@@ -61,9 +60,6 @@ defmodule AppWeb.Router do
       live "/users/settings/email", UserSettingsEmailLive
       live "/users/settings/email/confirm/:token", UserSettingsEmailLive
       live "/users/settings/password", UserSettingsPasswordLive
-      live "/users/settings/passkeys", UserSettingsPasskeysLive
-      live "/users/settings/passkeys/new", UserSettingsPasskeyCreationLive
-      live "/users/settings/passkeys/link-device", UserSettingsDeviceLinkLive
     end
   end
 
