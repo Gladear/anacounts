@@ -2,7 +2,7 @@ defmodule App.Accounts.UserNotifier do
   @moduledoc """
   Send emails for accounts related operations.
 
-  Can send password reset instructions, email update instructions.
+  Can send password reset instructions.
   """
 
   import Swoosh.Email
@@ -34,26 +34,6 @@ defmodule App.Accounts.UserNotifier do
     Hi #{user.email},
 
     You can reset your password by visiting the URL below:
-
-    #{url}
-
-    If you didn't request this change, please ignore this.
-
-    ==============================
-    """)
-  end
-
-  @doc """
-  Deliver instructions to update a user email.
-  """
-  def deliver_update_email_instructions(user, url) do
-    deliver(user.email, "Update email instructions", """
-
-    ==============================
-
-    Hi #{user.email},
-
-    You can change your email by visiting the URL below:
 
     #{url}
 

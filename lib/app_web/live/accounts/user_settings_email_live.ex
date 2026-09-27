@@ -23,20 +23,13 @@ defmodule AppWeb.UserSettingsEmailLive do
         phx-submit="update"
         class="container space-y-2"
       >
-        <p>
-          {gettext(
-            "Before making the change effective, a confirmation" <>
-              " email will be sent to the new address."
-          )}
-        </p>
-
         <.input
           field={@form[:email]}
           type="email"
           label={gettext("New email")}
-          helper={gettext("The confirmation email will be sent to this address")}
           required
           autocomplete="username"
+          phx-debounce
         />
 
         <.input
@@ -48,6 +41,7 @@ defmodule AppWeb.UserSettingsEmailLive do
           helper={gettext("Your current password is required to make this change")}
           required
           autocomplete="current-password"
+          phx-debounce="blur"
         />
 
         <.button_group>
@@ -58,24 +52,6 @@ defmodule AppWeb.UserSettingsEmailLive do
       </.form>
     </.app_page>
     """
-  end
-
-  def mount(%{"token" => token}, _session, socket) do
-    socket =
-      case Accounts.update_user_email(socket.assigns.current_user, token) do
-        :ok ->
-          push_navigate(socket, to: ~p"/users/settings")
-
-        :error ->
-          error =
-            gettext("Email change link is invalid or it has expired. You can create a new one.")
-
-          socket
-          |> put_flash(:error, error)
-          |> push_navigate(to: ~p"/users/settings/email")
-      end
-
-    {:ok, socket}
   end
 
   def mount(_params, _session, socket) do
@@ -106,16 +82,14 @@ defmodule AppWeb.UserSettingsEmailLive do
     %{"current_password" => password, "user" => user_params} = params
     user = socket.assigns.current_user
 
-    case Accounts.apply_user_email(user, password, user_params) do
-      {:ok, applied_user} ->
-        Accounts.deliver_user_update_email_instructions(
-          applied_user,
-          user.email,
-          &url(~p"/users/settings/email/confirm/#{&1}")
-        )
+    case Accounts.update_user_email(user, password, user_params) do
+      {:ok, _user} ->
+        socket =
+          socket
+          |> put_flash(:info, gettext("Email changed successfully."))
+          |> push_navigate(to: ~p"/users/settings")
 
-        info = gettext("A link to confirm your email change has been sent to the new address.")
-        {:noreply, put_flash(socket, :info, info)}
+        {:noreply, socket}
 
       {:error, changeset} ->
         form =
