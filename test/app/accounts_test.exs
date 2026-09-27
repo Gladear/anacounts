@@ -313,25 +313,6 @@ defmodule App.AccountsTest do
     end
   end
 
-  describe "deliver_user_reset_password_instructions/2" do
-    setup do
-      %{user: user_fixture()}
-    end
-
-    test "sends token through notification", %{user: user} do
-      token =
-        extract_user_token(fn url ->
-          Accounts.deliver_user_reset_password_instructions(user, url)
-        end)
-
-      {:ok, decoded_token} = Base.url_decode64(token, padding: false)
-      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, decoded_token))
-      assert user_token.user_id == user.id
-      assert user_token.sent_to == user.email
-      assert user_token.context == "reset_password"
-    end
-  end
-
   describe "generate_user_reset_password_token/1" do
     test "generates a reset password token for the user" do
       %{id: id} = user = user_fixture()
@@ -339,18 +320,19 @@ defmodule App.AccountsTest do
       token = Accounts.generate_user_reset_password_token(user)
 
       assert %User{id: ^id} = Accounts.get_user_by_reset_password_token(token)
+
+      {:ok, decoded_token} = Base.url_decode64(token, padding: false)
+      assert user_token = Repo.get_by(UserToken, token: :crypto.hash(:sha256, decoded_token))
+      assert user_token.user_id == id
+      assert user_token.sent_to == user.email
+      assert user_token.context == "reset_password"
     end
   end
 
   describe "get_user_by_reset_password_token/1" do
     setup do
       user = user_fixture()
-
-      token =
-        extract_user_token(fn url ->
-          Accounts.deliver_user_reset_password_instructions(user, url)
-        end)
-
+      token = Accounts.generate_user_reset_password_token(user)
       %{user: user, token: token}
     end
 

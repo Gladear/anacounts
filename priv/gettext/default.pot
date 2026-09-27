@@ -195,7 +195,7 @@ msgid "Enter the email address of the user whose password must be reset."
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Enter your user account's email address and we will send you a password reset link."
+msgid "Enter your user account's email address and we will give you a link to send to an administrator, so they can reset your password."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -216,6 +216,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Generate reset link"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Get the link"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -240,10 +244,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "If you want to update revenues accross multiple books, you will have go to these books and update the revenues there too."
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "If your email is in our system, you will receive instructions to reset your password shortly."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -480,11 +480,11 @@ msgid "Save"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Send instructions"
+msgid "Send this link to %{email} so they can reset their password."
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Send this link to %{email} so they can reset their password."
+msgid "Send this link to an administrator so they can reset your password."
 msgstr ""
 
 #, elixir-autogen, elixir-format

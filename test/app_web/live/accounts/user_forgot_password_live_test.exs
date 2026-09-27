@@ -4,7 +4,7 @@ defmodule AppWeb.UserForgotPasswordLiveTest do
   import Phoenix.LiveViewTest
   import App.AccountsFixtures
 
-  alias App.Accounts
+  alias App.Accounts.UserToken
   alias App.Repo
 
   describe "Forgot password page" do
@@ -27,36 +27,17 @@ defmodule AppWeb.UserForgotPasswordLiveTest do
   end
 
   describe "Reset link" do
-    setup do
-      %{user: user_fixture()}
-    end
-
-    test "sends a new reset password token", %{conn: conn, user: user} do
+    test "displays a link to the admin reset password page", %{conn: conn} do
+      user = user_fixture()
       {:ok, lv, _html} = live(conn, ~p"/users/reset_password")
 
-      {:ok, conn} =
-        lv
-        |> form("#reset_password_form", user: %{"email" => user.email})
-        |> render_submit()
-        |> follow_redirect(conn, ~p"/users/log_in")
+      lv
+      |> form("#reset_password_form", user: %{"email" => user.email})
+      |> render_submit()
 
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
-
-      assert Repo.get_by!(Accounts.UserToken, user_id: user.id).context ==
-               "reset_password"
-    end
-
-    test "does not send reset password token if email is invalid", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/reset_password")
-
-      {:ok, conn} =
-        lv
-        |> form("#reset_password_form", user: %{"email" => "unknown@example.com"})
-        |> render_submit()
-        |> follow_redirect(conn, ~p"/users/log_in")
-
-      assert Phoenix.Flash.get(conn.assigns.flash, :info) =~ "If your email is in our system"
-      assert Repo.all(Accounts.UserToken) == []
+      admin_url = url(~p"/admin/users/reset_password?#{[email: user.email]}")
+      assert has_element?(lv, ~s|input[value="#{admin_url}"]|)
+      refute Repo.get_by(UserToken, user_id: user.id)
     end
   end
 end

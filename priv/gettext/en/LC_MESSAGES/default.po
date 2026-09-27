@@ -196,8 +196,8 @@ msgid "Enter the email address of the user whose password must be reset."
 msgstr "Enter the email address of the user whose password must be reset."
 
 #, elixir-autogen, elixir-format
-msgid "Enter your user account's email address and we will send you a password reset link."
-msgstr "Enter your user account's email address and we will send you a password reset link."
+msgid "Enter your user account's email address and we will give you a link to send to an administrator, so they can reset your password."
+msgstr "Enter your user account's email address and we will give you a link to send to an administrator, so they can reset your password."
 
 #, elixir-autogen, elixir-format
 msgid "Finish"
@@ -218,6 +218,10 @@ msgstr "Forgot your password?"
 #, elixir-autogen, elixir-format
 msgid "Generate reset link"
 msgstr "Generate reset link"
+
+#, elixir-autogen, elixir-format
+msgid "Get the link"
+msgstr "Get the link"
 
 #, elixir-autogen, elixir-format
 msgid "Go back to sign in page."
@@ -242,10 +246,6 @@ msgstr "How to balance?"
 #, elixir-autogen, elixir-format
 msgid "If you want to update revenues accross multiple books, you will have go to these books and update the revenues there too."
 msgstr "If you want to update revenues accross multiple books, you will have go to these books and update the revenues there too."
-
-#, elixir-autogen, elixir-format
-msgid "If your email is in our system, you will receive instructions to reset your password shortly."
-msgstr "If your email is in our system, you will receive instructions to reset your password shortly."
 
 #, elixir-autogen, elixir-format
 msgid "Invalid email or password"
@@ -481,12 +481,12 @@ msgid "Save"
 msgstr "Save"
 
 #, elixir-autogen, elixir-format
-msgid "Send instructions"
-msgstr "Send instructions"
-
-#, elixir-autogen, elixir-format
 msgid "Send this link to %{email} so they can reset their password."
 msgstr "Send this link to %{email} so they can reset their password."
+
+#, elixir-autogen, elixir-format
+msgid "Send this link to an administrator so they can reset your password."
+msgstr "Send this link to an administrator so they can reset your password."
 
 #, elixir-autogen, elixir-format
 msgid "Set revenues"
