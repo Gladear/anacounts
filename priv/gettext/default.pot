@@ -23,10 +23,6 @@ msgid "(Archived)"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "A link to confirm your email change has been sent to the new address."
-msgstr ""
-
-#, elixir-autogen, elixir-format
 msgid "Add another member"
 msgstr ""
 
@@ -76,10 +72,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Balance"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "Before making the change effective, a confirmation email will be sent to the new address."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -195,7 +187,7 @@ msgid "Email"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Email change link is invalid or it has expired. You can create a new one."
+msgid "Email changed successfully."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -513,10 +505,6 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
-msgstr ""
-
-#, elixir-autogen, elixir-format
-msgid "The confirmation email will be sent to this address"
 msgstr ""
 
 #, elixir-autogen, elixir-format

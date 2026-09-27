@@ -64,50 +64,13 @@ defmodule App.Accounts do
   end
 
   @doc """
-  Emulates that the email will change without actually changing
-  it in the database.
+  Updates the user email.
   """
-  def apply_user_email(user, password, attrs) do
+  def update_user_email(user, password, attrs) do
     user
     |> User.email_changeset(attrs)
     |> User.validate_current_password(password)
-    |> Ecto.Changeset.apply_action(:update)
-  end
-
-  @doc """
-  Updates the user email using the given token.
-
-  If the token matches, the user email is updated and the token is deleted.
-  """
-  def update_user_email(user, token) do
-    context = "change:#{user.email}"
-
-    with {:ok, query} <- UserToken.verify_change_email_token_query(token, context),
-         %UserToken{sent_to: email} <- Repo.one(query),
-         {:ok, _} <- Repo.transact(user_email_multi(user, email, context)) do
-      :ok
-    else
-      _ -> :error
-    end
-  end
-
-  defp user_email_multi(user, email, context) do
-    changeset = User.email_changeset(user, %{email: email})
-
-    Ecto.Multi.new()
-    |> Ecto.Multi.update(:user, changeset)
-    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, [context]))
-  end
-
-  @doc ~S"""
-  Delivers the update email instructions to the given user.
-  """
-  def deliver_user_update_email_instructions(%User{} = user, current_email, update_email_url_fun)
-      when is_function(update_email_url_fun, 1) do
-    {encoded_token, user_token} = UserToken.build_email_token(user, "change:#{current_email}")
-
-    Repo.insert!(user_token)
-    UserNotifier.deliver_update_email_instructions(user, update_email_url_fun.(encoded_token))
+    |> Repo.update()
   end
 
   @doc """

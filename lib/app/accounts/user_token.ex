@@ -15,7 +15,6 @@ defmodule App.Accounts.UserToken do
   # It is very important to keep the reset password token expiry short,
   # since someone with access to the email may take over the account.
   @reset_password_validity_in_days 1
-  @change_email_validity_in_days 7
   @session_validity_in_days 60
 
   schema "user_tokens" do
@@ -107,8 +106,7 @@ defmodule App.Accounts.UserToken do
   The given token is valid if it matches its hashed counterpart in the
   database and the user email has not changed. This function also checks
   if the token is being used within a certain period, depending on the
-  context. The supported context is "reset_password". For verifying
-  requests to change the email, see `verify_change_email_token_query/2`.
+  context. The supported context is "reset_password".
   """
   def verify_email_token_query(token, context) do
     case Base.url_decode64(token, padding: false) do
@@ -130,36 +128,6 @@ defmodule App.Accounts.UserToken do
   end
 
   defp days_for_context("reset_password"), do: @reset_password_validity_in_days
-
-  @doc """
-  Checks if the token is valid and returns its underlying lookup query.
-
-  The query returns the user found by the token, if any.
-
-  This is used to validate requests to change the user
-  email. It is different from `verify_email_token_query/2` precisely because
-  `verify_email_token_query/2` validates the email has not changed, which is
-  the starting point by this function.
-
-  The given token is valid if it matches its hashed counterpart in the
-  database and if it has not expired (after @change_email_validity_in_days).
-  The context must always start with "change:".
-  """
-  def verify_change_email_token_query(token, "change:" <> _ = context) do
-    case Base.url_decode64(token, padding: false) do
-      {:ok, decoded_token} ->
-        hashed_token = :crypto.hash(@hash_algorithm, decoded_token)
-
-        query =
-          from token in token_and_context_query(hashed_token, context),
-            where: token.inserted_at > ago(@change_email_validity_in_days, "day")
-
-        {:ok, query}
-
-      :error ->
-        :error
-    end
-  end
 
   @doc """
   Returns the token struct for the given token value and context.

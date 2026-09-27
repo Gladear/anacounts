@@ -24,10 +24,6 @@ msgid "(Archived)"
 msgstr "(Archived)"
 
 #, elixir-autogen, elixir-format
-msgid "A link to confirm your email change has been sent to the new address."
-msgstr "A link to confirm your email change has been sent to the new address."
-
-#, elixir-autogen, elixir-format
 msgid "Add another member"
 msgstr "Add another member"
 
@@ -78,10 +74,6 @@ msgstr "As the creator, you will be the first member of the book, and will be in
 #, elixir-autogen, elixir-format
 msgid "Balance"
 msgstr "Balance"
-
-#, elixir-autogen, elixir-format
-msgid "Before making the change effective, a confirmation email will be sent to the new address."
-msgstr "Before making the change effective, a confirmation email will be sent to the new address."
 
 #, elixir-autogen, elixir-format
 msgid "By default, only new transfers will use the new revenues. Here, you can select existing transfers that should use the new revenues."
@@ -196,8 +188,8 @@ msgid "Email"
 msgstr "Email"
 
 #, elixir-autogen, elixir-format
-msgid "Email change link is invalid or it has expired. You can create a new one."
-msgstr "Email change link is invalid or it has expired. You can create a new one."
+msgid "Email changed successfully."
+msgstr "Email changed successfully."
 
 #, elixir-autogen, elixir-format
 msgid "Enter your user account's email address and we will send you a password reset link."
@@ -515,10 +507,6 @@ msgstr "State"
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
 msgstr "Tenanted by"
-
-#, elixir-autogen, elixir-format
-msgid "The confirmation email will be sent to this address"
-msgstr "The confirmation email will be sent to this address"
 
 #, elixir-autogen, elixir-format
 msgid "The main difference with invited members is that you can see and edit revenues of unlinked members from their member page."
