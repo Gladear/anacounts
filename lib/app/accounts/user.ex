@@ -13,6 +13,7 @@ defmodule App.Accounts.User do
           email: String.t(),
           password: String.t(),
           hashed_password: String.t(),
+          admin: boolean(),
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
@@ -23,6 +24,10 @@ defmodule App.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
+
+    # Whether the user is an administrator of the application. Cannot be modified
+    # within the app for security reasons, use direct access to the database.
+    field :admin, :boolean, writable: :never
 
     timestamps()
   end
