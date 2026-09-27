@@ -6,9 +6,8 @@ defmodule App.AccountsFixtures do
 
   import Ecto.Query
 
-  alias App.Repo
-
   alias App.Accounts
+  alias App.Repo
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
 
