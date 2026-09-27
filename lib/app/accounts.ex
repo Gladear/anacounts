@@ -133,7 +133,7 @@ defmodule App.Accounts do
   Generates a reset password token for the given user, and returns it encoded.
   """
   def generate_user_reset_password_token(%User{} = user) do
-    {encoded_token, user_token} = UserToken.build_email_token(user, "reset_password")
+    {encoded_token, user_token} = UserToken.build_user_token(user, "reset_password")
     Repo.insert!(user_token)
     encoded_token
   end

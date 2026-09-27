@@ -84,6 +84,3 @@ $ mix ecto.setup
 The development environment is ready for Anacounts to start! Go back to the
 root directory, and launch the application with `mix phx.server`. You can now
 go to `http://localhost:4000` and find your version of Anacounts 🥳
-
-Note that in dev mode, the emails are not actually sent, they are displayed in
-an internal mailbox available at `/internal/mailbox`.
