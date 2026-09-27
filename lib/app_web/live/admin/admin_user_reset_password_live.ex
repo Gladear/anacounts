@@ -19,7 +19,7 @@ defmodule AppWeb.AdminUserResetPasswordLive do
         {gettext("Enter the email address of the user whose password must be reset.")}
       </p>
 
-      <.input field={@form[:email]} type="email" label={gettext("Email")} required />
+      <.input field={@form[:email]} type="email" label={gettext("Email")} required phx-debounce />
 
       <.button_group>
         <.button kind={:primary}>
