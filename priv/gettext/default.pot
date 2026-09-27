@@ -191,6 +191,10 @@ msgid "Email changed successfully."
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Enter the email address of the user whose password must be reset."
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Enter your user account's email address and we will send you a password reset link."
 msgstr ""
 
@@ -208,6 +212,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Forgot your password?"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Generate reset link"
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -367,6 +375,10 @@ msgid "No transfers yet"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "No user found with this email"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Not %{email}?"
 msgstr ""
 
@@ -436,6 +448,14 @@ msgid "Reset"
 msgstr ""
 
 #, elixir-autogen, elixir-format
+msgid "Reset a user's password"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Reset another password"
+msgstr ""
+
+#, elixir-autogen, elixir-format
 msgid "Reset password"
 msgstr ""
 
@@ -461,6 +481,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Send instructions"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "Send this link to %{email} so they can reset their password."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -505,6 +529,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "The link is valid for 1 day."
 msgstr ""
 
 #, elixir-autogen, elixir-format

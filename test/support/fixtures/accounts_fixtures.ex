@@ -4,7 +4,10 @@ defmodule App.AccountsFixtures do
   entities via the `App.Accounts` context.
   """
 
+  import Ecto.Query
+
   alias App.Accounts
+  alias App.Repo
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
 
@@ -22,6 +25,16 @@ defmodule App.AccountsFixtures do
       |> Accounts.register_user()
 
     user
+  end
+
+  def make_user_admin(user) do
+    # `:admin` is not writable through the `User` schema, bypass it
+    {1, _} =
+      "users"
+      |> where(id: ^user.id)
+      |> Repo.update_all(set: [admin: true])
+
+    %{user | admin: true}
   end
 
   def extract_user_token(fun) do

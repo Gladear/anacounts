@@ -192,6 +192,10 @@ msgid "Email changed successfully."
 msgstr "Email changed successfully."
 
 #, elixir-autogen, elixir-format
+msgid "Enter the email address of the user whose password must be reset."
+msgstr "Enter the email address of the user whose password must be reset."
+
+#, elixir-autogen, elixir-format
 msgid "Enter your user account's email address and we will send you a password reset link."
 msgstr "Enter your user account's email address and we will send you a password reset link."
 
@@ -210,6 +214,10 @@ msgstr "Fix it"
 #, elixir-autogen, elixir-format
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
+
+#, elixir-autogen, elixir-format
+msgid "Generate reset link"
+msgstr "Generate reset link"
 
 #, elixir-autogen, elixir-format
 msgid "Go back to sign in page."
@@ -368,6 +376,10 @@ msgid "No transfers yet"
 msgstr "No transfers yet"
 
 #, elixir-autogen, elixir-format
+msgid "No user found with this email"
+msgstr "No user found with this email"
+
+#, elixir-autogen, elixir-format
 msgid "Not %{email}?"
 msgstr "Not %{email}?"
 
@@ -437,6 +449,14 @@ msgid "Reset"
 msgstr "Reset"
 
 #, elixir-autogen, elixir-format
+msgid "Reset a user's password"
+msgstr "Reset a user's password"
+
+#, elixir-autogen, elixir-format
+msgid "Reset another password"
+msgstr "Reset another password"
+
+#, elixir-autogen, elixir-format
 msgid "Reset password"
 msgstr "Reset password"
 
@@ -463,6 +483,10 @@ msgstr "Save"
 #, elixir-autogen, elixir-format
 msgid "Send instructions"
 msgstr "Send instructions"
+
+#, elixir-autogen, elixir-format
+msgid "Send this link to %{email} so they can reset their password."
+msgstr "Send this link to %{email} so they can reset their password."
 
 #, elixir-autogen, elixir-format
 msgid "Set revenues"
@@ -507,6 +531,10 @@ msgstr "State"
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
 msgstr "Tenanted by"
+
+#, elixir-autogen, elixir-format
+msgid "The link is valid for 1 day."
+msgstr "The link is valid for 1 day."
 
 #, elixir-autogen, elixir-format
 msgid "The main difference with invited members is that you can see and edit revenues of unlinked members from their member page."
