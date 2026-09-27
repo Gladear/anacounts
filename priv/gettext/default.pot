@@ -484,7 +484,7 @@ msgid "Send instructions"
 msgstr ""
 
 #, elixir-autogen, elixir-format
-msgid "Send this link to %{email} so they can reset their password. It is valid for 1 day."
+msgid "Send this link to %{email} so they can reset their password."
 msgstr ""
 
 #, elixir-autogen, elixir-format
@@ -529,6 +529,10 @@ msgstr ""
 
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
+msgstr ""
+
+#, elixir-autogen, elixir-format
+msgid "The link is valid for 1 day."
 msgstr ""
 
 #, elixir-autogen, elixir-format

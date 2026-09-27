@@ -485,8 +485,8 @@ msgid "Send instructions"
 msgstr "Send instructions"
 
 #, elixir-autogen, elixir-format
-msgid "Send this link to %{email} so they can reset their password. It is valid for 1 day."
-msgstr "Send this link to %{email} so they can reset their password. It is valid for 1 day."
+msgid "Send this link to %{email} so they can reset their password."
+msgstr "Send this link to %{email} so they can reset their password."
 
 #, elixir-autogen, elixir-format
 msgid "Set revenues"
@@ -531,6 +531,10 @@ msgstr "State"
 #, elixir-autogen, elixir-format
 msgid "Tenanted by"
 msgstr "Tenanted by"
+
+#, elixir-autogen, elixir-format
+msgid "The link is valid for 1 day."
+msgstr "The link is valid for 1 day."
 
 #, elixir-autogen, elixir-format
 msgid "The main difference with invited members is that you can see and edit revenues of unlinked members from their member page."

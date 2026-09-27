@@ -35,25 +35,34 @@ defmodule AppWeb.AdminUserResetPasswordLive do
     <div class="space-y-2">
       <p>
         {gettext(
-          "Send this link to %{email} so they can reset their password. It is valid for 1 day.",
+          "Send this link to %{email} so they can reset their password.",
           email: @user.email
         )}
       </p>
 
-      <input
-        id="reset_password_url"
+      <.input
         type="text"
+        name="reset_password_url"
         value={@reset_password_url}
         readonly
-        class="w-full font-mono text-sm"
-        onclick="this.select()"
+        phx-click={
+          JS.dispatch("app:copy-to-clipboard")
+          |> JS.hide(to: "#copy-to-clipboard-helper")
+          |> JS.show(to: "#copied-to-clipboard")
+        }
       />
+      <p id="copy-to-clipboard-helper">
+        {gettext("The link is valid for 1 day.")}
+      </p>
+      <p id="copied-to-clipboard" class="hidden">
+        {gettext("Copied to clipboard !")}
+      </p>
 
-      <div class="text-right">
+      <.button_group>
         <.anchor patch={~p"/admin/users/reset_password"}>
           {gettext("Reset another password")}
         </.anchor>
-      </div>
+      </.button_group>
     </div>
     """
   end
