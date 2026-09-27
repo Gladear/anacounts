@@ -8,12 +8,7 @@ defmodule AppWeb.UserResetPasswordLiveTest do
 
   setup do
     user = user_fixture()
-
-    token =
-      extract_user_token(fn url ->
-        Accounts.deliver_user_reset_password_instructions(user, url)
-      end)
-
+    token = Accounts.generate_user_reset_password_token(user)
     %{token: token, user: user}
   end
 

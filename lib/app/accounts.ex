@@ -8,7 +8,6 @@ defmodule App.Accounts do
   alias App.Repo
 
   alias App.Accounts.User
-  alias App.Accounts.UserNotifier
   alias App.Accounts.UserToken
 
   ## Database getters
@@ -129,15 +128,6 @@ defmodule App.Accounts do
   end
 
   ## Reset password
-
-  @doc ~S"""
-  Delivers the reset password email to the given user.
-  """
-  def deliver_user_reset_password_instructions(%User{} = user, reset_password_url_fun)
-      when is_function(reset_password_url_fun, 1) do
-    encoded_token = generate_user_reset_password_token(user)
-    UserNotifier.deliver_reset_password_instructions(user, reset_password_url_fun.(encoded_token))
-  end
 
   @doc """
   Generates a reset password token for the given user, and returns it encoded.
