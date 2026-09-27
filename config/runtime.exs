@@ -142,31 +142,4 @@ if config_env() == :prod do
       default:
         {Cloak.Ciphers.AES.GCM, tag: "AES.GCM.V1", key: Base.decode64!(cloak_key), iv_length: 12}
     ]
-
-  # ## Configuring the mailer
-  #
-  # Configure Swoosh to use the SES adapter.
-
-  ses_region =
-    System.get_env("SES_REGION") ||
-      raise "environment variable SES_REGION is missing."
-
-  ses_access_key =
-    System.get_env("SES_ACCESS_KEY") ||
-      raise "environment variable SES_ACCESS_KEY is missing."
-
-  ses_secret_key =
-    System.get_env("SES_SECRET_KEY") ||
-      raise "environment variable SES_SECRET_KEY is missing."
-
-  ses_identity =
-    System.get_env("SES_IDENTITY") ||
-      raise "environment variable SES_IDENTITY is missing."
-
-  config :app, App.Mailer,
-    adapter: Swoosh.Adapters.AmazonSES,
-    region: ses_region,
-    access_key: ses_access_key,
-    secret: ses_secret_key,
-    identity: ses_identity
 end

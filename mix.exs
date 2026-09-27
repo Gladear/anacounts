@@ -72,11 +72,6 @@ defmodule App.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:cloak_ecto, "~> 1.3.0"},
 
-      # Emails
-      {:swoosh, "~> 1.13"},
-      {:gen_smtp, "~> 1.2"},
-      {:finch, "~> 0.18"},
-
       # Phoenix and server tooling
       {:phoenix, "~> 1.8"},
       {:phoenix_ecto, "~> 4.4"},

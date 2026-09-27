@@ -14,8 +14,6 @@ defmodule App.Application do
       App.Vault,
       # Start the PubSub system
       {Phoenix.PubSub, name: App.PubSub},
-      # Start Finch
-      {Finch, name: Swoosh.Finch},
       # Start the Endpoint (http/https)
       AppWeb.Endpoint
     ]

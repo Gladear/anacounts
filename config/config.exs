@@ -12,15 +12,6 @@ config :app,
   ecto_repos: [App.Repo],
   generators: [context_app: :app]
 
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production, a different adapter and identity are configured
-# at the `config/runtime.exs`.
-config :app, App.Mailer, adapter: Swoosh.Adapters.Local
-
 # Configures the endpoint
 config :app, AppWeb.Endpoint,
   render_errors: [
