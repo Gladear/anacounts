@@ -130,6 +130,9 @@ defmodule AppWeb.UserAuth do
     * `:redirect_if_user_is_authenticated` - Authenticates the user from the session.
       Redirects to signed_in_path if there's a logged user.
 
+    * `:ensure_admin` - Ensures the current_user is an admin. Must be used after
+      `:ensure_authenticated`. Redirects to signed_in_path otherwise.
+
   ## Examples
 
   Use the `on_mount` lifecycle macro in LiveViews to mount or authenticate
@@ -177,6 +180,14 @@ defmodule AppWeb.UserAuth do
     end
   end
 
+  def on_mount(:ensure_admin, _params, _session, socket) do
+    if socket.assigns.current_user.admin do
+      {:cont, socket}
+    else
+      {:halt, Phoenix.LiveView.redirect(socket, to: signed_in_path(socket))}
+    end
+  end
+
   defp mount_current_user(session, socket) do
     Phoenix.Component.assign_new(socket, :current_user, fn ->
       if user_token = session["user_token"] do
@@ -209,6 +220,22 @@ defmodule AppWeb.UserAuth do
       |> put_flash(:error, gettext("You must log in to access this page."))
       |> maybe_store_return_to()
       |> redirect(to: ~p"/users/log_in")
+      |> halt()
+    end
+  end
+
+  @doc """
+  Used for routes that require the user to be an administrator.
+
+  Responds with a 404 to non-admin users, so the existence of the route
+  is not revealed. Must be used after `require_authenticated_user/2`.
+  """
+  def require_admin_user(conn, _opts) do
+    if conn.assigns.current_user.admin do
+      conn
+    else
+      conn
+      |> send_resp(:not_found, "Not Found")
       |> halt()
     end
   end

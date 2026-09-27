@@ -192,6 +192,10 @@ msgid "Email changed successfully."
 msgstr "Email modifié avec succès."
 
 #, elixir-autogen, elixir-format
+msgid "Enter the email address of the user whose password must be reset."
+msgstr "Entrez l'adresse email de l'utilisateur dont le mot de passe doit être réinitialisé."
+
+#, elixir-autogen, elixir-format
 msgid "Enter your user account's email address and we will send you a password reset link."
 msgstr "Entrez votre adresse email et nous vous enverrons les instructions de réinitialisation de mot de passe par email."
 
@@ -210,6 +214,10 @@ msgstr "Corriger"
 #, elixir-autogen, elixir-format
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
+
+#, elixir-autogen, elixir-format
+msgid "Generate reset link"
+msgstr "Générer le lien de réinitialisation"
 
 #, elixir-autogen, elixir-format
 msgid "Go back to sign in page."
@@ -368,6 +376,10 @@ msgid "No transfers yet"
 msgstr "Pas de transfert"
 
 #, elixir-autogen, elixir-format
+msgid "No user found with this email"
+msgstr "Aucun utilisateur trouvé avec cet email"
+
+#, elixir-autogen, elixir-format
 msgid "Not %{email}?"
 msgstr "Vous n'êtes pas %{email} ?"
 
@@ -437,6 +449,14 @@ msgid "Reset"
 msgstr "Effacer"
 
 #, elixir-autogen, elixir-format
+msgid "Reset a user's password"
+msgstr "Réinitialiser le mot de passe d'un utilisateur"
+
+#, elixir-autogen, elixir-format
+msgid "Reset another password"
+msgstr "Réinitialiser un autre mot de passe"
+
+#, elixir-autogen, elixir-format
 msgid "Reset password"
 msgstr "Réinitialisé mon mot de passe"
 
@@ -463,6 +483,10 @@ msgstr "Enregistrer"
 #, elixir-autogen, elixir-format
 msgid "Send instructions"
 msgstr "Envoyer les instructions"
+
+#, elixir-autogen, elixir-format
+msgid "Send this link to %{email} so they can reset their password. It is valid for 1 day."
+msgstr "Envoyez ce lien à %{email} pour qu'il ou elle réinitialise son mot de passe. Il est valide 1 jour."
 
 #, elixir-autogen, elixir-format
 msgid "Set revenues"

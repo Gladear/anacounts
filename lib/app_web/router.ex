@@ -108,6 +108,18 @@ defmodule AppWeb.Router do
     put "/invitations/:token/members/:book_member_id", BookInvitationController, :update
   end
 
+  ## Admin routes
+
+  scope "/", AppWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin_user]
+
+    live_session :admin,
+      on_mount: [{AppWeb.UserAuth, :ensure_authenticated}, {AppWeb.UserAuth, :ensure_admin}],
+      layout: {AppWeb.Layouts, :auth} do
+      live "/admin/users/reset_password", AdminUserResetPasswordLive
+    end
+  end
+
   ## Metrics routes
 
   scope "/", AppWeb do

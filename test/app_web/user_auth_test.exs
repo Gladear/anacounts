@@ -193,6 +193,25 @@ defmodule AppWeb.UserAuthTest do
     end
   end
 
+  describe "on_mount: :ensure_admin" do
+    test "continues if the current user is an admin" do
+      socket = %LiveView.Socket{
+        assigns: %{__changed__: %{}, current_user: user_fixture() |> make_user_admin()}
+      }
+
+      assert {:cont, _socket} = UserAuth.on_mount(:ensure_admin, %{}, %{}, socket)
+    end
+
+    test "redirects if the current user is not an admin", %{user: user} do
+      socket = %LiveView.Socket{
+        endpoint: AppWeb.Endpoint,
+        assigns: %{__changed__: %{}, current_user: user}
+      }
+
+      assert {:halt, _socket} = UserAuth.on_mount(:ensure_admin, %{}, %{}, socket)
+    end
+  end
+
   describe "on_mount: :redirect_if_user_is_authenticated" do
     test "redirects if there is an authenticated  user ", %{conn: conn, user: user} do
       user_token = Accounts.generate_user_session_token(user)
@@ -275,6 +294,24 @@ defmodule AppWeb.UserAuthTest do
       conn = conn |> assign(:current_user, user) |> UserAuth.require_authenticated_user([])
       refute conn.halted
       refute conn.status
+    end
+  end
+
+  describe "require_admin_user/2" do
+    test "does not halt if user is an admin", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:current_user, user_fixture() |> make_user_admin())
+        |> UserAuth.require_admin_user([])
+
+      refute conn.halted
+      refute conn.status
+    end
+
+    test "responds with a 404 if user is not an admin", %{conn: conn, user: user} do
+      conn = conn |> assign(:current_user, user) |> UserAuth.require_admin_user([])
+      assert conn.halted
+      assert conn.status == 404
     end
   end
 end

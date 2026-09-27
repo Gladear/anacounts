@@ -332,6 +332,16 @@ defmodule App.AccountsTest do
     end
   end
 
+  describe "generate_user_reset_password_token/1" do
+    test "generates a reset password token for the user" do
+      %{id: id} = user = user_fixture()
+
+      token = Accounts.generate_user_reset_password_token(user)
+
+      assert %User{id: ^id} = Accounts.get_user_by_reset_password_token(token)
+    end
+  end
+
   describe "get_user_by_reset_password_token/1" do
     setup do
       user = user_fixture()
