@@ -7,6 +7,8 @@ defmodule App.MixProject do
       version: "0.1.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
+      # Don't recompile everything when `_build` is copied to a new git worktree
+      elixirc_options: [check_cwd: false],
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),

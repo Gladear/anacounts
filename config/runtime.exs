@@ -34,8 +34,11 @@ end
       {{0, 0, 0, 0, 0, 0, 0, 0}, port}
 
     :dev ->
+      # Allows running several servers side by side, e.g. from different worktrees.
+      port = String.to_integer(System.get_env("PORT") || "4000")
+
       # Binding to loopback ipv4 address prevents access from other machines.
-      {{127, 0, 0, 1}, 4000}
+      {{127, 0, 0, 1}, port}
 
     :test ->
       {{127, 0, 0, 1}, 4002}
