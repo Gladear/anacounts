@@ -7,11 +7,6 @@
 # General application configuration
 import Config
 
-# Configure Mix tasks and generators
-config :app,
-  ecto_repos: [App.Repo],
-  generators: [context_app: :app]
-
 # Configures the endpoint
 config :app, AppWeb.Endpoint,
   render_errors: [
@@ -20,6 +15,11 @@ config :app, AppWeb.Endpoint,
   ],
   pubsub_server: App.PubSub,
   live_view: [signing_salt: "F5OA2rrK"]
+
+# Configure Mix tasks and generators
+config :app,
+  ecto_repos: [App.Repo],
+  generators: [context_app: :app]
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -30,6 +30,23 @@ config :esbuild,
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
   ]
+
+# ## Internationalization
+#
+# Configure your application's default locale and more.
+config :gettext, :default_locale, "en"
+
+config :localize,
+  default_locale: :en,
+  supported_locales: [:en, :fr]
+
+# Configures Elixir's Logger
+config :logger, :default_formatter,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
 
 # Configure tailwind (the version is required)
 config :tailwind,
@@ -42,24 +59,6 @@ config :tailwind,
     ),
     cd: Path.expand("..", __DIR__)
   ]
-
-# Configures Elixir's Logger
-config :logger, :default_formatter,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
-
-# Use Jason for JSON parsing in Phoenix
-config :phoenix, :json_library, Jason
-
-# ## Internationalization
-#
-# Configure your application's default locale and more.
-
-config :gettext, :default_locale, "en"
-
-config :localize,
-  default_locale: :en,
-  supported_locales: [:en, :fr]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

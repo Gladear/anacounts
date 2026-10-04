@@ -6,9 +6,9 @@ defmodule AppWeb.BookTransfersLive do
 
   use AppWeb, :live_view
 
-  import Ecto.Query
   import AppWeb.FiltersComponents
   import AppWeb.TransfersComponents, only: [transfer_details: 1]
+  import Ecto.Query
 
   alias App.Books.BookMember
   alias App.Repo
@@ -172,7 +172,7 @@ defmodule AppWeb.BookTransfersLive do
       peers:
         Peer.base_query()
         |> select([:id, :member_id])
-        |> preload(member: ^(BookMember.base_query() |> select([:nickname])))
+        |> preload(member: ^select(BookMember.base_query(), [:nickname]))
     )
   end
 

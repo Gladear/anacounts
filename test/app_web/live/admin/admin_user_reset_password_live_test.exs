@@ -1,15 +1,15 @@
 defmodule AppWeb.AdminUserResetPasswordLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Accounts
   alias App.Accounts.UserToken
   alias App.Repo
 
   setup %{conn: conn} do
-    %{conn: log_in_user(conn, user_fixture() |> make_user_admin()), target: user_fixture()}
+    %{conn: log_in_user(conn, make_user_admin(user_fixture())), target: user_fixture()}
   end
 
   describe "Admin reset password page" do

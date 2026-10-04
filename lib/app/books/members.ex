@@ -4,11 +4,11 @@ defmodule App.Books.Members do
   """
 
   import Ecto.Query
-  alias App.Repo
 
   alias App.Accounts.User
   alias App.Books.Book
   alias App.Books.BookMember
+  alias App.Repo
 
   @doc """
   Gets a single book_member.
@@ -17,8 +17,7 @@ defmodule App.Books.Members do
   """
   @spec get_book_member!(BookMember.id()) :: BookMember.t()
   def get_book_member!(id) do
-    BookMember.base_query()
-    |> Repo.get!(id)
+    Repo.get!(BookMember.base_query(), id)
   end
 
   @doc """
@@ -26,7 +25,8 @@ defmodule App.Books.Members do
   """
   @spec list_members_of_book(Book.t()) :: [BookMember.t()]
   def list_members_of_book(book) do
-    members_of_book_query(book)
+    book
+    |> members_of_book_query()
     |> Repo.all()
   end
 
@@ -35,7 +35,8 @@ defmodule App.Books.Members do
   """
   @spec list_active_book_members(Book.t()) :: [BookMember.t()]
   def list_active_book_members(book) do
-    members_of_book_query(book)
+    book
+    |> members_of_book_query()
     |> BookMember.non_archived_query()
     |> Repo.all()
   end
@@ -45,7 +46,8 @@ defmodule App.Books.Members do
   """
   @spec list_unlinked_members_of_book(Book.t()) :: [BookMember.t()]
   def list_unlinked_members_of_book(book) do
-    members_of_book_query(book)
+    book
+    |> members_of_book_query()
     |> BookMember.non_archived_query()
     |> where([book_member: book_member], is_nil(book_member.user_id))
     |> Repo.all()
@@ -59,7 +61,8 @@ defmodule App.Books.Members do
   """
   @spec get_member_of_book!(BookMember.id(), Book.t()) :: BookMember.t()
   def get_member_of_book!(id, book) do
-    members_of_book_query(book)
+    book
+    |> members_of_book_query()
     |> where([book_member: book_member], book_member.id == ^id)
     |> Repo.one!()
   end
@@ -128,8 +131,7 @@ defmodule App.Books.Members do
   @spec link_book_member_to_user(BookMember.t(), User.t()) :: :ok
   def link_book_member_to_user(book_member, user) do
     {1, nil} =
-      from(BookMember, where: [id: ^book_member.id])
-      |> Repo.update_all(set: [user_id: user.id])
+      Repo.update_all(from(BookMember, where: [id: ^book_member.id]), set: [user_id: user.id])
 
     :ok
   end

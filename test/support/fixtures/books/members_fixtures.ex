@@ -4,9 +4,8 @@ defmodule App.Books.MembersFixtures do
   entities via the `App.Books.Members` context.
   """
 
-  alias App.Repo
-
   alias App.Books.BookMember
+  alias App.Repo
 
   def book_member_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{

@@ -1,11 +1,11 @@
 defmodule AppWeb.BookBalanceLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.Balance.BalanceConfigsFixtures
   import App.Books.MembersFixtures
   import App.BooksFixtures
   import App.TransfersFixtures
+  import Phoenix.LiveViewTest
 
   setup [:register_and_log_in_user]
 

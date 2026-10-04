@@ -9,6 +9,7 @@ defmodule AppWeb.CoreComponents do
   """
   use Phoenix.Component
 
+  alias Phoenix.HTML.FormField
   alias Phoenix.LiveView.JS
 
   # Some components need to pass attributes down to a <.link> component. The attributes
@@ -727,7 +728,7 @@ defmodule AppWeb.CoreComponents do
     values: ~w(checkbox color date datetime-local email file hidden money month number
                password range radio search select tel text time toggle-group url week)
 
-  attr :field, Phoenix.HTML.FormField,
+  attr :field, FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :helper, :string
@@ -743,7 +744,7 @@ defmodule AppWeb.CoreComponents do
   attr :rest, :global, include: ~w(autocomplete cols disabled form max maxlength min minlength
                                    pattern placeholder readonly required rows size step)
 
-  def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+  def input(%{field: %FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
     assigns

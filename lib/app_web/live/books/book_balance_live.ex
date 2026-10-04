@@ -1,4 +1,5 @@
 defmodule AppWeb.BookBalanceLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   import AppWeb.BooksComponents, only: [balance_card: 1]
@@ -79,22 +80,21 @@ defmodule AppWeb.BookBalanceLive do
   attr :balance_error, BalanceError, required: true
 
   defp balance_error_tile(assigns) do
-    case assigns.balance_error.kind do
-      :revenues_missing ->
-        ~H"""
-        <.link navigate={~p"/books/#{@book}/members/#{@balance_error.extra.member_id}"} class="block">
-          <.tile class="justify-between">
-            <div class="truncate">
-              <span class="label">{@balance_error.private.member_nickname}</span>
-              <span class="font-normal">did not set their revenues.</span>
-            </div>
-            <.button kind={:ghost}>
-              {gettext("Fix it")} <.icon name={:chevron_right} />
-            </.button>
-          </.tile>
-        </.link>
-        """
-    end
+    :revenues_missing = assigns.balance_error.kind
+
+    ~H"""
+    <.link navigate={~p"/books/#{@book}/members/#{@balance_error.extra.member_id}"} class="block">
+      <.tile class="justify-between">
+        <div class="truncate">
+          <span class="label">{@balance_error.private.member_nickname}</span>
+          <span class="font-normal">did not set their revenues.</span>
+        </div>
+        <.button kind={:ghost}>
+          {gettext("Fix it")} <.icon name={:chevron_right} />
+        </.button>
+      </.tile>
+    </.link>
+    """
   end
 
   # Highlight the nickname of the current member

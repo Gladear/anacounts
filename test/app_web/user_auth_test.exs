@@ -5,7 +5,6 @@ defmodule AppWeb.UserAuthTest do
 
   alias App.Accounts
   alias AppWeb.UserAuth
-
   alias Phoenix.LiveView
 
   @remember_me_cookie "_anacounts_web_user_remember_me"
@@ -147,7 +146,7 @@ defmodule AppWeb.UserAuthTest do
     end
 
     test "assigns nil to current_user assign if there isn't a user_token", %{conn: conn} do
-      session = conn |> get_session()
+      session = get_session(conn)
 
       {:cont, updated_socket} =
         UserAuth.on_mount(:mount_current_user, %{}, session, %LiveView.Socket{})
@@ -181,7 +180,7 @@ defmodule AppWeb.UserAuthTest do
     end
 
     test "redirects to login page if there isn't a user_token ", %{conn: conn} do
-      session = conn |> get_session()
+      session = get_session(conn)
 
       socket = %LiveView.Socket{
         endpoint: AppWeb.Endpoint,
@@ -196,7 +195,7 @@ defmodule AppWeb.UserAuthTest do
   describe "on_mount: :ensure_admin" do
     test "continues if the current user is an admin" do
       socket = %LiveView.Socket{
-        assigns: %{__changed__: %{}, current_user: user_fixture() |> make_user_admin()}
+        assigns: %{__changed__: %{}, current_user: make_user_admin(user_fixture())}
       }
 
       assert {:cont, _socket} = UserAuth.on_mount(:ensure_admin, %{}, %{}, socket)
@@ -227,7 +226,7 @@ defmodule AppWeb.UserAuthTest do
     end
 
     test "Don't redirect is there is no authenticated user", %{conn: conn} do
-      session = conn |> get_session()
+      session = get_session(conn)
 
       assert {:cont, _updated_socket} =
                UserAuth.on_mount(
@@ -301,7 +300,7 @@ defmodule AppWeb.UserAuthTest do
     test "does not halt if user is an admin", %{conn: conn} do
       conn =
         conn
-        |> assign(:current_user, user_fixture() |> make_user_admin())
+        |> assign(:current_user, make_user_admin(user_fixture()))
         |> UserAuth.require_admin_user([])
 
       refute conn.halted

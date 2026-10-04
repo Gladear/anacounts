@@ -1,12 +1,11 @@
 defmodule AppWeb.BookInvitationControllerTest do
   use AppWeb.ConnCase, async: true
 
-  import App.BooksFixtures
   import App.Books.MembersFixtures
-
-  alias App.Repo
+  import App.BooksFixtures
 
   alias App.Books.BookMember
+  alias App.Repo
 
   setup :register_and_log_in_user
 

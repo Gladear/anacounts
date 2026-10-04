@@ -13,6 +13,9 @@
 ## Accounts
 
 alias App.Accounts
+alias App.Books
+alias App.Books.Members
+alias App.Transfers
 
 {:ok, user} =
   Accounts.register_user(%{
@@ -28,9 +31,6 @@ alias App.Accounts
 
 ## Books
 
-alias App.Books
-alias App.Books.Members
-
 {:ok, book} = Books.create_book(%{name: "Sample Book", nickname: "Anacounts"}, user)
 
 {:ok, member_2} = Members.create_book_member_for_user(book, user_2, %{nickname: "Member 2"})
@@ -38,8 +38,6 @@ alias App.Books.Members
 {:ok, member_4} = Members.create_book_member(book, %{nickname: "Member 4"})
 
 ## Money transfers
-
-alias App.Transfers
 
 {:ok, _payment} =
   Transfers.create_money_transfer(book, member_2, :payment, %{

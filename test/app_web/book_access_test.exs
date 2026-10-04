@@ -1,8 +1,8 @@
 defmodule AppWeb.BookAccessTest do
   use AppWeb.ConnCase, async: true
 
-  import App.BooksFixtures
   import App.Books.MembersFixtures
+  import App.BooksFixtures
 
   alias AppWeb.BookAccess
   alias Phoenix.LiveView
@@ -10,9 +10,7 @@ defmodule AppWeb.BookAccessTest do
   setup :register_and_log_in_user
 
   setup %{user: user} do
-    socket =
-      %LiveView.Socket{}
-      |> Phoenix.Component.assign(:current_user, user)
+    socket = Phoenix.Component.assign(%LiveView.Socket{}, :current_user, user)
 
     %{socket: socket}
   end
@@ -48,9 +46,7 @@ defmodule AppWeb.BookAccessTest do
     setup %{socket: socket} do
       book = book_fixture()
 
-      socket =
-        socket
-        |> Phoenix.Component.assign(:book, book)
+      socket = Phoenix.Component.assign(socket, :book, book)
 
       %{socket: socket, book: book}
     end

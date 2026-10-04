@@ -1,4 +1,5 @@
 defmodule AppWeb.BookLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   import AppWeb.BooksComponents, only: [balance_card_link: 1, share_of_expenses_card: 1]
@@ -115,10 +116,11 @@ defmodule AppWeb.BookLive do
   end
 
   defp latest_transfers(book) do
-    from([money_transfer: money_transfer] in MoneyTransfer.transfers_of_book_query(book),
-      order_by: [desc: money_transfer.inserted_at],
-      limit: 5
+    Repo.all(
+      from([money_transfer: money_transfer] in MoneyTransfer.transfers_of_book_query(book),
+        order_by: [desc: money_transfer.inserted_at],
+        limit: 5
+      )
     )
-    |> Repo.all()
   end
 end

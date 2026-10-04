@@ -120,7 +120,7 @@ defmodule AppWeb.FiltersComponents do
     attrs =
       opts
       |> Keyword.validate!([:name, :label, :options, default: [], icon: nil])
-      |> Keyword.merge(multiple: true)
+      |> Keyword.put(:multiple, true)
 
     struct!(__MODULE__, attrs)
   end

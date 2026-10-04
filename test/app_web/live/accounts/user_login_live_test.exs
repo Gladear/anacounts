@@ -1,8 +1,8 @@
 defmodule AppWeb.UserLoginLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
+  import Phoenix.LiveViewTest
 
   describe "Log in page" do
     test "renders log in page", %{conn: conn} do

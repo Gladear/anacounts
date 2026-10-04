@@ -29,7 +29,8 @@ defmodule App.Books do
   """
   @spec get_book_of_user(Book.id(), User.t()) :: Book.t() | nil
   def get_book_of_user(id, %User{} = user) do
-    books_of_user_query(user)
+    user
+    |> books_of_user_query()
     |> Repo.get(id)
   end
 
@@ -40,7 +41,8 @@ defmodule App.Books do
   """
   @spec get_book_of_user!(Book.id(), User.t()) :: Book.t() | nil
   def get_book_of_user!(id, %User{} = user) do
-    books_of_user_query(user)
+    user
+    |> books_of_user_query()
     |> Repo.get!(id)
   end
 
@@ -56,7 +58,8 @@ defmodule App.Books do
   """
   @spec list_books_of_user(User.t(), map()) :: [Book.t()]
   def list_books_of_user(%User{} = user, filters \\ %{}) do
-    books_of_user_query(user)
+    user
+    |> books_of_user_query()
     |> filter_books_query(filters)
     |> Repo.all()
   end

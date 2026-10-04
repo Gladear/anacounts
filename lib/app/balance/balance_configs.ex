@@ -34,11 +34,12 @@ defmodule App.Balance.BalanceConfigs do
   def member_has_revenues?(%BookMember{balance_config_id: nil} = _member), do: false
 
   def member_has_revenues?(%BookMember{} = member) do
-    from(balance_config in BalanceConfig,
-      where: balance_config.id == ^member.balance_config_id,
-      select: not is_nil(balance_config.revenues)
+    Repo.one!(
+      from(balance_config in BalanceConfig,
+        where: balance_config.id == ^member.balance_config_id,
+        select: not is_nil(balance_config.revenues)
+      )
     )
-    |> Repo.one!()
   end
 
   ## Update revenues
@@ -48,9 +49,7 @@ defmodule App.Balance.BalanceConfigs do
   def create_balance_config(%BookMember{} = member, %User{} = owner, attrs) do
     former_balance_config = get_balance_config_of_member(member)
 
-    changeset =
-      %BalanceConfig{owner_id: owner.id}
-      |> BalanceConfig.revenues_changeset(attrs)
+    changeset = BalanceConfig.revenues_changeset(%BalanceConfig{owner_id: owner.id}, attrs)
 
     result =
       Ecto.Multi.new()
@@ -90,8 +89,9 @@ defmodule App.Balance.BalanceConfigs do
     peer_ids = Enum.map(peers, & &1.id)
 
     {_, nil} =
-      from([peer: peer] in Peer.base_query(), where: peer.id in ^peer_ids)
-      |> Repo.update_all(set: [balance_config_id: balance_config.id])
+      Repo.update_all(from([peer: peer] in Peer.base_query(), where: peer.id in ^peer_ids),
+        set: [balance_config_id: balance_config.id]
+      )
 
     :ok
   end

@@ -1,10 +1,10 @@
 defmodule AppWeb.BookMembersLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
-  import App.BooksFixtures
   import App.Books.MembersFixtures
+  import App.BooksFixtures
+  import Phoenix.LiveViewTest
 
   setup [:register_and_log_in_user, :book_with_member_context]
 
@@ -40,8 +40,8 @@ defmodule AppWeb.BookMembersLiveTest do
     assert html =~ "(Archived)"
     assert html =~ "grayscale opacity-50"
 
-    active_index = :binary.match(html, active_member.nickname) |> elem(0)
-    archived_index = :binary.match(html, archived_member.nickname) |> elem(0)
+    active_index = html |> :binary.match(active_member.nickname) |> elem(0)
+    archived_index = html |> :binary.match(archived_member.nickname) |> elem(0)
     assert active_index < archived_index
   end
 

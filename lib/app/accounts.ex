@@ -5,10 +5,9 @@ defmodule App.Accounts do
   email and password change and reset.
   """
 
-  alias App.Repo
-
   alias App.Accounts.User
   alias App.Accounts.UserToken
+  alias App.Repo
 
   ## Database getters
 
@@ -121,7 +120,8 @@ defmodule App.Accounts do
   Deletes the signed token with the given context.
   """
   def delete_user_session_token(token) do
-    UserToken.token_and_context_query(token, "session")
+    token
+    |> UserToken.token_and_context_query("session")
     |> Repo.delete_all()
 
     :ok

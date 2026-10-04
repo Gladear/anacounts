@@ -5,6 +5,7 @@ defmodule App.Accounts.UserToken do
   """
 
   use Ecto.Schema
+
   import Ecto.Query
 
   alias App.Accounts.User

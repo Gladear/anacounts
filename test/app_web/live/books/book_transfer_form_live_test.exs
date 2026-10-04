@@ -1,10 +1,10 @@
 defmodule AppWeb.BookTransferFormLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
-  import App.BooksFixtures
   import App.Books.MembersFixtures
+  import App.BooksFixtures
   import App.TransfersFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Repo
   alias App.Transfers.Peer

@@ -1,8 +1,8 @@
 defmodule AppWeb.UserResetPasswordLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Accounts
 

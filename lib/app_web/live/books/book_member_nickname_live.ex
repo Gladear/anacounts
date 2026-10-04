@@ -1,4 +1,5 @@
 defmodule AppWeb.BookMemberNicknameLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   alias App.Books.Book

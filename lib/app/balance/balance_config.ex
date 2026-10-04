@@ -74,6 +74,7 @@ defmodule App.Balance.BalanceConfig do
   their foreign key set to RESTRICT.
   """
   use Ecto.Schema
+
   import Ecto.Changeset
 
   alias App.Accounts.User
@@ -106,7 +107,6 @@ defmodule App.Balance.BalanceConfig do
   end
 
   defp validate_revenues(changeset) do
-    changeset
-    |> validate_number(:revenues, greater_than_or_equal_to: 0)
+    validate_number(changeset, :revenues, greater_than_or_equal_to: 0)
   end
 end

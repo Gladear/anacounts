@@ -1,8 +1,8 @@
 defmodule AppWeb.UserSettingsLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
+  import Phoenix.LiveViewTest
 
   describe "Settings page" do
     test "renders settings page", %{conn: conn} do

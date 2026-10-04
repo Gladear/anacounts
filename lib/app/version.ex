@@ -19,7 +19,7 @@ defmodule App.Version do
   # or a commit hash directly.
   case File.read(".git/HEAD") do
     {:ok, "ref: " <> ref} ->
-      @app_version File.read!(".git/#{String.trim(ref)}") |> String.trim()
+      @app_version ".git/#{String.trim(ref)}" |> File.read!() |> String.trim()
 
     {:ok, commit_sha} when byte_size(commit_sha) > 0 ->
       @app_version String.trim(commit_sha)

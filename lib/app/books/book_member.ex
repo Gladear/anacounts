@@ -3,6 +3,7 @@ defmodule App.Books.BookMember do
   The link between a book and a user.
   """
   use Ecto.Schema
+
   import Ecto.Changeset
   import Ecto.Query
 

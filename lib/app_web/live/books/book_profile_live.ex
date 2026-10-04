@@ -1,4 +1,5 @@
 defmodule AppWeb.BookProfileLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   import AppWeb.BooksComponents,
@@ -62,12 +63,7 @@ defmodule AppWeb.BookProfileLive do
 
     current_member = Balance.fill_member_balance(current_member, book)
 
-    socket =
-      socket
-      |> assign(
-        page_title: gettext("My profile"),
-        current_member: current_member
-      )
+    socket = assign(socket, page_title: gettext("My profile"), current_member: current_member)
 
     {:ok, socket}
   end

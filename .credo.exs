@@ -71,7 +71,6 @@
           #
           {Credo.Check.Consistency.ExceptionNames, []},
           {Credo.Check.Consistency.LineEndings, []},
-          {Credo.Check.Consistency.ParameterPatternMatching, []},
           {Credo.Check.Consistency.SpaceAroundOperators, []},
           {Credo.Check.Consistency.SpaceInParentheses, []},
           {Credo.Check.Consistency.TabsOrSpaces, []},
@@ -95,35 +94,23 @@
           #
           ## Readability Checks
           #
-          {Credo.Check.Readability.AliasOrder, []},
           {Credo.Check.Readability.FunctionNames, []},
           {Credo.Check.Readability.ImplTrue, []},
-          {Credo.Check.Readability.LargeNumbers, []},
           {Credo.Check.Readability.MaxLineLength, [priority: :low, max_length: 120]},
           {Credo.Check.Readability.ModuleAttributeNames, []},
           {Credo.Check.Readability.ModuleDoc, []},
           {Credo.Check.Readability.ModuleNames, []},
-          {Credo.Check.Readability.MultiAlias, []},
-          {Credo.Check.Readability.NestedFunctionCalls, [min_pipeline_length: 3]},
-          {Credo.Check.Readability.OneArityFunctionInPipe, []},
           {Credo.Check.Readability.ParenthesesInCondition, []},
-          {Credo.Check.Readability.ParenthesesOnZeroArityDefs, []},
-          {Credo.Check.Readability.PipeIntoAnonymousFunctions, []},
           {Credo.Check.Readability.PredicateFunctionNames, []},
-          {Credo.Check.Readability.PreferImplicitTry, []},
           {Credo.Check.Readability.RedundantBlankLines, []},
           {Credo.Check.Readability.Semicolons, []},
           {Credo.Check.Readability.SeparateAliasRequire, []},
           {Credo.Check.Readability.SingleFunctionToBlockPipe, []},
           {Credo.Check.Readability.SpaceAfterCommas, []},
-          {Credo.Check.Readability.StrictModuleLayout, []},
-          {Credo.Check.Readability.StringSigils, []},
           {Credo.Check.Readability.TrailingBlankLine, []},
           {Credo.Check.Readability.TrailingWhiteSpace, []},
-          {Credo.Check.Readability.UnnecessaryAliasExpansion, []},
           {Credo.Check.Readability.VariableNames, []},
           {Credo.Check.Readability.WithCustomTaggedTuple, []},
-          {Credo.Check.Readability.WithSingleClause, []},
 
           #
           ## Refactoring Opportunities
@@ -131,30 +118,22 @@
           {Credo.Check.Refactor.ABCSize, []},
           {Credo.Check.Refactor.AppendSingleItem, []},
           {Credo.Check.Refactor.Apply, []},
-          {Credo.Check.Refactor.CondStatements, []},
           {Credo.Check.Refactor.CyclomaticComplexity, []},
           {Credo.Check.Refactor.DoubleBooleanNegation, []},
-          {Credo.Check.Refactor.FilterCount, []},
           {Credo.Check.Refactor.FilterFilter, []},
           {Credo.Check.Refactor.FilterReject, []},
           {Credo.Check.Refactor.FunctionArity, []},
           {Credo.Check.Refactor.IoPuts, []},
           {Credo.Check.Refactor.LongQuoteBlocks, []},
-          {Credo.Check.Refactor.MapJoin, []},
           {Credo.Check.Refactor.MapMap, []},
           {Credo.Check.Refactor.MatchInCondition, []},
           {Credo.Check.Refactor.ModuleDependencies, [max_deps: 20]},
-          {Credo.Check.Refactor.NegatedConditionsInUnless, []},
-          {Credo.Check.Refactor.NegatedConditionsWithElse, []},
           {Credo.Check.Refactor.NegatedIsNil, []},
           {Credo.Check.Refactor.Nesting, []},
           {Credo.Check.Refactor.PassAsyncInTestCases, []},
-          {Credo.Check.Refactor.RedundantWithClauseResult, []},
           {Credo.Check.Refactor.RejectFilter, []},
           {Credo.Check.Refactor.RejectReject, []},
-          {Credo.Check.Refactor.UnlessWithElse, []},
           {Credo.Check.Refactor.UtcNowTruncate, []},
-          {Credo.Check.Refactor.WithClauses, []},
 
           #
           ## Warnings
@@ -185,6 +164,36 @@
           {Credo.Check.Warning.WrongTestFileExtension, []}
         ],
         disabled: [
+          #
+          # Checks enforced by Styler, which rewrites the code on `mix format`
+          #
+          {Credo.Check.Consistency.ParameterPatternMatching, []},
+          {Credo.Check.Readability.AliasOrder, []},
+          {Credo.Check.Readability.LargeNumbers, []},
+          {Credo.Check.Readability.MultiAlias, []},
+          {Credo.Check.Readability.OneArityFunctionInPipe, []},
+          {Credo.Check.Readability.ParenthesesOnZeroArityDefs, []},
+          {Credo.Check.Readability.PipeIntoAnonymousFunctions, []},
+          {Credo.Check.Readability.PreferImplicitTry, []},
+          {Credo.Check.Readability.StrictModuleLayout, []},
+          {Credo.Check.Readability.StringSigils, []},
+          {Credo.Check.Readability.UnnecessaryAliasExpansion, []},
+          {Credo.Check.Readability.WithSingleClause, []},
+          {Credo.Check.Refactor.CondStatements, []},
+          {Credo.Check.Refactor.FilterCount, []},
+          {Credo.Check.Refactor.MapJoin, []},
+          {Credo.Check.Refactor.NegatedConditionsInUnless, []},
+          {Credo.Check.Refactor.NegatedConditionsWithElse, []},
+          {Credo.Check.Refactor.RedundantWithClauseResult, []},
+          {Credo.Check.Refactor.UnlessWithElse, []},
+          {Credo.Check.Refactor.WithClauses, []},
+
+          #
+          # Checks conflicting with Styler: it rewrites single-step pipes
+          # (e.g. `from(...) |> Repo.all()`) as nested function calls
+          #
+          {Credo.Check.Readability.NestedFunctionCalls, []},
+
           #
           # Checks scheduled for next check update (opt-in for now)
 
