@@ -15,7 +15,7 @@ defmodule App.Balance do
   alias App.Transfers.Peer
 
   @doc """
-  Compute the `:balance` field of one book member.
+  Compute the `:balance` and `:share_of_expenses` fields of one book member.
   """
   @spec fill_member_balance(BookMember.t(), Book.t()) :: BookMember.t()
   def fill_member_balance(member, book) do
@@ -28,7 +28,7 @@ defmodule App.Balance do
   end
 
   @doc """
-  Compute the `:balance` field of book members.
+  Compute the `:balance` and `:share_of_expenses` fields of book members.
   """
   def fill_members_balance(members) do
     transfers =
@@ -143,7 +143,13 @@ defmodule App.Balance do
   end
 
   defp reset_members_balance(members) do
-    Enum.map(members, fn member -> %{member | balance: Decimal.new(0)} end)
+    Enum.map(members, fn member ->
+      %{
+        member
+        | balance: Decimal.new(0),
+          share_of_expenses: Decimal.new(0)
+      }
+    end)
   end
 
   defp adjust_balance_from_transfers(members, []), do: members
@@ -164,25 +170,19 @@ defmodule App.Balance do
     |> adjust_balance_from_transfers(other_transfers)
   end
 
+  defp update_member(members, member_id, field, fun) do
+    Enum.map(members, fn
+      %{id: ^member_id} = member -> Map.update!(member, field, fun)
+      member -> member
+    end)
+  end
+
   defp adjust_balance_from_peers(members, _transfer, [], _amounts, remaining) do
     if not Decimal.equal?(remaining, 0) do
       raise "Something went wrong, remaining amount is #{App.Money.to_string(remaining)}"
     end
 
     members
-  end
-
-  defp adjust_balance_from_peers(
-         members,
-         %{tenant_id: id} = transfer,
-         [%{member_id: id} = peer | other_peers],
-         amounts,
-         remaining
-       ) do
-    {_remaining_taken, remaining} =
-      remaining_taken(transfer, peer, other_peers, amounts, remaining)
-
-    adjust_balance_from_peers(members, transfer, other_peers, amounts, remaining)
   end
 
   defp adjust_balance_from_peers(
@@ -200,12 +200,15 @@ defmodule App.Balance do
       |> App.Money.mult(peer.total_weight)
       |> Decimal.add(remaining_taken)
 
-    {adjustment_amount, remaining}
-
     members
     |> adjust_balance_with_amount(transfer, peer, adjustment_amount)
+    |> adjust_share_of_expenses_with_amount(transfer, peer, adjustment_amount)
     |> adjust_balance_from_peers(transfer, other_peers, amounts, remaining)
   end
+
+  # The tenant's own share does not change their balance
+  defp adjust_balance_with_amount(members, %{tenant_id: id}, %{member_id: id}, _amount),
+    do: members
 
   defp adjust_balance_with_amount(members, transfer, peer, adjustment_amount) do
     member_id = peer.member_id
@@ -225,6 +228,18 @@ defmodule App.Balance do
       member ->
         member
     end)
+  end
+
+  defp adjust_share_of_expenses_with_amount(members, %{type: :reimbursement}, _peer, _amount),
+    do: members
+
+  defp adjust_share_of_expenses_with_amount(members, _transfer, peer, adjustment_amount) do
+    update_member(
+      members,
+      peer.member_id,
+      :share_of_expenses,
+      &Decimal.add(&1, adjustment_amount)
+    )
   end
 
   defp remaining_taken(transfer, peer, other_peers, {_, original_remaining}, remaining) do

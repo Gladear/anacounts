@@ -497,6 +497,10 @@ msgid "Settle up"
 msgstr "Rembourser"
 
 #, elixir-autogen, elixir-format
+msgid "Share of expenses"
+msgstr "Part des dépenses"
+
+#, elixir-autogen, elixir-format
 msgid "Share this link so people can join your book"
 msgstr "Partagez ce lien pour que de nouvelles personnes puissent rejoindre"
 

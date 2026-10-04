@@ -59,6 +59,23 @@ defmodule AppWeb.BookLiveTest do
     end
   end
 
+  describe "Share of expenses card" do
+    test "shows the member's share of expenses", %{conn: conn, book: book, member: member} do
+      other_member = book_member_fixture(book)
+
+      payment = money_transfer_fixture(book, amount: Decimal.new(30), tenant_id: other_member.id)
+      _peer = peer_fixture(payment, member_id: member.id)
+      _peer = peer_fixture(payment, member_id: other_member.id)
+
+      {:ok, live, _html} = live(conn, ~p"/books/#{book}")
+
+      share_text = live |> element("#share-of-expenses-card") |> render()
+
+      assert share_text =~ "Share of expenses"
+      assert share_text =~ "€15.00"
+    end
+  end
+
   describe "Balance card" do
     test "shows the member balance", %{conn: conn, book: book} do
       {:ok, _live, html} = live(conn, ~p"/books/#{book}")

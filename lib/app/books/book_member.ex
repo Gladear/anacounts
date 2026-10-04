@@ -23,6 +23,7 @@ defmodule App.Books.BookMember do
           balance_config_id: BalanceConfig.id() | nil,
           balance: Decimal.t() | nil,
           balance_errors: [String.t()],
+          share_of_expenses: Decimal.t() | nil,
           inserted_at: NaiveDateTime.t(),
           updated_at: NaiveDateTime.t()
         }
@@ -40,10 +41,12 @@ defmodule App.Books.BookMember do
 
     # the current balance configuration for this member
     field :balance_config_id, :integer
-    # Filled by the `Balance` context. If the `:balance_errors` is set,  the balance
+    # Filled by the `Balance` context. If the `:balance_errors` is set, the balance
     # was not computed correctly.
     field :balance, :decimal, virtual: true
     field :balance_errors, {:array, :string}, virtual: true, default: []
+    # `:share_of_expenses` is the member's share of payments minus their share of incomes.
+    field :share_of_expenses, :decimal, virtual: true
 
     timestamps()
   end

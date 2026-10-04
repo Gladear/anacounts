@@ -22,7 +22,7 @@ defmodule AppWeb.BooksComponents do
     ~H"""
     <.card color={balance_card_color(@book_member)}>
       <:title>Balance {render_slot(@extra_title)}</:title>
-      {balance_string(@book_member)}
+      {amount_string(@book_member, :balance)}
     </.card>
     """
   end
@@ -43,7 +43,7 @@ defmodule AppWeb.BooksComponents do
   def balance_text(assigns) do
     ~H"""
     <span class={["label", balance_text_class(@book_member)]}>
-      {balance_string(@book_member)}
+      {amount_string(@book_member, :balance)}
     </span>
     """
   end
@@ -56,11 +56,12 @@ defmodule AppWeb.BooksComponents do
     end
   end
 
-  defp balance_string(book_member) do
+  # Amounts computed by the `Balance` context are unreliable if the balance has errors
+  defp amount_string(book_member, field) do
     if Balance.has_balance_error?(book_member) do
       "XX.XX"
     else
-      App.Money.to_string(book_member.balance)
+      book_member |> Map.fetch!(field) |> App.Money.to_string()
     end
   end
 
@@ -77,6 +78,23 @@ defmodule AppWeb.BooksComponents do
         <:extra_title><.icon name={:chevron_right} /></:extra_title>
       </.balance_card>
     </.link>
+    """
+  end
+
+  ## Expenses share card
+
+  @doc """
+  A card displaying the member's share of expenses.
+  The `:share_of_expenses` field must be filled by the `Balance` context.
+  """
+  attr :book_member, BookMember, required: true
+
+  def share_of_expenses_card(assigns) do
+    ~H"""
+    <.card id="share-of-expenses-card">
+      <:title>{gettext("Share of expenses")}</:title>
+      {amount_string(@book_member, :share_of_expenses)}
+    </.card>
     """
   end
 
