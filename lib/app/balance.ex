@@ -5,12 +5,11 @@ defmodule App.Balance do
 
   import Ecto.Query
 
-  alias App.Repo
-
   alias App.Balance.BalanceError
   alias App.Books.Book
   alias App.Books.BookMember
   alias App.Books.Members
+  alias App.Repo
   alias App.Transfers
   alias App.Transfers.Peer
 
@@ -336,7 +335,8 @@ defmodule App.Balance do
        ) do
     debt = Decimal.negate(debtor.balance)
 
-    Decimal.compare(creditor.balance, debt)
+    creditor.balance
+    |> Decimal.compare(debt)
     |> add_transaction_from_cmp(all_debtors, all_creditors, transactions)
   end
 

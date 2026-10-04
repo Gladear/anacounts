@@ -1,4 +1,5 @@
 defmodule AppWeb.UserSettingsLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   def render(assigns) do

@@ -99,8 +99,7 @@ defmodule App.Transfers.MoneyTransfer do
   end
 
   defp validate_amount(changeset) do
-    changeset
-    |> validate_required(:amount)
+    validate_required(changeset, :amount)
   end
 
   defp validate_tenant_id(changeset) do
@@ -110,8 +109,7 @@ defmodule App.Transfers.MoneyTransfer do
   end
 
   defp validate_balance_means(changeset) do
-    changeset
-    |> validate_required(:balance_means)
+    validate_required(changeset, :balance_means)
   end
 
   defp validate_reimbursement_peers(changeset) do

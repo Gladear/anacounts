@@ -1,4 +1,5 @@
 defmodule AppWeb.BookReimbursementCreationLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   alias App.Books.Members

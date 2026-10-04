@@ -174,7 +174,8 @@ defmodule App.BooksTest do
 
     test "creates a new book and sets the user the creator", %{user: user} do
       {:ok, book} =
-        book_attributes(nickname: "Creator nickname")
+        [nickname: "Creator nickname"]
+        |> book_attributes()
         |> Books.create_book(user)
 
       assert book.name == "A valid book name !"
@@ -185,7 +186,8 @@ defmodule App.BooksTest do
 
     test "returns an error when the name is empty", %{user: user} do
       {:error, changeset} =
-        book_attributes(name: nil)
+        [name: nil]
+        |> book_attributes()
         |> Books.create_book(user)
 
       assert errors_on(changeset) == %{name: ["can't be blank"]}
@@ -193,7 +195,8 @@ defmodule App.BooksTest do
 
     test "returns an error when the nickname is empty", %{user: user} do
       {:error, changeset} =
-        book_attributes(nickname: nil)
+        [nickname: nil]
+        |> book_attributes()
         |> Books.create_book(user)
 
       assert errors_on(changeset) == %{nickname: ["can't be blank"]}

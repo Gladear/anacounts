@@ -4,10 +4,9 @@ defmodule App.BooksFixtures do
   entities via the `App.Books` context.
   """
 
-  alias App.Repo
-
   alias App.Books.Book
   alias App.Books.InvitationToken
+  alias App.Repo
 
   def book_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
@@ -16,7 +15,8 @@ defmodule App.BooksFixtures do
   end
 
   def book_fixture(attrs \\ %{}) do
-    struct!(Book, book_attributes(attrs))
+    Book
+    |> struct!(book_attributes(attrs))
     |> Repo.insert!()
   end
 

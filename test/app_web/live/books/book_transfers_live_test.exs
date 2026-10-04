@@ -1,10 +1,10 @@
 defmodule AppWeb.BookTransfersLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
-  import App.BooksFixtures
   import App.Books.MembersFixtures
+  import App.BooksFixtures
   import App.TransfersFixtures
+  import Phoenix.LiveViewTest
 
   setup [:register_and_log_in_user, :book_with_member_context]
 

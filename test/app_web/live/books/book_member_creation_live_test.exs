@@ -1,13 +1,12 @@
 defmodule AppWeb.BookMemberCreationLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
-  import App.BooksFixtures
   import App.Books.MembersFixtures
-
-  alias App.Repo
+  import App.BooksFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Books.BookMember
+  alias App.Repo
 
   setup [:register_and_log_in_user, :book_with_member_context]
 

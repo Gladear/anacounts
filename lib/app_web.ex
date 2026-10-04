@@ -29,9 +29,9 @@ defmodule AppWeb do
       use Phoenix.Router, helpers: false
 
       # Import common connection and controller functions to use in pipelines
-      import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import Plug.Conn
     end
   end
 
@@ -49,8 +49,8 @@ defmodule AppWeb do
 
       # Import Phoenix form helpers
       import Phoenix.Component, only: [to_form: 1, to_form: 2]
-
       import Plug.Conn
+
       unquote(gettext())
 
       unquote(verified_routes())
@@ -90,17 +90,19 @@ defmodule AppWeb do
 
   defp html_helpers do
     quote do
+      # Core UI components
+      import AppWeb.CoreComponents
+      import AppWeb.PageComponents
+
       # HTML escaping functionality
       import Phoenix.HTML
       import Phoenix.HTML.Form, only: [input_value: 2]
 
-      # Core UI components and translation
-      import AppWeb.CoreComponents
-      import AppWeb.PageComponents
-      unquote(gettext())
-
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
+
+      # Translation
+      unquote(gettext())
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())

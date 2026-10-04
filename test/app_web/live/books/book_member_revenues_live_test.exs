@@ -1,11 +1,11 @@
 defmodule AppWeb.BookMemberRevenuesLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
   import App.AccountsFixtures
   import App.Balance.BalanceConfigsFixtures
   import App.Books.MembersFixtures
   import App.BooksFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Balance.BalanceConfig
   alias App.Books.BookMember

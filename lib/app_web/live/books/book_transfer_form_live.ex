@@ -436,10 +436,7 @@ defmodule AppWeb.BookTransferFormLive do
 
     form =
       update_form_peers(form, fn peers ->
-        members_id =
-          peers
-          |> Enum.map(& &1.member_id)
-          |> MapSet.new()
+        members_id = MapSet.new(peers, & &1.member_id)
 
         new_peers =
           for member <- members, member.id not in members_id do

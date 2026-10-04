@@ -7,6 +7,7 @@ defmodule App.Books.InvitationToken do
   """
 
   use Ecto.Schema
+
   import Ecto.Query
 
   alias App.Books.Book

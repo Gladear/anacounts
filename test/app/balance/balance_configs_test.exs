@@ -31,14 +31,14 @@ defmodule App.Balance.BalanceConfigsTest do
 
     test "returns false if the member has no balance configuration", %{book: book} do
       member = book_member_fixture(book)
-      assert not BalanceConfigs.member_has_revenues?(member)
+      refute BalanceConfigs.member_has_revenues?(member)
     end
 
     test "returns false if the balance configuration has no revenues set", %{book: book} do
       balance_config = balance_config_fixture(revenues: nil)
       member = book_member_fixture(book, balance_config_id: balance_config.id)
 
-      assert not BalanceConfigs.member_has_revenues?(member)
+      refute BalanceConfigs.member_has_revenues?(member)
     end
 
     test "returns true if the balance configuration has an revenues set", %{book: book} do

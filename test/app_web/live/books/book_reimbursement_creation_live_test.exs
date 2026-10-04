@@ -1,9 +1,9 @@
 defmodule AppWeb.BookReimbursementCreationLiveTest do
   use AppWeb.ConnCase, async: true
 
-  import Phoenix.LiveViewTest
-  import App.BooksFixtures
   import App.Books.MembersFixtures
+  import App.BooksFixtures
+  import Phoenix.LiveViewTest
 
   alias App.Repo
   alias App.Transfers.MoneyTransfer

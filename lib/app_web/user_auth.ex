@@ -3,10 +3,10 @@ defmodule AppWeb.UserAuth do
   This module provides user authentication functionalities.
   """
   use AppWeb, :verified_routes
-
   use AppWeb, :gettext
-  import Plug.Conn
+
   import Phoenix.Controller
+  import Plug.Conn
 
   alias App.Accounts
 

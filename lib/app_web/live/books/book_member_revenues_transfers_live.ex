@@ -1,4 +1,5 @@
 defmodule AppWeb.BookMemberRevenuesTransfersLive do
+  @moduledoc false
   use AppWeb, :live_view
 
   import AppWeb.TransfersComponents, only: [transfer_tile: 1]
@@ -137,16 +138,15 @@ defmodule AppWeb.BookMemberRevenuesTransfersLive do
     %{book: book, book_member: book_member} = socket.assigns
 
     transfers =
-      from([money_transfer: money_transfer] in MoneyTransfer.transfers_of_book_query(book),
-        join: peer in Peer,
-        on: peer.transfer_id == money_transfer.id,
-        where: peer.member_id == ^book_member.id,
-        order_by: [desc: money_transfer.date],
-        select_merge: %{
-          current_peer: peer
-        }
+      Repo.all(
+        from([money_transfer: money_transfer] in MoneyTransfer.transfers_of_book_query(book),
+          join: peer in Peer,
+          on: peer.transfer_id == money_transfer.id,
+          where: peer.member_id == ^book_member.id,
+          order_by: [desc: money_transfer.date],
+          select_merge: %{current_peer: peer}
+        )
       )
-      |> Repo.all()
 
     stream(socket, :transfers, transfers)
   end
@@ -166,12 +166,13 @@ defmodule AppWeb.BookMemberRevenuesTransfersLive do
   end
 
   defp list_peers_of_member(peer_ids, book_member) do
-    from([peer: peer] in Peer.base_query(),
-      where: peer.id in ^peer_ids,
-      where: peer.member_id == ^book_member.id,
-      select: map(peer, [:id])
+    Repo.all(
+      from([peer: peer] in Peer.base_query(),
+        where: peer.id in ^peer_ids,
+        where: peer.member_id == ^book_member.id,
+        select: map(peer, [:id])
+      )
     )
-    |> Repo.all()
   end
 
   defp redirect_path(member, :profile), do: ~p"/books/#{member.book_id}/profile"

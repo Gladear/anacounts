@@ -52,7 +52,8 @@ defmodule App.Transfers do
     offset = Keyword.get(opts, :offset, 0)
     limit = Keyword.get(opts, :limit, 25)
 
-    MoneyTransfer.transfers_of_book_query(book)
+    book
+    |> MoneyTransfer.transfers_of_book_query()
     |> filter_money_transfers_query(filters)
     |> paginate_query(offset, limit)
     |> Repo.all()
@@ -65,12 +66,13 @@ defmodule App.Transfers do
   def list_transfers_of_members(members) do
     members_id = Enum.map(members, fn %BookMember{} = member -> member.id end)
 
-    from(money_transfer in MoneyTransfer,
-      join: peer in assoc(money_transfer, :peers),
-      where: peer.member_id in ^members_id,
-      distinct: true
+    Repo.all(
+      from(money_transfer in MoneyTransfer,
+        join: peer in assoc(money_transfer, :peers),
+        where: peer.member_id in ^members_id,
+        distinct: true
+      )
     )
-    |> Repo.all()
   end
 
   ## Filters
@@ -153,12 +155,10 @@ defmodule App.Transfers do
   def create_money_transfer(%Book{} = book, %BookMember{} = creator, type, attrs)
       when is_map(attrs) and type in [:payment, :income] do
     changeset =
-      %MoneyTransfer{
-        book_id: book.id,
-        creator_id: creator.id,
-        type: type
-      }
-      |> MoneyTransfer.changeset(attrs)
+      MoneyTransfer.changeset(
+        %MoneyTransfer{book_id: book.id, creator_id: creator.id, type: type},
+        attrs
+      )
 
     result =
       Ecto.Multi.new()
