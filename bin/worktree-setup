@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+#
+# Copies build artifacts and dependencies from the main checkout to a git worktree,
+# so the worktree doesn't have to fetch and compile everything from scratch.
+#
+# Usage: bin/worktree-setup MAIN_DIR TARGET_DIR
+#
+# Paths already present in the target are left untouched.
+#
+# On filesystem supporting it, files are cloned (copy-on-write): it's nearly instant and
+# doesn't use additional disk space until files are modified.
+
+set -euo pipefail
+
+# Paths, relative to the project root, to copy from the main checkout.
+PATHS=(
+  deps
+  _build
+  assets/node_modules
+  priv/static/assets
+  priv/static/cache_manifest.json
+  priv/plts
+  .dexter
+)
+
+if [[ $# -ne 2 ]]; then
+  echo "usage: $0 MAIN_DIR TARGET_DIR" >&2
+  exit 1
+fi
+
+main_dir="$(cd "$1" && pwd -P)"
+target_dir="$(cd "$2" && pwd -P)"
+
+if [[ "$main_dir" == "$target_dir" ]]; then
+  echo "error: main and target directories are the same ($main_dir)" >&2
+  exit 1
+fi
+
+# Local environment files, if any.
+shopt -s nullglob
+for env_file in "$main_dir"/.env*; do
+  PATHS+=("$(basename "$env_file")")
+done
+shopt -u nullglob
+
+start=$SECONDS
+
+for path in "${PATHS[@]}"; do
+  src="$main_dir/$path"
+  dest="$target_dir/$path"
+
+  if [[ ! -e "$src" ]]; then
+    continue
+  fi
+
+  if [[ -e "$dest" ]]; then
+    echo "skip   $path (already exists)"
+    continue
+  fi
+
+  mkdir -p "$(dirname "$dest")"
+  # `-c` clones files using clonefile(2), fall back to a regular copy if unsupported.
+  cp -cRp "$src" "$dest" 2>/dev/null || cp -Rp "$src" "$dest"
+  echo "copied $path"
+done
+
+# Git sets the modification time of checked out files to now, but Mix fully recompiles
+# the project when compile-time config files are more recent than its manifest. Copy
+# the modification time of files identical to the main checkout's.
+synced=0
+while IFS= read -r -d '' file; do
+  if cmp -s "$main_dir/$file" "$target_dir/$file"; then
+    touch -r "$main_dir/$file" "$target_dir/$file"
+    synced=$((synced + 1))
+  fi
+done < <(git -C "$target_dir" ls-files -z)
+echo "synced modification time of $synced files"
+
+echo "Worktree ready in $((SECONDS - start))s: $target_dir"
