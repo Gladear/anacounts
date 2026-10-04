@@ -95,7 +95,6 @@ defmodule App.MixProject do
 
       # Tools
       {:lazy_html, ">= 0.0.0", only: :test},
-      {:jason, "~> 1.4"},
 
       # Code analysis
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
