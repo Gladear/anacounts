@@ -2,7 +2,12 @@ defmodule AppWeb.BookProfileLive do
   use AppWeb, :live_view
 
   import AppWeb.BooksComponents,
-    only: [balance_card_link: 1, member_hero_avatar: 1, member_joined_at: 1]
+    only: [
+      balance_card_link: 1,
+      share_of_expenses_card: 1,
+      member_hero_avatar: 1,
+      member_joined_at: 1
+    ]
 
   alias App.Balance
 
@@ -26,10 +31,7 @@ defmodule AppWeb.BookProfileLive do
 
       <.card_grid>
         <.balance_card_link book_member={@current_member} />
-        <.card id="expenses-share-card">
-          <:title>{gettext("Share of expenses")}</:title>
-          {expenses_share_string(@current_member)}
-        </.card>
+        <.share_of_expenses_card book_member={@current_member} />
         <.link navigate={~p"/books/#{@book}/profile/revenues"}>
           <.card_button icon={:banknotes}>
             {gettext("Set revenues")}
@@ -68,13 +70,5 @@ defmodule AppWeb.BookProfileLive do
       )
 
     {:ok, socket}
-  end
-
-  defp expenses_share_string(book_member) do
-    if Balance.has_balance_error?(book_member) do
-      "XX.XX"
-    else
-      App.Money.to_string(book_member.expenses_share)
-    end
   end
 end

@@ -1,7 +1,7 @@
 defmodule AppWeb.BookLive do
   use AppWeb, :live_view
 
-  import AppWeb.BooksComponents, only: [balance_card_link: 1]
+  import AppWeb.BooksComponents, only: [balance_card_link: 1, share_of_expenses_card: 1]
   import AppWeb.TransfersComponents, only: [transfer_tile: 1]
   import Ecto.Query
 
@@ -68,6 +68,7 @@ defmodule AppWeb.BookLive do
             </div>
           </.card>
         </.link>
+        <.share_of_expenses_card book_member={@current_member} />
         <.link navigate={~p"/books/#{@book}/configuration"}>
           <.card_button icon={:cog_6_tooth} class="h-24">
             {gettext("Configuration")}
