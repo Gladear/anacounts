@@ -152,8 +152,8 @@ defmodule App.BalanceTest do
       _peer = peer_fixture(transfer, member_id: member2.id)
 
       assert Balance.fill_members_balance([member1, member2]) == [
-               %{member1 | balance: Decimal.new("0.01")},
-               %{member2 | balance: Decimal.new("-0.01")}
+               %{member1 | balance: Decimal.new("0.01"), share_of_expenses: Decimal.new("0.02")},
+               %{member2 | balance: Decimal.new("-0.01"), share_of_expenses: Decimal.new("0.01")}
              ]
     end
 
@@ -256,6 +256,77 @@ defmodule App.BalanceTest do
       assert Decimal.equal?(member1.balance, "92.86")
       assert Decimal.equal?(member2.balance, "-28.57")
       assert Decimal.equal?(member3.balance, "-64.29")
+    end
+
+    test "computes the share of payments minus the share of incomes", %{book: book} do
+      member1 = book_member_fixture(book)
+      member2 = book_member_fixture(book)
+      member3 = book_member_fixture(book)
+
+      payment = money_transfer_fixture(book, amount: Decimal.new(30), tenant_id: member1.id)
+      _peer = peer_fixture(payment, member_id: member1.id, weight: Decimal.new(2))
+      _peer = peer_fixture(payment, member_id: member2.id)
+
+      income =
+        money_transfer_fixture(book, amount: Decimal.new(6), type: :income, tenant_id: member2.id)
+
+      _peer = peer_fixture(income, member_id: member1.id)
+      _peer = peer_fixture(income, member_id: member2.id)
+      _peer = peer_fixture(income, member_id: member3.id)
+
+      reimbursement =
+        money_transfer_fixture(book,
+          amount: Decimal.new(3),
+          type: :reimbursement,
+          tenant_id: member2.id
+        )
+
+      _peer = peer_fixture(reimbursement, member_id: member1.id)
+
+      [member1, member2, member3] = Balance.fill_members_balance([member1, member2, member3])
+
+      assert Decimal.equal?(member1.share_of_expenses, 18)
+      assert Decimal.equal?(member2.share_of_expenses, 8)
+      assert Decimal.equal?(member3.share_of_expenses, -2)
+    end
+
+    test "shares of non round amounts sum up to the transfer amount", %{book: book} do
+      member1 = book_member_fixture(book)
+      member2 = book_member_fixture(book)
+      member3 = book_member_fixture(book)
+
+      payment = money_transfer_fixture(book, amount: Decimal.new(10), tenant_id: member1.id)
+      _peer = peer_fixture(payment, member_id: member1.id)
+      _peer = peer_fixture(payment, member_id: member2.id)
+      _peer = peer_fixture(payment, member_id: member3.id)
+
+      members = Balance.fill_members_balance([member1, member2, member3])
+
+      total = Enum.reduce(members, Decimal.new(0), &Decimal.add(&1.share_of_expenses, &2))
+      assert Decimal.equal?(total, 10)
+    end
+
+    test "weights the share by revenues", %{book: book} do
+      member1 = book_member_fixture(book)
+      balance_config1 = member_balance_config_fixture(member1, revenues: 1)
+
+      member2 = book_member_fixture(book)
+      balance_config2 = member_balance_config_fixture(member2, revenues: 2)
+
+      transfer =
+        money_transfer_fixture(book,
+          tenant_id: member1.id,
+          balance_means: :weight_by_revenues,
+          amount: Decimal.new(30)
+        )
+
+      _peer = peer_fixture(transfer, member_id: member1.id, balance_config_id: balance_config1.id)
+      _peer = peer_fixture(transfer, member_id: member2.id, balance_config_id: balance_config2.id)
+
+      [member1, member2] = Balance.fill_members_balance([member1, member2])
+
+      assert Decimal.equal?(member1.share_of_expenses, 10)
+      assert Decimal.equal?(member2.share_of_expenses, 20)
     end
 
     test "fails if a user config appropriate fields aren't set", %{book: book} do

@@ -4,6 +4,7 @@ defmodule AppWeb.BookProfileLiveTest do
   import Phoenix.LiveViewTest
   import App.Books.MembersFixtures
   import App.BooksFixtures
+  import App.TransfersFixtures
 
   setup :register_and_log_in_user
 
@@ -53,6 +54,51 @@ defmodule AppWeb.BookProfileLiveTest do
 
       assert html =~ "Joined on"
       assert html =~ "October 5, 2022"
+    end
+  end
+
+  describe "Share of expenses card" do
+    test "shows the member's share of expenses", %{conn: conn, book: book, member: member} do
+      other_member = book_member_fixture(book)
+
+      payment = money_transfer_fixture(book, amount: Decimal.new(30), tenant_id: other_member.id)
+      _peer = peer_fixture(payment, member_id: member.id)
+      _peer = peer_fixture(payment, member_id: other_member.id)
+
+      income =
+        money_transfer_fixture(book,
+          amount: Decimal.new(10),
+          type: :income,
+          tenant_id: other_member.id
+        )
+
+      _peer = peer_fixture(income, member_id: member.id)
+      _peer = peer_fixture(income, member_id: other_member.id)
+
+      {:ok, live, _html} = live(conn, ~p"/books/#{book}/profile")
+
+      share_text = live |> element("#share-of-expenses-card") |> render()
+
+      assert share_text =~ "Share of expenses"
+      assert share_text =~ "€10.00"
+    end
+
+    test "hides the share if the balance cannot be computed",
+         %{conn: conn, book: book, member: member} do
+      payment =
+        money_transfer_fixture(book,
+          amount: Decimal.new(30),
+          tenant_id: member.id,
+          balance_means: :weight_by_revenues
+        )
+
+      _peer = peer_fixture(payment, member_id: member.id)
+
+      {:ok, live, _html} = live(conn, ~p"/books/#{book}/profile")
+
+      share_text = live |> element("#share-of-expenses-card") |> render()
+
+      assert share_text =~ "XX.XX"
     end
   end
 

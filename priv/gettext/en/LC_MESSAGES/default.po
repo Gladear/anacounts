@@ -497,6 +497,10 @@ msgid "Settle up"
 msgstr "Settle up"
 
 #, elixir-autogen, elixir-format
+msgid "Share of expenses"
+msgstr "Share of expenses"
+
+#, elixir-autogen, elixir-format
 msgid "Share this link so people can join your book"
 msgstr "Share this link so people can join your book"
 

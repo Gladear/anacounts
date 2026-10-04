@@ -26,9 +26,9 @@ defmodule AppWeb.BookProfileLive do
 
       <.card_grid>
         <.balance_card_link book_member={@current_member} />
-        <.card>
-          <:title>{gettext("Joined on")}</:title>
-          {member_joined_at(@current_member)}
+        <.card id="expenses-share-card">
+          <:title>{gettext("Share of expenses")}</:title>
+          {expenses_share_string(@current_member)}
         </.card>
         <.link navigate={~p"/books/#{@book}/profile/revenues"}>
           <.card_button icon={:banknotes}>
@@ -40,6 +40,10 @@ defmodule AppWeb.BookProfileLive do
             {gettext("Change nickname")}
           </.card_button>
         </.link>
+        <.card>
+          <:title>{gettext("Joined on")}</:title>
+          {member_joined_at(@current_member)}
+        </.card>
         <.link navigate={~p"/users/settings"}>
           <.card_button icon={:cog_6_tooth}>
             {gettext("Go to my account")}
@@ -64,5 +68,13 @@ defmodule AppWeb.BookProfileLive do
       )
 
     {:ok, socket}
+  end
+
+  defp expenses_share_string(book_member) do
+    if Balance.has_balance_error?(book_member) do
+      "XX.XX"
+    else
+      App.Money.to_string(book_member.expenses_share)
+    end
   end
 end
